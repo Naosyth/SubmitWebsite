@@ -1,7 +1,3 @@
-// Place all the styles related to the user_sessions controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
-
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:400,300);
 
 * {
@@ -91,11 +87,12 @@ footer {
 .loginInput {
   border-radius: 5px;
   box-shadow: 1px 1px 3px #000;
+  margin: 0 auto;
   margin-top: 15px;
   width: 250px;
 }
 
-.loginInput input[name="email"] {
+.loginInput input#user_name {
   border: 1px solid #404040;
   border-radius: 5px;
   border-bottom-left-radius: 0;
@@ -105,9 +102,25 @@ footer {
   width: 250px;
 }
 
-.loginInput input[name="password"] {
+.loginInput input#user_email {
   border: 1px solid #404040;
   border-top: none;
+  font-size: 18;
+  padding: 2px;
+  width: 250px;
+}
+
+.loginInput input#user_password {
+  border: 1px solid #404040;
+  border-top: none;
+  border-bottom: none;
+  font-size: 18;
+  padding: 2px;
+  width: 250px;
+}
+
+.loginInput input#user_password_confirmation {
+  border: 1px solid #404040;
   border-radius: 5px;
   border-top-left-radius: 0;
   border-top-right-radius: 0;
@@ -116,7 +129,7 @@ footer {
   width: 250px;
 }
 
-.loginPrompt input[name="login"] {
+.loginPrompt input[type="submit"] {
   border-radius: 5px;
   border: 1px solid #404040;
   box-shadow: 1px 1px 3px #000;
