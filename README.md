@@ -5,7 +5,7 @@
 - Brandon Worl
 - Nolan Burfield
 
-## Set Up Process
+## Set Up Process (Ubuntu 14.04)
 1. Clone repository from GitHub
 2. Install RVM, mySQL, project gems, and nodejs
   - sudo apt-get install curl
