@@ -1,3 +1,4 @@
 class UploadDatum < ActiveRecord::Base
-  belongs_to :assignment
+  belongs_to :test_case
+  belongs_to :submission
 end

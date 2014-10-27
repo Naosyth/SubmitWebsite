@@ -40,3 +40,6 @@ gem 'spring',        group: :development
 
 gem 'authlogic'
 gem 'scrypt'
+
+#Generating diagrams
+gem 'rails-erd'

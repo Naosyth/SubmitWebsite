@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141023195811) do
+ActiveRecord::Schema.define(version: 20141027191949) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -83,12 +83,14 @@ ActiveRecord::Schema.define(version: 20141023195811) do
   create_table "upload_data", force: true do |t|
     t.string   "name"
     t.binary   "contents"
-    t.integer  "assignment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "submission_id"
+    t.integer  "test_case_id"
   end
 
-  add_index "upload_data", ["assignment_id"], name: "index_upload_data_on_assignment_id", using: :btree
+  add_index "upload_data", ["submission_id"], name: "index_upload_data_on_submission_id", using: :btree
+  add_index "upload_data", ["test_case_id"], name: "index_upload_data_on_test_case_id", using: :btree
 
   create_table "user_sessions", force: true do |t|
     t.string   "session_id", null: false
