@@ -6,6 +6,7 @@ Rails.application.routes.draw do
 
   resources :users  # give us our some normal resource routes for users
   resource :user, :as => 'account'  # a convenience route
+  resource :dashboard
 
   get 'signup' => 'users#new', :as => :signup
 
