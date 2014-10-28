@@ -13,7 +13,7 @@ class UsersController < ApplicationController
     # the User has not yet been activated
     if @user.save
       flash[:notice] = "Your account has been created."
-      dashboard_url(@user)
+      redirect_to dashboard_url(@user)
     else
       flash[:notice] = "There was a problem creating you."
       render :action => :new
