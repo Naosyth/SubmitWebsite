@@ -20,10 +20,12 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %>
   </p>
- 
+
   <p>
-    <%= f.label :role %><br>
-    <%= f.collection_select :role, User::ROLES, :to_s, :humanize %>
+    <% User::ROLES.each do |role| %>
+      <%= f.label role %>
+      <%= f.check_box(:roles, {:multiple => true}, role, nil) %><br>
+    <% end %>
   </p>
  
   <p>
