@@ -1,5 +1,5 @@
 class UsersController < ApplicationController
-  before_filter :require_user, :only => [:show, :edit, :update]
+  before_filter :require_user, :only => [:show, :index, :edit, :update]
 
   def new
     @user = User.new
@@ -8,12 +8,9 @@ class UsersController < ApplicationController
   def create
     @user = User.new(user_params)
 
-    # Saving without session maintenance to skip
-    # auto-login which can't happen here because
-    # the User has not yet been activated
     if @user.save
       flash[:notice] = "Your account has been created."
-      redirect_to @user
+      redirect_to dashboard_url(@user)
     else
       flash[:notice] = "There was a problem creating you."
       render :action => :new
@@ -21,18 +18,27 @@ class UsersController < ApplicationController
   end
 
   def show
-    @user = current_user
+    if params.has_key?(:id)
+      @user = User.find(params[:id])
+    else
+      @user = current_user
+    end
+  end
+
+  def index
+    redirect_to dashboard_url unless current_user.admin?
+    @users = User.all
   end
 
   def edit
-    @user = current_user
+    @user = User.find(params[:id])
   end
 
   def update
-    @user = current_user # makes our views "cleaner" and more consistent
-    if @user.update_attributes(params[:user])
+    @user = User.find(params[:id])
+    if @user.update_attributes(user_params)
       flash[:notice] = "Account updated!"
-      redirect_to account_url
+      redirect_to @user
     else
       render :action => :edit
     end
@@ -40,6 +46,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :commit)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :commit, :role)
   end
 end
