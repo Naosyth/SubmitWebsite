@@ -64,3 +64,15 @@
     background-color: #e9e9e9;
   }
 }
+
+.reset-link {
+  color: $font-color-dark;
+  font-size: 25px;
+  margin-top: 32px;
+  text-align: center;
+
+  a {
+    color: $font-color-dark;
+    text-decoration: none;
+  }
+}
