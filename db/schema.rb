@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141027191949) do
+ActiveRecord::Schema.define(version: 20141029200605) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -28,12 +28,12 @@ ActiveRecord::Schema.define(version: 20141027191949) do
   create_table "comments", force: true do |t|
     t.text     "contents"
     t.integer  "line"
-    t.integer  "submission_id"
+    t.integer  "upload_datum_id"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
-  add_index "comments", ["submission_id"], name: "index_comments_on_submission_id", using: :btree
+  add_index "comments", ["upload_datum_id"], name: "index_comments_on_upload_datum_id", using: :btree
 
   create_table "courses", force: true do |t|
     t.string   "name"
@@ -59,6 +59,17 @@ ActiveRecord::Schema.define(version: 20141027191949) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "roles", force: true do |t|
+    t.string   "name"
+    t.integer  "resource_id"
+    t.string   "resource_type"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
+  add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
 
   create_table "submissions", force: true do |t|
     t.float    "grade",         limit: 24
@@ -103,15 +114,15 @@ ActiveRecord::Schema.define(version: 20141027191949) do
   add_index "user_sessions", ["updated_at"], name: "index_user_sessions_on_updated_at", using: :btree
 
   create_table "users", force: true do |t|
-    t.string   "name",                default: "",        null: false
-    t.string   "crypted_password",                        null: false
-    t.string   "password_salt",                           null: false
-    t.string   "email",                                   null: false
-    t.string   "persistence_token",                       null: false
-    t.string   "single_access_token",                     null: false
-    t.string   "perishable_token",                        null: false
-    t.integer  "login_count",         default: 0,         null: false
-    t.integer  "failed_login_count",  default: 0,         null: false
+    t.string   "name",                default: "", null: false
+    t.string   "crypted_password",                 null: false
+    t.string   "password_salt",                    null: false
+    t.string   "email",                            null: false
+    t.string   "persistence_token",                null: false
+    t.string   "single_access_token",              null: false
+    t.string   "perishable_token",                 null: false
+    t.integer  "login_count",         default: 0,  null: false
+    t.integer  "failed_login_count",  default: 0,  null: false
     t.datetime "last_request_at"
     t.datetime "current_login_at"
     t.datetime "last_login_at"
@@ -119,7 +130,13 @@ ActiveRecord::Schema.define(version: 20141027191949) do
     t.string   "last_login_ip"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "role",                default: "student"
   end
+
+  create_table "users_roles", id: false, force: true do |t|
+    t.integer "user_id"
+    t.integer "role_id"
+  end
+
+  add_index "users_roles", ["user_id", "role_id"], name: "index_users_roles_on_user_id_and_role_id", using: :btree
 
 end

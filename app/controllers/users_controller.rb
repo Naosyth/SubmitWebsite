@@ -7,6 +7,7 @@ class UsersController < ApplicationController
 
   def create
     @user = User.new(user_params)
+    @user.add_role :student
 
     if @user.save
       flash[:notice] = "Your account has been created."
@@ -18,7 +19,7 @@ class UsersController < ApplicationController
   end
 
   def show
-    if params.has_key?(:id)
+    if params.has_key?(:id) and current_user.has_role? :admin
       @user = User.find(params[:id])
     else
       @user = current_user
@@ -26,7 +27,7 @@ class UsersController < ApplicationController
   end
 
   def index
-    redirect_to dashboard_url unless current_user.admin?
+    redirect_to dashboard_url unless current_user.has_role? :admin
     @users = User.all
   end
 
@@ -36,6 +37,15 @@ class UsersController < ApplicationController
 
   def update
     @user = User.find(params[:id])
+
+    User::ROLES.each do |role|
+      if params[:user][:roles].include? role
+        @user.add_role role 
+      else
+        @user.remove_role role
+      end
+    end
+
     if @user.update_attributes(user_params)
       flash[:notice] = "Account updated!"
       redirect_to @user
@@ -46,6 +56,6 @@ class UsersController < ApplicationController
 
   private
   def user_params
-    params.require(:user).permit(:name, :email, :password, :password_confirmation, :commit, :role)
+    params.require(:user).permit(:name, :email, :password, :password_confirmation, :commit)
   end
 end
