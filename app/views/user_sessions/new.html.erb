@@ -1,39 +1,15 @@
-
 <% content_for :title, "Submit Login" %>
+<h1>Submit</h1>
 
-<div class="container">
-  <header>
-    <a href="http://www.unr.edu"><div class="univLogo"></div></a>
-    Submit
-  </header>
+<div class="login-prompt">
+  <h2>Please log in</h2>
 
-  <div class="content">
-    <h1>Welcome</h1>
-    <h2>Login</h2>
+  <%= form_for @user_session, :as => :user_session, :url => { :action => "create" } do |f| %>
 
-    <div class="loginPrompt">
-      <%= form_for @user_session, :as => :user_session, :url => { :action => "create" } do |f| %>
-        <div class="loginInput">
-          <%= render "shared/error_messages", :target => @user_session %>
-          <p>
-          <%= f.email_field :email, :placeholder => 'email@example.com' %>
-          </p>
-          <p>
-          <%= f.password_field :password, :placeholder => 'password' %>
-          </p>
-          <%= f.check_box :remember_me %><%= f.label :remember_me %><br />
-          <br />
-        </div>
-        <%= f.submit "Login" %>
-      <% end %>
-    </div>
+      <%= render "shared/error_messages", :target => @user_session %>
+      <%= f.email_field :email, :placeholder => 'email@example.com' %>
+      <%= f.password_field :password, :placeholder => 'password' %>
+      <%= f.submit "Login" %>
 
-    <footer>
-      <%= link_to 'Register', new_user_path %>
-      &bull; 
-      <a href="http://www.unr.edu/it/login-ids/netid/netid-password-reset">Forgot Password</a>
-    </footer>
-
-  </div>
+  <% end %>
 </div>
-

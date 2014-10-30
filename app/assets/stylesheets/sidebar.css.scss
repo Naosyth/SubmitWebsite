@@ -1,0 +1,16 @@
+.sidebar {
+  width: $sidebar-width;
+  height: 100%;
+  background-color: $color-sidebar-background;
+  position: absolute;
+  z-index: 1000;
+  border-right: 5px solid $color-border-dark;
+  box-sizing: border-box;
+  text-align: center;
+
+  div {
+    margin-top: 32px;
+    text-decoration: none;
+    color: #fff;
+  }
+}

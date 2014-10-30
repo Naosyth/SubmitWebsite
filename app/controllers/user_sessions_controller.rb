@@ -4,6 +4,8 @@ class UserSessionsController < ApplicationController
 
   def new
     @user_session = UserSession.new
+
+    render layout: "authentication"
   end
 
   def create

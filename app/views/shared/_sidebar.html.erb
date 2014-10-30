@@ -1,0 +1,24 @@
+<div class="sidebar">
+  <% if current_user.has_role? :admin %>
+    <%= link_to users_url do %>
+      <div>
+        <%= image_tag('icon_users.png', size: "32x32", alt: "Edit Users", title: "Edit Users") %><br>
+        Edit Users
+      </div>
+    <% end %>
+  <% end %>
+
+  <%= link_to settings_url do %>
+    <div>
+      <%= image_tag('icon_settings.png', size: "32x32", alt: "Settings", title: "Settings") %><br>
+      Settings
+    </div>
+  <% end %>
+  
+    <%= link_to logout_url do %>
+    <div>
+      <%= image_tag('icon_logout.png', size: "32x32", alt: "Log Out", title: "Log Out") %><br>
+      Log Out
+    </div>
+  <% end %>
+</div>
