@@ -1,4 +1,46 @@
-.dashboard-content {
+.content-group {
   padding: 16px;
   background-color: $color-foreground;
+}
+
+.register-prompt {
+  background-color: $color-background;
+  border-radius: 25px;
+  width: 300px;
+  margin: 64px auto;
+  padding: 25px;
+
+  h2 {
+    color: $font-color-dark;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  input[type=email], input[type=password], input[type="text"] {
+    display: block;
+    width: 250px;
+    margin: 0 auto;
+    font-size: $font-size-medium;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    padding: 5px;
+  }
+
+  input[type=submit] {
+    display: block;
+    width: 250px;
+    margin: 0 auto;
+    margin-top: 16px;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    padding: 5px;
+    font-size: $font-size-standard;
+  }
+}
+
+.register-footer {
+  margin-top: 32px;
+  color: $font-color-dark;
+  text-align: center;
+  font-size: $font-size-small;
 }

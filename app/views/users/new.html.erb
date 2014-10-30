@@ -1,20 +1,12 @@
 <% content_for :title, "Submit Home" %>
 
-<div class="container">
-    <header>
-      <a href="http://www.unr.edu"><div class="univLogo"></div></a>
-      Submit
-    </header>
+<h1>Signup</h1>
 
-    <div class="content">
-      <h1>Welcome</h1>
-      <h2>Please Register</h2>
+<div class="register-prompt">
+  <h2>Please Register</h2>
+  <%= render :partial => "form", :locals => { :user => @user } %>
 
-      <%= render :partial => "form", :locals => { :user => @user } %>
-
-      <footer>
-        Reset Password &bull; Help
-      </footer>
-
-    </div>
+  <div class="register-footer">
+    Reset Password &bull; Help
   </div>
+</div>
