@@ -34,20 +34,26 @@ class UserSessionsController < ApplicationController
   end
 
   def forgot_password
-    @user_session = UserSession.new
+    @user_session = current_user_session
 
     render layout: "authentication"
   end
 
   def change_password
     @user = current_user
-    redirect_to reset_url and return unless @user.valid_password?(params[:user_session][:old_password])
-    @user.password = params[:user_session][:password]
-    @user.password_confirmation = params[:user_session][:password_confirmation]
-    if @user.changed? and @user.save
-      redirect_to dashboard_url(@current_user)
+    if @user.valid_password?(params[:user_session][:old_password])
+      @user.password = params[:user_session][:password]
+      @user.password_confirmation = params[:user_session][:password_confirmation]
+      if @user.changed? and @user.save
+        redirect_to dashboard_url(@current_user)
+      else
+        @user_session = @user
+        render :layout => "authentication", :action => :forgot_password
+      end
     else
-      redirect_to reset_url(@current_user)
+      @user.errors.add(:Confirmation, 'Incorrect Old Password')
+      @user_session = @user
+      render :layout => "authentication", :action => :forgot_password
     end
   end
 end

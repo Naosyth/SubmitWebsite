@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   get 'login' => "user_sessions#new",      :as => :login
   get 'logout' => "user_sessions#destroy", :as => :logout
   get 'reset' => 'user_sessions#forgot_password', :as => :reset
-  post 'change_password' => 'user_sessions#change_password', :as => :change_password
+  patch 'change_password' => 'user_sessions#change_password', :as => :change_password
 
   resources :users
 
