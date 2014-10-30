@@ -3,18 +3,10 @@
 <div class="registerPrompt">
   <%= form_for @user do |f| %>
     <div class="registerPrompt">
-      <p>
       <%= f.text_field :name, :placeholder => 'Your Name' %>
-      </p>
-      <p>
-      <%= f.text_field :email, :placeholder => 'email@example.com' %>
-      </p>
-      <p>
+      <%= f.text_field :email, :placeholder => 'email@example.com' %><br>
       <%= f.password_field :password, :placeholder => 'password' %>
-      </p>
-      <p>
       <%= f.password_field :password_confirmation, :placeholder => 'confirmation password' %>
-      </p>
     </div>
     <%= f.submit "Register" %>
   <% end %>

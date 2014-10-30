@@ -1,82 +1,57 @@
-
-.loginPrompt {
-  padding: 10px;
+body.authentication {
+  background-image: image-url("unr.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  height: 100%;
 }
 
-.loginPrompt form {
-  margin: 0 auto;
-  width: 250px;
+.login-prompt {
+  background-color: $color-background;
+  border-radius: 25px;
+  margin: 64px auto;
+  padding: 25px;
+  width: 300px;
+
+  h2 {
+    color: $font-color-dark;
+    margin-bottom: 20px;
+    text-align: center;
+  }
+
+  input[type=email], input[type=password] {
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-medium;
+    margin: 0 auto;
+    padding: 5px;
+    width: 250px;
+  }
+
+  input[type=checkbox] {
+    display: block;
+    margin: 0 auto;
+  }
+
+  input[type=submit] {
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-standard;
+    margin: 16px auto 0 auto;
+    padding: 5px;
+    width: 250px;
+  }
 }
 
-.loginInput {
-  border-radius: 5px;
-  box-shadow: 1px 1px 3px #000;
-  margin: 0 auto;
-  margin-top: 15px;
-  width: 250px;
-}
-
-.loginInput input#user_name {
-  border: 1px solid #404040;
-  border-radius: 5px;
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: 0;
-  font-size: 18;
-  padding: 2px;
-  width: 250px;
-}
-
-.loginInput input#user_email {
-  border: 1px solid #404040;
-  border-top: none;
-  font-size: 18;
-  padding: 2px;
-  width: 250px;
-}
-
-.loginInput input#user_password {
-  border: 1px solid #404040;
-  border-top: none;
-  border-bottom: none;
-  font-size: 18;
-  padding: 2px;
-  width: 250px;
-}
-
-.loginInput input#user_password_confirmation {
-  border: 1px solid #404040;
-  border-radius: 5px;
-  border-top-left-radius: 0;
-  border-top-right-radius: 0;
-  font-size: 18;
-  padding: 2px;
-  width: 250px;
-}
-
-.loginPrompt input[type="submit"] {
-  border-radius: 5px;
-  border: 1px solid #404040;
-  box-shadow: 1px 1px 3px #000;
-  display: block;
-  margin: 0 auto;
-  margin-top: 20px;
-  width: 100px;
-}
-
-h1 {
-  color: #404040;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 35;
-  font-weight: 400;
+.login-footer {
+  color: $font-color-dark;
+  font-size: $font-size-small;
+  margin-top: 32px;
   text-align: center;
+
+  a {
+    color: $font-color-dark;
+    text-decoration: none;
+  }
 }
-
-h2 {
-  color: #404040;
-  font-family: 'Ubuntu', sans-serif;
-  font-size: 25;
-  font-weight: 300;
-  text-align: center;
-}
-
-
