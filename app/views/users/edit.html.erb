@@ -21,6 +21,7 @@
     <%= f.text_field :name %>
   </p>
 
+  <% if current_user.has_role? :admin %>
   <p>
     <% User::ROLES.each do |role| %>
       <%= f.label role %>
@@ -33,6 +34,7 @@
       <br>
     <% end %>
   </p>
+  <% end %>
  
   <p>
     <%= f.submit %>
