@@ -41,5 +41,8 @@ gem 'spring',        group: :development
 gem 'authlogic'
 gem 'scrypt'
 
-#Generating diagrams
+# Generating diagrams
 gem 'rails-erd'
+
+# Using roles for users
+gem 'rolify'
