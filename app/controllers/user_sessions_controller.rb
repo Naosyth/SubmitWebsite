@@ -41,16 +41,13 @@ class UserSessionsController < ApplicationController
 
   def change_password
     @user = current_user
-    if @user
-      @user.password = params[:user_session][:password]
-      @user.password_confirmation = params[:user_session][:password_confirmation]
-      if @user.changed? and @user.save
-        redirect_back_or_default dashboard_url(@current_user)
-      else
-        redirect_back_or_default reset_url(@current_user)
-      end
+    redirect_to reset_url and return unless @user.valid_password?(params[:user_session][:old_password])
+    @user.password = params[:user_session][:password]
+    @user.password_confirmation = params[:user_session][:password_confirmation]
+    if @user.changed? and @user.save
+      redirect_to dashboard_url(@current_user)
     else
-      redirect_back_or_default dashboard_url(@current_user)
+      redirect_to reset_url(@current_user)
     end
   end
 end
