@@ -24,7 +24,13 @@
   <p>
     <% User::ROLES.each do |role| %>
       <%= f.label role %>
-      <%= f.check_box(:roles, {:multiple => true}, role, nil) %><br>
+      <%= f.check_box(:roles,
+        { :multiple => true,
+          :checked => (@user.has_role? role)
+        },
+        role, nil)
+      %>
+      <br>
     <% end %>
   </p>
  
