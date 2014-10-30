@@ -6,8 +6,28 @@
   padding: 0;
 }
 
+a {
+  outline: 0;
+}
+
 html, body.application {
   height: 100%;
+}
+
+.flash-messages {
+  background-color: $color-flash;
+  margin-bottom: 8px;
+  padding: 5px;
+  color: $font-color-dark;
+  text-align: center;
+}
+
+.error-messages {
+  background-color: $color-flash;
+  margin-bottom: 8px;
+  padding: 5px;
+  color: $font-color-error;
+  text-align: center;
 }
 
 .container {
