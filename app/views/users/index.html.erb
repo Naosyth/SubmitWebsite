@@ -9,7 +9,9 @@
   <tr>
     <td><%= user.email %></td>
     <td><%= user.name %></td>
-    <td><%= user.role %></td>
+    <% user.roles.each do |role| %>
+      <td><%= role.name %></td>
+    <% end %>
     <td><%= link_to 'Edit', edit_user_path(user) %></td>
   </tr>
 <% end %>

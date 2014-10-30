@@ -3,11 +3,11 @@ class DashboardsController < ApplicationController
 
   def show
     @user = current_user
-    if @user.role == "admin"
+    if @user.has_role? :admin
     	render :action => :admin
-    elsif @user.role == "teacher"
+    elsif @user.has_role? :instructor
     	render :action => :teacher
-    else  
+    elsif @user.has_role? :student
     	render :action => :student 
     end  	
   end

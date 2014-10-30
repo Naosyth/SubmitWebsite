@@ -34,8 +34,10 @@
 </p>
 
 <p>
-<b>Role:</b>
-<%=h @user.role %>
+  <b>Roles:</b><br>
+  <% @user.roles.each do |role| %>
+    <%= role.name %><br>
+  <% end %>
 </p>
 
 <%= link_to 'Edit Account', edit_user_path, :id => @user %>
