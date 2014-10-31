@@ -16,11 +16,7 @@ class UsersController < ApplicationController
       redirect_to user_url(@user)
     else
       flash[:notice] = "There was a problem creating you."
-<<<<<<< HEAD
-      render :layout => "authentication", :action => :new
-=======
       render :action => :new, :layout => "authentication"
->>>>>>> 21293e994e483d30ac2a97335d7b3c4368815ee8
     end
   end
 
