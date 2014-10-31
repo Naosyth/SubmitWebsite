@@ -7,7 +7,7 @@
 
 <div class="content-group">
   <%= form_for :user, url: user_path(@user), method: :patch do |f| %>
-    <%= render "shared/error_messages", :target => current_user %>
+    <%= render "shared/error_messages", :target => @user %>
 
     <%= f.label :email %><br>
     <%= f.text_field :email %><br><br>
@@ -15,27 +15,21 @@
     <%= f.label :name %><br>
     <%= f.text_field :name %><br><br>
 
-    <% if current_user.has_role? :admin %>
-      <%= f.label :roles %><br>
-      <table>
-      <% User::ROLES.each do |role| %>
-        <tr>
-          <td><%= f.check_box(:roles,
-          { :multiple => true,
-            :checked => (@user.has_role? role)
-          },
-          role, nil)
-        %></td>
-        <td><%= f.label role %></td></tr>
-      <% end %>
-      </table>
+    <%= f.label :roles %><br>
+    <table>
+    <% User::ROLES.each do |role| %>
+      <tr>
+        <td><%= f.check_box(:roles,
+        { :multiple => true,
+          :checked => (@user.has_role? role)
+        },
+        role, nil)
+      %></td>
+      <td><%= f.label role %></td></tr>
     <% end %>
+    </table>
    
     <br>
     <%= f.submit %>
   <% end %>
-</div>
-
-<div class="reset-link">
-  <%= link_to 'Reset Password', reset_url %>
 </div>

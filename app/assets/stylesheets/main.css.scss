@@ -16,7 +16,7 @@ html, body.application {
 
 .flash-messages {
   background-color: $color-flash;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   padding: 5px;
   color: $font-color-dark;
   text-align: center;
@@ -24,7 +24,7 @@ html, body.application {
 
 .error-messages {
   background-color: $color-flash;
-  margin-bottom: 8px;
+  margin-bottom: 16px;
   padding: 5px;
   color: $font-color-error;
   text-align: center;
