@@ -1,3 +1,5 @@
+<% content_for :title, "Account Edit" %>
+
 <header>
   <h1>Editing User</h1>
   <h2><%= @user.name %></h2>
@@ -32,4 +34,8 @@
     <br>
     <%= f.submit %>
   <% end %>
+</div>
+
+<div class="reset-link">
+  <%= link_to 'Reset Password', reset_url %>
 </div>

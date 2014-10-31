@@ -1,8 +1,15 @@
+<% content_for :title, "Dashboard" %>
+
 <header>
   <h1>Dashboard</h1>
 </header>
 
 <div class="content-group">
+  <p>
+  <b>Name:</b>
+  <%=h @user.name %>
+  </p>
+  
   <p>
   <b>Email:</b>
   <%=h @user.email %>
