@@ -1,8 +1,10 @@
 class UsersController < ApplicationController
-  before_filter :require_user, :only => [:show, :index, :edit, :update]
+  before_filter :require_user, :only => [:show, :dashboard, :index, :edit, :update]
 
   def new
     @user = User.new
+
+    render layout: "authentication"
   end
 
   def create
@@ -11,19 +13,19 @@ class UsersController < ApplicationController
 
     if @user.save
       flash[:notice] = "Your account has been created."
-      redirect_to dashboard_url(@user)
+      redirect_to user_url(@user)
     else
       flash[:notice] = "There was a problem creating you."
-      render :action => :new
+      render :action => :new, :layout => "authentication"
     end
   end
 
   def show
-    if params.has_key?(:id) and current_user.has_role? :admin
-      @user = User.find(params[:id])
-    else
-      @user = current_user
-    end
+    @user = User.find(params[:id])
+  end
+
+  def dashboard
+    @user = current_user
   end
 
   def index
@@ -32,6 +34,7 @@ class UsersController < ApplicationController
   end
 
   def edit
+    return @user = current_user unless params.include? :id
     @user = User.find(params[:id])
   end
 
@@ -48,7 +51,7 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(user_params)
       flash[:notice] = "Account updated!"
-      redirect_to @user
+      redirect_to user_url(@user)
     else
       render :action => :edit
     end

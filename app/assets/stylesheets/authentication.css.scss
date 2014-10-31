@@ -1,0 +1,13 @@
+.authentication-content {
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+
+  h1 {
+    background-color: $color-login-header;
+    border-bottom: 1px solid $color-border-dark;
+    padding: 4px;
+    text-align: center;
+    color: $font-color-light;
+  }
+}

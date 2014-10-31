@@ -1,18 +1,29 @@
-<table>
-  <tr>
-    <th>Email</th>
-    <th>Name</th>
-    <th>Role</th>
-  </tr>
+<% content_for :title, "User List" %>
 
-<% @users.each do |user| %>
-  <tr>
-    <td><%= user.email %></td>
-    <td><%= user.name %></td>
-    <% user.roles.each do |role| %>
-      <td><%= role.name %></td>
-    <% end %>
-    <td><%= link_to 'Edit', edit_user_path(user) %></td>
-  </tr>
-<% end %>
-</table>
+<header>
+  <h1>User List</h1>
+</header>
+
+<div class="content-group">
+  <table class="users-list">
+    <tr>
+      <th>Email</th>
+      <th>Name</th>
+      <th>Role</th>
+      <th>Modify</th>
+    </tr>
+
+  <% @users.each do |user| %>
+    <tr>
+      <td><%= user.email %></td>
+      <td><%= user.name %></td>
+      <td>
+      <% user.roles.each do |role| %>
+        <%= role.name %><br>
+      <% end %>
+      </td>
+      <td><%= link_to 'Edit', edit_user_path(user) %></td>
+    </tr>
+  <% end %>
+  </table>
+</div>

@@ -1,40 +1,41 @@
-<%= form_for :user, url: user_path(@user), method: :patch do |f| %>
-  <% if @user.errors.any? %>
-  <div id="error_explanation">
-    <h2><%= pluralize(@user.errors.count, "error") %> prohibited
-      this user from being saved:</h2>
-    <ul>
-    <% @user.errors.full_messages.each do |msg| %>
-      <li><%= msg %></li>
-    <% end %>
-    </ul>
-  </div>
-  <% end %>
+<% content_for :title, "Account Edit" %>
 
-  <p>
+<header>
+  <h1>Editing User</h1>
+  <h2><%= @user.name %></h2>
+</header>
+
+<div class="content-group">
+  <%= form_for :user, url: user_path(@user), method: :patch do |f| %>
+    <%= render "shared/error_messages", :target => current_user %>
+
     <%= f.label :email %><br>
-    <%= f.text_field :email %>
-  </p>
+    <%= f.text_field :email %><br><br>
 
-  <p>
     <%= f.label :name %><br>
-    <%= f.text_field :name %>
-  </p>
+    <%= f.text_field :name %><br><br>
 
-  <p>
-    <% User::ROLES.each do |role| %>
-      <%= f.label role %>
-      <%= f.check_box(:roles,
-        { :multiple => true,
-          :checked => (@user.has_role? role)
-        },
-        role, nil)
-      %>
-      <br>
+    <% if current_user.has_role? :admin %>
+      <%= f.label :roles %><br>
+      <table>
+      <% User::ROLES.each do |role| %>
+        <tr>
+          <td><%= f.check_box(:roles,
+          { :multiple => true,
+            :checked => (@user.has_role? role)
+          },
+          role, nil)
+        %></td>
+        <td><%= f.label role %></td></tr>
+      <% end %>
+      </table>
     <% end %>
-  </p>
- 
-  <p>
+   
+    <br>
     <%= f.submit %>
-  </p>
-<% end %>
+  <% end %>
+</div>
+
+<div class="reset-link">
+  <%= link_to 'Reset Password', reset_url %>
+</div>

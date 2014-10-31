@@ -1,0 +1,26 @@
+.sidebar {
+  background-color: $color-sidebar-background;
+  border-right: 1px solid $color-border-dark;
+  box-sizing: border-box;
+  height: 100%;
+  position: absolute;
+  text-align: center;
+  width: $sidebar-width;
+  z-index: 1000;
+
+  div {
+    border-bottom: 1px solid $color-border-dark;
+    color: #fff;
+    padding-bottom: 16px;
+    padding-top: 16px;
+    text-decoration: none;
+  }
+
+  a {
+    text-decoration: none;
+
+    :hover {
+      background-color: $color-sidebar-hover;
+    }
+  }
+}

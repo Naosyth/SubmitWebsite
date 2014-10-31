@@ -6,9 +6,15 @@
   <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
   <%= csrf_meta_tags %>
 </head>
-<body>
+<body class="application">
 
-<%= yield %>
+<div class="container">
+  <%= render :partial => "shared/sidebar", :locals => { :user => @user } %>
+  <div class="application-content">
+    <%= render :partial => "shared/flash_messages" if not flash.empty? %>
+    <%= yield %>
+  </div>
+</div>
 
 </body>
 </html>
