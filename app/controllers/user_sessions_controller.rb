@@ -13,7 +13,6 @@ class UserSessionsController < ApplicationController
 
   def new
     @user_session = UserSession.new
-
     render layout: "authentication"
   end
 
@@ -31,29 +30,5 @@ class UserSessionsController < ApplicationController
     current_user_session.destroy
     flash[:notice] = "Logout successful!"
     redirect_back_or_default new_user_session_url
-  end
-
-  def forgot_password
-    @user_session = current_user_session
-
-    render layout: "authentication"
-  end
-
-  def change_password
-    @user = current_user
-    if @user.valid_password?(params[:user_session][:old_password])
-      @user.password = params[:user_session][:password]
-      @user.password_confirmation = params[:user_session][:password_confirmation]
-      if @user.changed? and @user.save
-        redirect_to dashboard_url(@current_user)
-      else
-        @user_session = @user
-        render :layout => "authentication", :action => :forgot_password
-      end
-    else
-      @user.errors.add(:Confirmation, 'Incorrect Old Password')
-      @user_session = @user
-      render :layout => "authentication", :action => :forgot_password
-    end
   end
 end
