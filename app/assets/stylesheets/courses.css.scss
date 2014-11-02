@@ -42,4 +42,12 @@ form.new_course {
     padding: 5px;
     width: 250px;
   }
+
+  label {
+    display: block;
+    font-size: $font-size-standard;
+    margin: 0 auto;
+    padding: 5px;
+    text-align: center;
+  }
 }

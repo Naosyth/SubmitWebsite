@@ -5,4 +5,7 @@
 </header>
 
 <div class="content-group">
+  <% @courses.each do |course| %>
+    <p><%= course.name %></p>
+  <% end %>
 </div
