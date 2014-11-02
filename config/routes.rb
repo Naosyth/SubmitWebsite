@@ -9,8 +9,9 @@ Rails.application.routes.draw do
   get 'dashboard' => 'users#dashboard', :as => :dashboard
   get 'settings' => 'users#settings', :as => :settings
   patch 'settings' => 'users#update', :as => :setting
-
   get 'signup' => 'users#new', :as => :signup
+
+  resources :courses
 
   root :to => 'user_sessions#new'
 end

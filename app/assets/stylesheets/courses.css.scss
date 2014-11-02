@@ -1,0 +1,45 @@
+form.new_course {
+  input[type="text"] {
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-medium;
+    margin: 0 auto;
+    padding: 5px;
+    width: 250px;
+  }
+
+  textarea {
+    background-color: $color-form-white;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-standard;
+    margin: 0 auto;
+    padding: 5px;
+    width: 500px;
+    height: 300px;
+  }
+
+  select {
+    background-color: $color-form-white;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-standard;
+    margin: 0 auto;
+    padding: 5px;
+    width: 250px;
+  }
+
+  input[type=submit] {
+    background-color: $color-form-white;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-standard;
+    margin: 16px auto 0 auto;
+    padding: 5px;
+    width: 250px;
+  }
+}
