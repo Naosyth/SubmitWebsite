@@ -19,7 +19,7 @@
       <td><%= user.name %></td>
       <td>
       <% user.roles.each do |role| %>
-        <%= role.name %><br>
+        <%= role.name %>&nbsp;<%= role.resource_type %>&nbsp;<%= role.resource_id %><br>
       <% end %>
       </td>
       <td><%= link_to 'Edit', edit_user_path(user) %></td>

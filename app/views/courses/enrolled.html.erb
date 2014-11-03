@@ -14,6 +14,6 @@
 
 <div class="content-group">
   <% @courses.each do |course| %>
-    <p><%= course.name %></p>
+    <p><%= link_to course.name, course_path(course) %></p>
   <% end %>
 </div>

@@ -9,4 +9,8 @@ class User < ActiveRecord::Base
     c.login_field = 'email'
   end
 
+  def has_local_role?(role, scope)
+    return roles.find_by(name: role, resource_type: scope.class.name, resource_id: scope.id) != nil
+  end
+
 end

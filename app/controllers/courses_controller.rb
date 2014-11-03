@@ -1,5 +1,6 @@
 class CoursesController < ApplicationController
   before_filter :require_user
+  before_filter :require_enrolled, :only => [:show]
   
   def new
     @course = Course.new
@@ -31,7 +32,7 @@ class CoursesController < ApplicationController
     @courses = Course.all
   end
 
-  def joined
+  def enrolled
     @course = Course.new
     @courses = current_user.courses
   end
@@ -67,7 +68,41 @@ class CoursesController < ApplicationController
     end
   end
 
+  def users
+    @course = Course.find(params[:id])
+    @users = @course.users.all
+  end
+
+  def edit_user
+    @course = Course.find(params[:course_id])
+    @user = User.find(params[:user_id])
+  end
+
+  def update_user
+    @course = Course.find(params[:course_id])
+    @user = User.find(params[:user_id])
+
+    User::ROLES.each do |role|
+      if params[:user][:roles].include? role
+        @user.add_role role, @course
+      else
+        @user.remove_role role, @course
+      end
+    end
+
+    flash[:notice] = "User has been updated."
+    redirect_to :back
+  end
+
   private
+  def require_enrolled
+    course = Course.find(params[:id])
+    if not course.users.include? current_user and not current_user.has_role? :admin
+      flash[:notice] = "You may only view courses you are enrolled in"
+      redirect_to dashboard_url
+    end
+  end
+
   def course_params
     params.require(:course).permit(:name, :description, :term, :year, :open, :join_token)
   end

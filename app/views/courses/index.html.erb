@@ -5,7 +5,8 @@
 </header>
 
 <div class="content-group">
+  <%= link_to 'Create new course', new_course_path %><br><br>
   <% @courses.each do |course| %>
-    <p><%= course.name %></p>
+    <p><%= link_to course.name, course %> | <%= link_to 'Enrolled Users', courses_users_path(course) %></p>
   <% end %>
-</div
+</div>

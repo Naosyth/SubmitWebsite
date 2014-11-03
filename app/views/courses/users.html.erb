@@ -1,0 +1,14 @@
+<% content_for :title, "Course Users" %>
+
+<header>
+  <h1>Users enrolled in <%= @course.name %></h1>
+</header>
+
+<div class="content-group">
+  <% @users.each do |user| %>
+    <p>Name: <%= link_to user.name, course_user_edit_path(@course, user) %></p>
+    <p>Roles:
+      <%= user.roles.where(resource_type: "Course", resource_id: @course).map(&:name).join(",") %>
+    </p><br>
+  <% end %>
+</div>
