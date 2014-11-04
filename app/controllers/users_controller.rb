@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :require_user, :only => [:show, :dashboard, :index, :edit, :update]
-  before_filter :require_admin, :only => [:edit]
+  before_filter :require_user, :only => [:show, :dashboard, :index, :edit, :update, :settings, :change_password]
+  before_filter :require_admin, :only => [:edit, :destroy]
 
   def require_admin
     if not current_user.has_role? :admin
@@ -80,6 +80,14 @@ class UsersController < ApplicationController
       flash[:notice] = "Account updated!"
       redirect_to :back
     end
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    flash[:notice] = "User successfully deleted"
+
+    redirect_to :back
   end
 
   private

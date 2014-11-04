@@ -94,6 +94,21 @@ class CoursesController < ApplicationController
     redirect_to :back
   end
 
+  def destroy
+    @course = Course.find(params[:id])
+
+    @course.users.each do |user|
+      User::ROLES.each do |role|
+        user.remove_role role, @course
+      end
+    end
+
+    @course.destroy
+    flash[:notice] = "Course successfully deleted"
+
+    redirect_to :back
+  end
+
   private
   def require_enrolled
     course = Course.find(params[:id])

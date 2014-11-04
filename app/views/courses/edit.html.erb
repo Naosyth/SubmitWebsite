@@ -2,8 +2,9 @@
 
 <header>
   <h1>Editing Course</h1>
-  <h2>@course.name</h2>
+  <h2><%= @course.name %></h2>
 </header>
 
 <div class="content-group">
+  <%= render :partial => "edit_form", :locals => { :course => @course } %>
 </div>
