@@ -2,7 +2,7 @@ class CoursesController < ApplicationController
   include ApplicationHelper
 
   before_filter :require_user
-  before_filter :require_stuent_enrolled, :only => [:show]
+  before_filter :require_student_enrolled, :only => [:show]
   before_filter :require_instructor_owner, :only => [:edit, :edit_user, :users, :update, :update_user, :destroy]
   before_filter :require_instructor, :only => [:new, :create]
   before_filter :require_admin, :only => [:index]
