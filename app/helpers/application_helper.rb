@@ -7,6 +7,8 @@ module ApplicationHelper
   end
 
   def require_instructor
+    return if current_user.has_role? :admin
+    
     if not current_user.has_role? :instructor
       flash[:notice] = "Only instructors may view this page"
       redirect_to dashboard_url
