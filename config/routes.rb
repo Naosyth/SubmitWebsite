@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'courses/:id/users' => 'courses#users', :as => :courses_users
   get '/courses/:course_id/users/:user_id' => 'courses#edit_user', :as => :course_user_edit
   patch '/courses/:course_id/users/:user_id' => 'courses#update_user'
+  get 'course/:course_id/users/:user_id/kick' => 'courses#kick_user', :as => :course_user_kick
   resources :courses
 
   root :to => 'user_sessions#new'

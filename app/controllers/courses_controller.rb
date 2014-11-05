@@ -1,6 +1,11 @@
 class CoursesController < ApplicationController
+  include ApplicationHelper
+
   before_filter :require_user
-  before_filter :require_enrolled, :only => [:show]
+  before_filter :require_stuent_enrolled, :only => [:show]
+  before_filter :require_instructor_owner, :only => [:edit, :edit_user, :users, :update, :update_user, :destroy]
+  before_filter :require_instructor, :only => [:new, :create]
+  before_filter :require_admin, :only => [:index]
   
   def new
     @course = Course.new
@@ -25,10 +30,6 @@ class CoursesController < ApplicationController
   end
 
   def index
-    if not current_user.has_role? :admin
-      redirect_to dashboard_url
-    end
-
     @courses = Course.all
   end
 
@@ -94,6 +95,19 @@ class CoursesController < ApplicationController
     redirect_to :back
   end
 
+  def kick_user
+    @course = Course.find(params[:course_id])
+    @user = User.find(params[:user_id])
+
+    User::ROLES.each do |role|
+      @user.remove_role role, @course
+    end
+    @course.users.delete(@user)
+
+    flash[:notice] = "User has been kicked from the course."
+    redirect_to :back
+  end
+
   def destroy
     @course = Course.find(params[:id])
 
@@ -105,19 +119,10 @@ class CoursesController < ApplicationController
 
     @course.destroy
     flash[:notice] = "Course successfully deleted"
-
     redirect_to :back
   end
 
   private
-  def require_enrolled
-    course = Course.find(params[:id])
-    if not course.users.include? current_user and not current_user.has_role? :admin
-      flash[:notice] = "You may only view courses you are enrolled in"
-      redirect_to dashboard_url
-    end
-  end
-
   def course_params
     params.require(:course).permit(:name, :description, :term, :year, :open, :join_token)
   end
