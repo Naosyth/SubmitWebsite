@@ -46,8 +46,8 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:id])
 
     if @course.update_attributes(course_params)
-      flash[:notice] = "Account updated!"
-      redirect_to :back
+      flash[:notice] = "Course updated!"
+      redirect_to courses_url
     end
   end
 

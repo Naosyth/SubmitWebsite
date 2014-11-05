@@ -17,7 +17,7 @@
 
   <% @courses.each do |course| %>
     <tr>
-      <td><%= course.name %></td>
+      <td><%= link_to course.name, course_path(course) %></td>
       <td><%= link_to 'Enrolled Users', courses_users_path(course) %></td>
       <td><%= link_to 'Edit', edit_course_path(course) %></td>
       <td><%= link_to 'Delete', course_path(course), method: :delete, data: { confirm: 'Are you sure?' } %></td>
