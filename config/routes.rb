@@ -20,5 +20,8 @@ Rails.application.routes.draw do
   get 'course/:course_id/users/:user_id/kick' => 'courses#kick_user', :as => :course_user_kick
   resources :courses
 
+  get 'assignments/:course_id' => 'assignments#new', :as => :new_assignment
+  resources :assignments
+
   root :to => 'user_sessions#new'
 end
