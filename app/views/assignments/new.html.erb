@@ -5,12 +5,12 @@
   <h1><%= @course.name %></h1>
 </header>
 
-<%= form_for @assignment do |f| %>
+<%= form_for :assignment, url: new_assignment_url(@course), method: :post do |f| %>
+  <%= f.text_field :name, :placeholder => 'Assignment Name' %><br>
   <%= f.text_area :description, :placeholder => 'Assignment Description' %><br>
   <%= f.label "Assignment Available Date: " %>
   <%= f.datetime_select(:start_date, default: {day: Time.now.day, month: Time.now.month, year: Time.now.year, hour: 11, min: 59 }) %><br>
   <%= f.label "Assignment Due Date: " %>
   <%= f.datetime_select(:due_date, default: {day: Time.now.day+7, month: Time.now.month, year: Time.now.year, hour: 11, min: 59 }) %><br>
-  <%= f.hidden_field :course_id, :value => @course.id %>
   <%= f.submit "Create" %>
 <% end %>
