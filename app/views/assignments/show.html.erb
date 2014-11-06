@@ -1,0 +1,12 @@
+<% content_for :title, @course.name + ' assignment ' + @assignment.name %>
+
+<header>
+  <h1><%= @course.name %> assignment <%= @assignment.name %></h1>
+</header>
+
+<div class="content-group">
+  <%= @assignment.name %><br>
+  <%= @assignment.description %><br>
+  <%= @assignment.start_date %><br>
+  <%= @assignment.due_date %><br>
+</div>

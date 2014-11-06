@@ -27,6 +27,7 @@ class CoursesController < ApplicationController
 
   def show
     @course = Course.find(params[:id])
+    @assignments = @course.assignments.select { |assignment| Time.now > assignment.start_date }
   end
 
   def index
