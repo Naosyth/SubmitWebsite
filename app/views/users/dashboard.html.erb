@@ -48,7 +48,7 @@
   <p>
     <b>Roles:</b><br>
     <% @user.roles.each do |role| %>
-      <%= role.name %><br>
+      <%= role.name %>&nbsp;<%= role.resource_type %>&nbsp;<%= role.resource_id %><br>
     <% end %>
   </p>
 </div>

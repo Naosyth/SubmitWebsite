@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
-  before_filter :require_user, :only => [:show, :dashboard, :index, :edit, :update]
-  before_filter :require_admin, :only => [:edit]
+  before_filter :require_user, :only => [:show, :dashboard, :index, :edit, :update, :settings, :change_password]
+  before_filter :require_admin, :only => [:edit, :destroy]
 
   def require_admin
     if not current_user.has_role? :admin
@@ -22,7 +22,7 @@ class UsersController < ApplicationController
       flash[:notice] = "Your account has been created."
       redirect_to dashboard_url
     else
-      flash[:notice] = "There was a problem creating you."
+      flash[:notice] = "There was a problem creating your account."
       render :action => :new, :layout => "authentication"
     end
   end
@@ -78,9 +78,16 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(user_params)
       flash[:notice] = "Account updated!"
+      redirect_to :back
+    end
+  end
+
+  def destroy
+    @user = User.find(params[:id])
+    @user.destroy
+    flash[:notice] = "User successfully deleted"
 
     redirect_to :back
-    end
   end
 
   private

@@ -7,6 +7,22 @@
   <% end %>
 
   <% if current_user.has_role? :admin %>
+    <%= link_to courses_url do %>
+      <div>
+        <%= image_tag('icon_courses.png', size: "32x32", alt: "Courses", title: "Courses") %><br>
+        Courses
+      </div>
+    <% end %>
+  <% else %>
+    <%= link_to courses_enrolled_url do %>
+      <div>
+        <%= image_tag('icon_courses.png', size: "32x32", alt: "Courses", title: "Courses") %><br>
+        Courses
+      </div>
+    <% end %>
+  <% end %>
+
+  <% if current_user.has_role? :admin %>
     <%= link_to users_url do %>
       <div>
         <%= image_tag('icon_users.png', size: "32x32", alt: "Edit Users", title: "Edit Users") %><br>
