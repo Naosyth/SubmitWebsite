@@ -18,5 +18,5 @@
 # Database yml
 /config/database.yml
 
-#Strange Files by Sublime
+# Strange Files by Sublime
 .nfs*
