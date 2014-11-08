@@ -26,6 +26,7 @@ class CoursesController < ApplicationController
   end
 
   def show
+    @user = current_user
     @course = Course.find(params[:id])
     @assignments = @course.assignments.select { |assignment| Time.now > assignment.start_date }
   end

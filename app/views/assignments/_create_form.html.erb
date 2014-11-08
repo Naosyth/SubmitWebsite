@@ -1,0 +1,23 @@
+<%= stylesheet_link_tag "plugins/jquery.datetimepicker.css" %>
+<%= javascript_include_tag "plugins/jquery.datetimepicker.js" %>
+
+<%= render "shared/error_messages", :target => @course %>
+
+<%= form_for :assignment, url: new_assignment_url(@course), method: :post, :html => { :id => "create_assignment_form"} do |f| %>
+  <%= f.text_field :name, :placeholder => 'Assignment Name' %><br>
+  <%= f.text_area :description, :placeholder => 'Assignment Description' %><br>
+  <%= f.label "Assignment Available Date: " %>
+  <%= f.text_field :start_date %><br>
+  <!--%= f.datetime_select(:start_date, default: {day: Time.now.day, month: Time.now.month, year: Time.now.year, hour: 11, min: 59 }) %><br-->
+  <%= f.label "Assignment Due Date: " %>
+  <%= f.text_field :due_date %><br>
+  <!--%= f.datetime_select(:due_date, default: {day: Time.now.day+7, month: Time.now.month, year: Time.now.year, hour: 11, min: 59 }) %><br-->
+  <%= f.submit "Create" %>
+<% end %>
+
+<script>
+  $(document).ready(function() {
+    jQuery('#assignment_start_date').datetimepicker({format: 'unixtime', value: Math.floor(new Date().getTime()/1000)});
+    jQuery('#assignment_due_date').datetimepicker({format: 'unixtime', value: Math.floor(new Date().getTime()/1000)});
+  });
+</script>
