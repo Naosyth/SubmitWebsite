@@ -10,22 +10,10 @@
   <p><%= @course.term %>&nbsp;<%= @course.year %></p>
   <p><%= @course.open %></p>
   <p><%= @course.join_token %></p><br>
+
   <% @assignments.each do |assignment| %>
     <%= link_to assignment.name, assignment_path(assignment) %>
     &nbsp; 
-    <%= assignment.start_date %>
-    &nbsp;
-    <%= link_to 'Delete', assignment_path(assignment), method: :delete, data: { confirm: "Are You Sure?" } %>
-    <br>
+    <%= assignment.start_date %><br>
   <% end %>
 </div>
-
-<% if @user.has_local_role? :instructor, @course %>
-  <header>
-    <h1>Instructor Actions</h1>
-  </header>
-
-  <div class="content-group">
-    <%= link_to 'Add Assignment', new_assignment_url(@course) %>
-  </div>
-<% end %>

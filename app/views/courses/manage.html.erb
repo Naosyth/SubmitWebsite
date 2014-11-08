@@ -1,0 +1,45 @@
+<% content_for :title, @course.name %>
+
+<header>
+  <h1>Manage Course</h1>
+  <h2><%= @course.name %></h2>
+</header>
+
+<div class="content-group">
+  <p><%= @course.name %></p>
+  <p><%= @course.description %></p>
+  <p><%= @course.term %>&nbsp;<%= @course.year %></p>
+  <p><%= @course.open %></p>
+  <p><%= @course.join_token %></p><br>
+</div>
+
+<header>
+  <h1>Assignments</h1>
+</header>
+<div class="content-group">
+  <table class="assignment-list">
+    <tr>
+      <th>Assignment Name</th>
+      <th>Modify</th>
+      <th>Delete</th>
+    </tr>
+
+    <% @assignments.each do |assignment| %>
+      <tr>
+        <td><%= link_to assignment.name, assignment_path(assignment) %></td>
+        <td><%= link_to 'Edit', edit_assignment_path(assignment) %></td>
+        <td><%= link_to 'Delete', assignment_path(assignment), method: :delete, data: { confirm: "Are You Sure?" } %></td>
+      </tr>
+    <% end %>
+  </table>
+</div>
+
+<% if @user.has_local_role? :instructor, @course %>
+  <header>
+    <h1>Instructor Actions</h1>
+  </header>
+
+  <div class="content-group">
+    <%= link_to 'Add Assignment', new_assignment_url(@course) %>
+  </div>
+<% end %>
