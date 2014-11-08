@@ -20,4 +20,12 @@
   <% end %>
 </div>
 
-<%= link_to 'Add Assignment', new_assignment_url(@course) %>
+<% if @user.has_local_role? :instructor, @course %>
+  <header>
+    <h1>Instructor Actions</h1>
+  </header>
+
+  <div class="content-group">
+    <%= link_to 'Add Assignment', new_assignment_url(@course) %>
+  </div>
+<% end %>
