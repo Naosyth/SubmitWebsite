@@ -3,7 +3,7 @@ class CoursesController < ApplicationController
 
   before_filter :require_user
   before_filter :require_student, :only => [:enrolled]
-  before_filter :require_student_enrolled, :only => [:show]
+  before_filter :require_enrolled, :only => [:show]
   before_filter :require_instructor_owner, :only => [:edit, :edit_user, :users, :update, :update_user, :destroy]
   before_filter :require_instructor, :only => [:new, :create, :taught]
   before_filter :require_admin, :only => [:index]
