@@ -13,15 +13,15 @@
       <th>Kick</th>
     </tr>
 
-  <% @users.each do |user| %>
-    <tr>
-      <td><%= user.name %></td>
-      <td>
-        <%= user.roles.where(resource_type: "Course", resource_id: @course).map(&:name).join(",") %>
-      </td>
-      <td><%= link_to 'Edit', course_user_edit_path(@course, user) %></td>
-      <td><%= link_to 'Kick', course_user_kick_path(@course, user), data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
+    <% @users.each do |user| %>
+      <tr>
+        <td><%= user.name %></td>
+        <td>
+          <%= user.roles.where(resource_type: "Course", resource_id: @course).map(&:name).join(",") %>
+        </td>
+        <td><%= link_to 'Edit', course_user_edit_path(@course, user) %></td>
+        <td><%= link_to 'Kick', course_user_kick_path(@course, user), data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
   </table>
 </div>
