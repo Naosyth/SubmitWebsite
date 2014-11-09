@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141029200605) do
+ActiveRecord::Schema.define(version: 20141106193620) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -21,6 +21,7 @@ ActiveRecord::Schema.define(version: 20141029200605) do
     t.integer  "course_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "name"
   end
 
   add_index "assignments", ["course_id"], name: "index_assignments_on_course_id", using: :btree
@@ -38,11 +39,12 @@ ActiveRecord::Schema.define(version: 20141029200605) do
   create_table "courses", force: true do |t|
     t.string   "name"
     t.boolean  "open"
-    t.string   "semester"
     t.text     "description"
     t.string   "join_token"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "year"
+    t.string   "term"
   end
 
   create_table "courses_users", id: false, force: true do |t|

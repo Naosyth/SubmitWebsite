@@ -1,0 +1,21 @@
+Fri, 07 Nov 2014 23:15:19 -0800
+README.rdoc	Fri, 24 Oct 2014 19:38:00 -0700
+app/controllers/application_controller.rb	Fri, 24 Oct 2014 19:38:00 -0700
+app/controllers/assignments_controller.rb	Fri, 07 Nov 2014 22:21:51 -0800
+app/controllers/courses_controller.rb	Fri, 07 Nov 2014 23:12:41 -0800
+app/controllers/user_sessions_controller.rb	Sat, 01 Nov 2014 16:06:14 -0700
+app/controllers/users_controller.rb	Fri, 07 Nov 2014 22:21:51 -0800
+app/helpers/application_helper.rb	Fri, 07 Nov 2014 22:43:34 -0800
+app/helpers/assignments_helper.rb	Fri, 07 Nov 2014 22:21:51 -0800
+app/helpers/courses_helper.rb	Fri, 07 Nov 2014 23:14:47 -0800
+app/helpers/user_sessions_helper.rb	Fri, 24 Oct 2014 19:38:00 -0700
+app/helpers/users_helper.rb	Fri, 24 Oct 2014 19:38:00 -0700
+app/models/assignment.rb	Wed, 29 Oct 2014 18:03:05 -0700
+app/models/comment.rb	Wed, 29 Oct 2014 18:35:04 -0700
+app/models/course.rb	Fri, 07 Nov 2014 22:21:51 -0800
+app/models/role.rb	Wed, 29 Oct 2014 18:35:04 -0700
+app/models/submission.rb	Wed, 29 Oct 2014 18:35:04 -0700
+app/models/test_case.rb	Wed, 29 Oct 2014 18:03:05 -0700
+app/models/upload_datum.rb	Wed, 29 Oct 2014 18:35:04 -0700
+app/models/user.rb	Fri, 07 Nov 2014 22:21:51 -0800
+app/models/user_session.rb	Sat, 01 Nov 2014 16:06:14 -0700
