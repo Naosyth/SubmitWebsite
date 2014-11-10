@@ -24,6 +24,22 @@ class AssignmentsController < ApplicationController
     @course = @assignment.course
   end
 
+  def edit
+    @assignment = Assignment.find(params[:id])
+    @course = @assignment.course
+  end
+
+  def update
+    @assignment = Assignment.find(params[:id])
+
+    convert_dates_to_utc
+
+    if @assignment.update_attributes(assignment_params)
+      flash[:notice] = "Assignment updated!"
+      redirect_to course_path(@assignment.course)
+    end
+  end
+
   def destroy
     @assignment = Assignment.find(params[:id])
     flash[:notice] = "Successfully deleted Assignment " + @assignment.name
