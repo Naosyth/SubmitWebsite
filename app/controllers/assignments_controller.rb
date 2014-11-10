@@ -12,6 +12,9 @@ class AssignmentsController < ApplicationController
 
   def create
     @course = Course.find(params[:course_id])
+
+    convert_dates_to_utc
+
     @assignment = @course.assignments.create(assignment_params)
     redirect_to course_path(@course)
   end
@@ -19,6 +22,22 @@ class AssignmentsController < ApplicationController
   def show
     @assignment = Assignment.find(params[:id])
     @course = @assignment.course
+  end
+
+  def edit
+    @assignment = Assignment.find(params[:id])
+    @course = @assignment.course
+  end
+
+  def update
+    @assignment = Assignment.find(params[:id])
+
+    convert_dates_to_utc
+
+    if @assignment.update_attributes(assignment_params)
+      flash[:notice] = "Assignment updated!"
+      redirect_to course_path(@assignment.course)
+    end
   end
 
   def destroy
@@ -31,5 +50,10 @@ class AssignmentsController < ApplicationController
   private
   def assignment_params
     params.require(:assignment).permit(:name, :description, :start_date, :due_date, :lock)
+  end
+
+  def convert_dates_to_utc
+    params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i)
+    params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i)
   end
 end

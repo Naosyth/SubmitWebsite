@@ -27,7 +27,13 @@ module AssignmentsHelper
   def require_instructor_owner
     return if current_user.has_role? :admin
 
-    course = Course.find(params[:course_id])
+    if params.has_key? :course_id
+      course = Course.find(params[:course_id])
+    else
+      assignment = Assignment.find(params[:id])
+      course = assignment.course
+    end
+    
     if not current_user.has_role? :instructor, course
       flash[:notice] = "You must be an instructor of the course to view that page"
       redirect_to dashboard_url
