@@ -25,5 +25,7 @@ Rails.application.routes.draw do
   post 'assignments/new/:course_id' => 'assignments#create'
   resources :assignments
 
+  resources :submissions
+
   root :to => 'user_sessions#new'
 end

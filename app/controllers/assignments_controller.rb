@@ -14,14 +14,17 @@ class AssignmentsController < ApplicationController
     @course = Course.find(params[:course_id])
 
     convert_dates_to_utc
-
-    @assignment = @course.assignments.create(assignment_params)
+    assignment = @course.assignments.create(assignment_params)
+    assignment.create_submissions_for_students
+    
     redirect_to course_path(@course)
   end
 
   def show
     @assignment = Assignment.find(params[:id])
     @course = @assignment.course
+
+    @submissions = @assignment.submissions
   end
 
   def edit
@@ -48,12 +51,12 @@ class AssignmentsController < ApplicationController
   end
 
   private
-  def assignment_params
-    params.require(:assignment).permit(:name, :description, :start_date, :due_date, :lock)
-  end
+    def assignment_params
+      params.require(:assignment).permit(:name, :description, :start_date, :due_date, :lock)
+    end
 
-  def convert_dates_to_utc
-    params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i)
-    params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i)
-  end
+    def convert_dates_to_utc
+      params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i)
+      params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i)
+    end
 end
