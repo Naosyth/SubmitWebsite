@@ -10,3 +10,13 @@
   <%= @assignment.start_date %><br>
   <%= @assignment.due_date %><br>
 </div>
+
+<header>
+  <h1>All submissions</h1>
+</header>
+
+<div class="content-group">
+  <% @submissions.each do |submission| %>
+    <%= submission.user.name %> - <%= link_to 'Edit', edit_submission_url(submission) %><br>
+  <% end %>
+</div>

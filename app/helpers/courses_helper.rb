@@ -15,7 +15,7 @@ module CoursesHelper
     end
   end
 
-def require_instructor_owner
+  def require_instructor_owner
     return if current_user.has_role? :admin
 
     course = Course.find(params[:id])
