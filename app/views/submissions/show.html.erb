@@ -11,10 +11,18 @@
   <% @submission.upload_data.each do |upload_data| %>
     File Name:
   	<%= link_to upload_data.name, upload_datum_path(upload_data) %>
-  	<%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %><br>
+    <%= link_to 'Edit', edit_upload_datum_path(upload_data) %>
+  	<%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %>
+    <%= upload_data.updated_at %>
+    <%= upload_data.created_at %>
+    <%= form_tag reupload_file_url(upload_data), method: :patch, :multipart => true do %>
+      <%= file_field_tag 'contents' %>
+      <%= submit_tag "Save File" %>
+    <% end %>
+  <br>
   <% end %>
   <br>
-  <%= form_tag create_file_url(@submission), :multipart => true do %>
+  <%= form_tag create_file_url(@submission), method: :post, :multipart => true do %>
   	<%= file_field_tag 'contents' %>
   	<%= submit_tag "Save File" %>
   <% end %>
