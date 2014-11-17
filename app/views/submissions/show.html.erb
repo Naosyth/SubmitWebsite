@@ -8,5 +8,13 @@
   Grade: <%= @submission.grade %><br>
   Notes: <%= @submission.note %><br>
   <br>
-  <p>This should eventually give a list of all uploaded files, with option to upload/reupload and display them</p>
+  <% @submission.upload_data.each do |upload_data| %>
+  	<%= "File Name: " + upload_data.name %>
+  	<%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %><br>
+  <% end %>
+  <br>
+  <%= form_tag create_file_url(@submission), :multipart => true do %>
+  	<%= file_field_tag 'contents' %>
+  	<%= submit_tag "Save File" %>
+  <% end %>
 </div>

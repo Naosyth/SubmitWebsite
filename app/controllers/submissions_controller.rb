@@ -11,6 +11,11 @@ class SubmissionsController < ApplicationController
   # Creates form to set a note or manually enter a grade
   def edit
     @submission = Submission.find(params[:id])
+    if current_user.has_local_role? :student, get_course
+      render :action => :show
+    else
+      render :action => :edit
+    end
   end
 
   # Updates an existing submission
