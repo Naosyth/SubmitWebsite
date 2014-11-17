@@ -3,7 +3,7 @@ class UploadDatum < ActiveRecord::Base
   belongs_to :submission
   has_many :comments
 
-  def create
+  def create(upload_data)
   	self.name = "test"
   end
 

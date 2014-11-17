@@ -4,10 +4,16 @@ class UploadDataController < ApplicationController
   def create
     @submission = Submission.find(params[:submission_id])
     @upload_data = @submission.upload_data.create(params[:contents])
-    @upload_data.name = "Test"
-    
 
-    flash[:notice] = "File Loaded"
+    if @upload_data.name == nil
+        @upload_data.name = "NameNotSet"
+    end
+
+    if @upload_data.save
+      flash[:notice] = "File Loaded"
+    else
+      flash[:notice] = "File Not Loaded"
+    end
     redirect_to submission_url(@submission)
   end
 
