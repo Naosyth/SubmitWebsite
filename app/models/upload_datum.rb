@@ -3,8 +3,9 @@ class UploadDatum < ActiveRecord::Base
   belongs_to :submission
   has_many :comments
 
-  def create(upload_data)
-  	self.name = "test"
+  def create_file(file_data)
+  	self.name = file_data.original_filename
+  	self.contents = file_data.read
   end
 
 end

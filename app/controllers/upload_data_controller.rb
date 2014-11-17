@@ -3,7 +3,8 @@ class UploadDataController < ApplicationController
   # Creates a new upload data
   def create
     @submission = Submission.find(params[:submission_id])
-    @upload_data = @submission.upload_data.create(params[:contents])
+    @upload_data = @submission.upload_data.create
+    @upload_data.create_file(params[:contents])
 
     if @upload_data.name == nil
         @upload_data.name = "NameNotSet"
