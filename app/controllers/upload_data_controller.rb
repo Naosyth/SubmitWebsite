@@ -20,6 +20,8 @@ class UploadDataController < ApplicationController
 
   # Shows an upload data
   def show
+    @upload_data = UploadDatum.find(params[:id])
+    send_data @upload_data.contents, type: 'application/pdf', filename: @upload_data.name, disposition: 'inline'
   end
 
   # Edits an existing upload data

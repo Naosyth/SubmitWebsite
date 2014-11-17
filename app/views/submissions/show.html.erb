@@ -9,7 +9,8 @@
   Notes: <%= @submission.note %><br>
   <br>
   <% @submission.upload_data.each do |upload_data| %>
-  	<%= "File Name: " + upload_data.name %>
+    File Name:
+  	<%= link_to upload_data.name, upload_datum_path(upload_data) %>
   	<%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %><br>
   <% end %>
   <br>
