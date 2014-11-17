@@ -1,0 +1,12 @@
+<% content_for :title, get_assignment.name + " Submission" %>
+
+<header>
+  <h1><%= get_assignment.name %> Submission</h1>
+</header>
+
+<div class="content-group">
+  Grade: <%= @submission.grade %><br>
+  Notes: <%= @submission.note %><br>
+  <br>
+  <p>This should eventually give a list of all uploaded files, with option to upload/reupload and display them</p>
+</div>
