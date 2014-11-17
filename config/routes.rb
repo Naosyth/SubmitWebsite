@@ -27,5 +27,8 @@ Rails.application.routes.draw do
 
   resources :submissions
 
+  post '/upload_data/:submission_id/' => 'upload_data#create', :as => :create_file
+  resources :upload_data
+
   root :to => 'user_sessions#new'
 end
