@@ -79,13 +79,18 @@ class CoursesController < ApplicationController
   # Creates a link between a user and the course.
   # Applies the default student role to the user.
   def join
-    @course = Course.where(join_token: params[:course][:join_token]).first
+    course = Course.where(join_token: params[:course][:join_token]).first
 
-    if @course and not current_user.courses.include? @course
-      current_user.courses << @course
-      current_user.add_role :student, @course
+    if course and not current_user.courses.include? @course
+      current_user.courses << course
+      current_user.add_role :student, course
+
+      course.assignments.each do |assignment|
+        assignment.create_submissions_for_students
+      end
+
       flash[:notice] = "Successfully joined class"
-      redirect_to course_path(@course.id)
+      redirect_to course_path(course.id)
     else
       flash[:notice] = "Failed to join class"
       redirect_to :back

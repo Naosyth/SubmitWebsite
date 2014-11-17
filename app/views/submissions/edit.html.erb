@@ -1,0 +1,18 @@
+<% content_for :title, get_assignment.name + " Submission" %>
+
+<header>
+  <h1>Submission by <%= @submission.user.name %></h1>
+</header>
+
+<div class="content-group">
+  <%= render "shared/error_messages", :target => @submission %>
+  <%= form_for @submission, url: submission_url(@submission), method: :patch do |f| %>
+    <%= f.text_area :note, :placeholder => 'Grader Notes' %><br>
+    <%= f.number_field :grade, :step => 0.01 %>
+    <%= f.submit "Save" %>
+  <% end %>
+</div>
+
+<script>
+  $('#submission_grade').regexMask(/^\d+$/);
+</script>
