@@ -6,6 +6,7 @@ class UploadDatum < ActiveRecord::Base
   def create_file(file_data)
   	self.name = file_data.original_filename
   	self.contents = file_data.read
+  	self.file_type = file_data.content_type
   end
 
 end

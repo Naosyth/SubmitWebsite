@@ -15,15 +15,16 @@
   	<%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %>
     <%= upload_data.updated_at %>
     <%= upload_data.created_at %>
+    <%= upload_data.file_type %>
     <%= form_tag reupload_file_url(upload_data), method: :patch, :multipart => true do %>
-      <%= file_field_tag 'contents' %>
-      <%= submit_tag "Save File" %>
+      <%= file_field_tag 'upload_file' %>
+      <%= submit_tag "Update File" %>
     <% end %>
   <br>
   <% end %>
   <br>
   <%= form_tag create_file_url(@submission), method: :post, :multipart => true do %>
-  	<%= file_field_tag 'contents' %>
+  	<%= file_field_tag 'upload_file' %>
   	<%= submit_tag "Save File" %>
   <% end %>
 </div>

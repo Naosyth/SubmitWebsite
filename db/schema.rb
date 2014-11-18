@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141106193620) do
+ActiveRecord::Schema.define(version: 20141118011902) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -100,6 +100,7 @@ ActiveRecord::Schema.define(version: 20141106193620) do
     t.datetime "updated_at"
     t.integer  "submission_id"
     t.integer  "test_case_id"
+    t.string   "file_type"
   end
 
   add_index "upload_data", ["submission_id"], name: "index_upload_data_on_submission_id", using: :btree
