@@ -1,0 +1,7 @@
+<% content_for :title, @upload_data.name + " - Edit" %>
+
+<%= form_for :upload_datum, url: upload_datum_url(@upload_data), method: :patch do |f| %>
+  <%= f.text_field :name, value: @upload_data.name %><br>
+  <%= f.text_area :contents, value: @upload_data.contents %><br>
+  <%= f.submit "Edit" %>
+<% end %>
