@@ -105,7 +105,7 @@ class UploadDataController < ApplicationController
 
     upload_data = UploadDatum.find(params[:id])
     course = upload_data.submission.assignment.course
-    if not current_user.has_role? :instructor, course || current_user == upload_data.submission.user
+    if not(current_user.has_role? :instructor, course) && current_user != upload_data.submission.user
       flash[:notice] = "That action is only available to the instructor or file owner"
       redirect_to dashboard_url
     end
