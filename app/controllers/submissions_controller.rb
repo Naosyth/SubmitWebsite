@@ -28,6 +28,35 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  def compile
+    submission = Submission.find(params[:id])
+
+    tempDirectory = "/home/nolan/Documents/submitTest/tempDirectory/" + submission.user.name + '_' + submission.id.to_s + '/'
+    if not Dir.exists?(tempDirectory) 
+      Dir.mkdir(tempDirectory)
+    end
+
+    submission.upload_data.each do |upload_data|
+      output = tempDirectory + upload_data.name
+      f = File.open(output, "w" )
+      f.write(upload_data.contents)
+      f.close
+    end
+
+    makeType = tempDirectory + "main.cpp "
+    writeOut = "-o " + tempDirectory + "main"
+    make = "g++ " + makeType + writeOut 
+    if system(make)
+      flash[:notice] = "Compiled"
+    else
+      stream = capture(:stderr) { system(make) }
+      flash[:notice] = "Not Compiled" + stream
+    end
+
+    Dir.rm_rf(tempDirectory)
+    redirect_to :back
+  end
+
   private
     def submission_params
       params.require(:submission).permit(:grade, :note)

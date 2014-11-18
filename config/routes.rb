@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   post 'assignments/new/:course_id' => 'assignments#create'
   resources :assignments
 
+  get 'submissions/compile/:id' => 'submissions#compile'
   resources :submissions
 
   post '/upload_data/:submission_id/' => 'upload_data#create', :as => :create_file
