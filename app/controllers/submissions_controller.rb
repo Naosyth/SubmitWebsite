@@ -43,17 +43,17 @@ class SubmissionsController < ApplicationController
       f.close
     end
 
-    makeType = tempDirectory + "main.cpp "
-    writeOut = "-o " + tempDirectory + "main"
-    make = "g++ " + makeType + writeOut 
+    make = "make -C " + tempDirectory
     if system(make)
-      flash[:notice] = "Compiled"
+      run = tempDirectory + "main"
+      stream = capture(:stdout) { system(run) }
+      flash[:notice] = "Compiled " + stream
     else
       stream = capture(:stderr) { system(make) }
-      flash[:notice] = "Not Compiled" + stream
+      flash[:notice] = "Not Compiled " + stream
     end
 
-    Dir.rm_rf(tempDirectory)
+    FileUtils.rm_rf(tempDirectory)
     redirect_to :back
   end
 
