@@ -5,9 +5,8 @@
       <%= content_tag(:div, value, :class => "flash #{key}") %>
     </div>
   <% elsif key == 'comperr' %>
-    <%= (value.gsub! "\n", "<br>").html_safe %>
-    <script language="JavaScript">
-      alert( "<%= value %>" );
-    </script>
+    <div class="compile-messages">
+      <%= (value.gsub! "\n", "<br>").html_safe %>
+    </div>
   <% end %>
 <% end %>

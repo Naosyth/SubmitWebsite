@@ -29,6 +29,8 @@ class UploadDataController < ApplicationController
     redirect_to destination
   end
 
+
+
   # Shows an upload data
   def show
     @upload_data = UploadDatum.find(params[:id])
