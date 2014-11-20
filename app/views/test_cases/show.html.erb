@@ -13,14 +13,10 @@
     <%= upload_data.updated_at %>
     <%= upload_data.created_at %>
     <%= upload_data.file_type %>
-    <%= form_tag reupload_test_case_url(upload_data), method: :patch, :multipart => true do %>
-      <%= file_field_tag 'upload_file' %>
-      <%= submit_tag "Update File" %>
-    <% end %>
   <br>
   <% end %>
   <br>
-  <%= form_tag upload_test_case_url(@test_case), method: :post, :multipart => true do %>
+  <%= form_tag create_file_url("test_case", @test_case), method: :post, :multipart => true do %>
   	<%= file_field_tag 'upload_file' %>
   	<%= submit_tag "Save File" %>
   <% end %>

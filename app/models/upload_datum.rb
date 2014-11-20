@@ -9,4 +9,8 @@ class UploadDatum < ActiveRecord::Base
   	self.file_type = file_data.content_type
   end
 
+  def source
+    return test_case unless test_case.nil?
+    return submission unless submission.nil?
+  end
 end

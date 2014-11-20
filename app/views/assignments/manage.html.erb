@@ -16,8 +16,8 @@
 </header>
 
 <div class="content-group">
+ <%= link_to 'Test Case', test_case_url(@test_case) %><br>
 
- <%= link_to 'Test Case', test_case_url(@test_case) %>
   <% @submissions.each do |submission| %>
     <%= submission.user.name %> - <%= link_to 'Edit', edit_submission_url(submission) %><br>
   <% end %>

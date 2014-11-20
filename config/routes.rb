@@ -27,10 +27,7 @@ Rails.application.routes.draw do
 
   resources :submissions
 
-  post '/upload_data/test_case/:test_case_id' => 'upload_data#upload_test_case', :as => :upload_test_case
-  patch '/upload_data/test_case/:id/reupload' => 'upload_data#reupload_test_case', :as => :reupload_test_case
-  post '/upload_data/submission/:submission_id' => 'upload_data#upload_submission', :as => :upload_submission
-  patch '/upload_data/submission/:id/reupload' => 'upload_data#reupload_submission', :as => :reupload_submission
+  post '/upload_data/:type/:destination_id' => 'upload_data#create', :as => :create_file
   resources :upload_data
 
   resources :test_cases
