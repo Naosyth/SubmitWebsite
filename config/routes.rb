@@ -28,9 +28,13 @@ Rails.application.routes.draw do
   get 'submissions/compile/:id' => 'submissions#compile'
   resources :submissions
 
-  post '/upload_data/:submission_id/' => 'upload_data#create', :as => :create_file
-  patch '/upload_data/:id/reupload' => 'upload_data#reupload', :as => :reupload_file
+  post '/upload_data/test_case/:test_case_id' => 'upload_data#upload_test_case', :as => :upload_test_case
+  patch '/upload_data/test_case/:id/reupload' => 'upload_data#reupload_test_case', :as => :reupload_test_case
+  post '/upload_data/submission/:submission_id' => 'upload_data#upload_submission', :as => :upload_submission
+  patch '/upload_data/submission/:id/reupload' => 'upload_data#reupload_submission', :as => :reupload_submission
   resources :upload_data
 
+  resources :test_cases
+  
   root :to => 'user_sessions#new'
 end
