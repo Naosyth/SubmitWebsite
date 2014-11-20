@@ -50,7 +50,7 @@ class SubmissionsController < ApplicationController
       flash[:notice] = "Compiled " + stream
     else
       stream = capture(:stderr) { system(make) }
-      flash[:comperr] = "Not Compiled " + stream
+      flash[:comperr] = stream
     end
 
     FileUtils.rm_rf(tempDirectory)
