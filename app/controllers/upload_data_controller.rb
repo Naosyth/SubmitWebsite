@@ -5,7 +5,7 @@ class UploadDataController < ApplicationController
   before_filter :require_instructor_owner, :only => [:show]
 
   # Creates a new upload data
-  def create
+  def upload_submission
     @submission = Submission.find(params[:submission_id])
 
     if params[:upload_file].blank? 
@@ -13,7 +13,8 @@ class UploadDataController < ApplicationController
       redirect_to submission_url(@submission) and return
     end
 
-    @upload_data = @submission.upload_data.create
+    @upload_data = @submission.upload_data.select { |upload| upload.name == params[:upload_file].original_filename }.first
+    @upload_data = @submission.upload_data.create if @upload_data.nil?
     @upload_data.create_file(params[:upload_file])
 
     if @upload_data.save
@@ -21,10 +22,10 @@ class UploadDataController < ApplicationController
     else
       flash[:notice] = "File Not Loaded"
     end
-    redirect_to submission_url(@submission)
+    redirect_to @submission
   end
 
-  def reupload
+  def reupload_submisson
     upload_data = UploadDatum.find(params[:id])
 
     if params[:upload_file].blank? 
@@ -41,6 +42,8 @@ class UploadDataController < ApplicationController
     end
     redirect_to submission_url(upload_data.submission)
   end
+
+
 
   # Shows an upload data
   def show
@@ -65,7 +68,7 @@ class UploadDataController < ApplicationController
     upload_data = UploadDatum.find(params[:id])
     if upload_data.update_attributes(upload_data_params)
       flash[:notice] = "File Updated"
-      redirect_to submission_url(upload_data.submission)
+      redirect_to :back
     end
   end
 
