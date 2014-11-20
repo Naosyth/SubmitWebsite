@@ -63,13 +63,15 @@ html, body.application {
 }
 
 .compile-messages {
+  overflow: auto;
+  height: 300px;
   right: 0;
   left: 0;
   top: 300px;
   margin: 0 auto;
   position: fixed;
   background-color: $color-flash;
-  width: 800px;
+  width: 500px;
   padding: 5px;
   color: $font-color-dark;
   text-align: left;
