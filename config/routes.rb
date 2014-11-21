@@ -26,6 +26,7 @@ Rails.application.routes.draw do
   resources :assignments
 
   get 'submissions/compile/:id' => 'submissions#compile'
+  get 'submissions/run_program/:id' => 'submissions#run_program'
   resources :submissions
 
   post '/upload_data/:type/:destination_id' => 'upload_data#create', :as => :create_file

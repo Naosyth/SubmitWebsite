@@ -29,32 +29,37 @@ class SubmissionsController < ApplicationController
   end
 
   def compile
-    submission = Submission.find(params[:id])
+    tempDirectory = create_directory
 
-    tempDirectory = "/home/nolan/Documents/submitTest/tempDirectory/" + submission.user.name + '_' + submission.id.to_s + '/'
-    if not Dir.exists?(tempDirectory) 
-      Dir.mkdir(tempDirectory)
-    end
-
-    submission.upload_data.each do |upload_data|
-      output = tempDirectory + upload_data.name
-      f = File.open(output, "w" )
-      f.write(upload_data.contents)
-      f.close
-    end
-
+    # Compiles and runs the program
     make = "make -C " + tempDirectory
     if system(make)
-      run = tempDirectory + "main"
-      stream = capture(:stdout) { system(run) }
-      flash[:notice] = "Compiled " + stream
+      flash[:notice] = "Compiled"
     else
       stream = capture(:stderr) { system(make) }
+      flash[:notice] = "Not Compiled"
       flash[:comperr] = stream
     end
 
+    # Cleans up the files
     FileUtils.rm_rf(tempDirectory)
     redirect_to :back
+  end
+
+  # Runs the code and creates the outputs
+  def run_program
+    @submission = Submission.find(params[:id])
+    tempDirectory = create_directory
+
+    # Compiles and runs the program
+    make = "make -C " + tempDirectory
+    if system(make)
+      run_test_cases(tempDirectory, @submission)
+    else
+      stream = capture(:stderr) { system(make) }
+      flash[:notice] = "Not Compiled"
+      flash[:comperr] = stream
+    end
   end
 
   private
@@ -93,6 +98,47 @@ class SubmissionsController < ApplicationController
       if not current_user.has_role? :instructor, course
         flash[:notice] = "That action is only available to the instructor of the course"
         redirect_to dashboard_url
+      end
+    end
+
+    # Sets up the directory
+    def create_directory
+      submission = Submission.find(params[:id])
+
+      # Creates a temporary directory for the student files
+      tempDirectory = "/home/nolan/Documents/submitTest/tempDirectory/" + submission.user.name + '_' + submission.id.to_s + '/'
+      if not Dir.exists?(tempDirectory) 
+        Dir.mkdir(tempDirectory)
+      end
+
+      # Adds in all the student files 
+      submission.upload_data.each do |upload_data|
+        output = tempDirectory + upload_data.name
+        f = File.open(output, "w" )
+        f.write(upload_data.contents)
+        f.close
+      end
+
+      # Adds in the test case files
+      submission.assignment.test_case.upload_data.each do |upload_data|
+        output = tempDirectory + upload_data.name
+        f = File.open(output, "w" )
+        f.write(upload_data.contents)
+        f.close
+      end
+      return tempDirectory
+    end
+
+    def run_test_cases(directory, submission)
+      Dir.glob(directory + 'input_*') do |file|
+        run = directory + "main < " + file
+        stream = capture(:stdout) { system(run) }
+        f = File.open(file.gsub("input", "output"), "w")
+        f.write(stream)
+        f.close
+        submission.upload_data.create
+        submission.upload_data.create(f)
+        flash[:notice] = "Test Case Compiled"
       end
     end
 end
