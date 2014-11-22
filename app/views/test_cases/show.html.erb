@@ -1,14 +1,11 @@
-<% content_for :title, get_assignment.name + " Submission" %>
+<% content_for :title, get_assignment.name + " Test Case" %>
 
 <header>
-  <h1><%= get_assignment.name %> Submission</h1>
+  <h1><%= get_assignment.name %> Test Case</h1>
 </header>
 
 <div class="content-group">
-  Grade: <%= @submission.grade %><br>
-  Notes: <%= @submission.note %><br>
-  <br>
-  <% @submission.upload_data.each do |upload_data| %>
+  <% @test_case.upload_data.each do |upload_data| %>
     File Name:
   	<%= link_to upload_data.name, upload_datum_path(upload_data) %>
     <%= link_to 'Edit', edit_upload_datum_path(upload_data) %>
@@ -19,7 +16,7 @@
   <br>
   <% end %>
   <br>
-  <%= form_tag create_file_url("submission", @submission), method: :post, :multipart => true do %>
+  <%= form_tag create_file_url("test_case", @test_case), method: :post, :multipart => true do %>
   	<%= file_field_tag 'upload_file' %>
   	<%= submit_tag "Save File" %>
   <% end %>

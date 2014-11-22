@@ -16,15 +16,20 @@ class AssignmentsController < ApplicationController
     convert_dates_to_utc
     assignment = @course.assignments.create(assignment_params)
     assignment.create_submissions_for_students
-    
+    assignment.create_test_case
+
     redirect_to course_path(@course)
   end
 
   def show
     @assignment = Assignment.find(params[:id])
     @course = @assignment.course
-
     @submissions = @assignment.submissions
+
+    if current_user.has_local_role? :instructor, @course
+      @test_case = @assignment.test_case 
+      render "assignments/manage"
+    end
   end
 
   def edit
