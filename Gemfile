@@ -43,6 +43,7 @@ gem 'scrypt'
 
 # Generating diagrams
 gem 'rails-erd'
+gem 'railroady'
 
 # Using roles for users
 gem 'rolify'

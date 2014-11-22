@@ -5,11 +5,13 @@ class AssignmentsController < ApplicationController
   before_filter :require_instructor_owner, :only => [:new, :create, :destroy]
   before_filter :require_enrolled, :only => [:show]
 
+  # Creates the form to make a new assignment
   def new
     @assignment = Assignment.new
     @course = Course.find(params[:course_id])
   end
 
+  # Creates a new assignment. Redirects to the course page the assignment belongs to on success.
   def create
     @course = Course.find(params[:course_id])
 
@@ -21,6 +23,7 @@ class AssignmentsController < ApplicationController
     redirect_to course_path(@course)
   end
 
+  # Displays an assignment
   def show
     @assignment = Assignment.find(params[:id])
     @course = @assignment.course
@@ -32,11 +35,13 @@ class AssignmentsController < ApplicationController
     end
   end
 
+  # Creates the form to modify an assignment
   def edit
     @assignment = Assignment.find(params[:id])
     @course = @assignment.course
   end
 
+  # Updates an assignment
   def update
     @assignment = Assignment.find(params[:id])
 
@@ -48,6 +53,7 @@ class AssignmentsController < ApplicationController
     end
   end
 
+  # Deletes an assignment
   def destroy
     @assignment = Assignment.find(params[:id])
     flash[:notice] = "Successfully deleted Assignment " + @assignment.name
