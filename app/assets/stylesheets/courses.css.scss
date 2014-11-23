@@ -1,6 +1,6 @@
 @import "variables";
 
-form.new_course, form.edit_course, form.new_assignment, form.edit_assignment {
+form.new_course, form.edit_course {
   input[type="text"] {
     border-radius: 0px;
     border: 1px solid $color-border-light;
