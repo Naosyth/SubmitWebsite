@@ -1,0 +1,40 @@
+@import "variables";
+
+table.courses-list {
+  font-family:arial;
+  background-color: #CDCDCD;
+  margin:10px 0pt 15px;
+  font-size: $font-size-standard;
+  width: 100%;
+  text-align: left;
+
+  thead tr th, tfoot tr th {
+    background-color: #e6EEEE;
+    font-size: $font-size-standard;
+    padding: 4px;
+  }
+  thead tr .header {
+    background-image: url(table_bg.gif);
+    background-repeat: no-repeat;
+    background-position: center right;
+    cursor: pointer;
+  }
+  tbody td {
+    color: #3D3D3D;
+    padding: 4px;
+    background-color: #FFF;
+    vertical-align: top;
+  }
+  tbody tr:nth-child(odd) td {
+    background-color: #F0F0F6;
+  }
+  thead tr .headerSortUp {
+    background-image: url(table_asc.gif);
+  }
+  thead tr .headerSortDown {
+    background-image: url(table_desc.gif);
+  }
+  thead tr .headerSortDown, thead tr .headerSortUp {
+    background-color: #8dbdd8;
+  }
+}

@@ -6,12 +6,17 @@
   padding: 0;
 }
 
-input, p, h1, h2, h3, table, .sidebar {
+input, p, h1, h2, h3, table, div.sidebar, div.content-group {
   font-family: 'Ubuntu', sans-serif;
 }
 
 a {
   outline: 0;
+  text-decoration: none;
+}
+
+a:visited {
+  color: blue;
 }
 
 html, body.application {

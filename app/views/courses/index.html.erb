@@ -1,27 +1,17 @@
 <% content_for :title, "Course List" %>
 
 <header>
-  <h1>Courses</h1>
+  <h1>Create a new course</h1>
 </header>
 
 <div class="content-group">
-  <%= link_to 'Create new course', new_course_path %><br><br>
+  <%= link_to 'Create a new course', new_course_url %>
+</div>
 
-  <table class="courses-list">
-    <tr>
-      <th>Name</th>
-      <th>Users</th>
-      <th>Modify</th>
-      <th>Delete</th>
-    </tr>
+<header>
+  <h1>All Courses</h1>
+</header>
 
-  <% @courses.each do |course| %>
-    <tr>
-      <td><%= link_to course.name, course_path(course) %></td>
-      <td><%= link_to 'Enrolled Users', courses_users_path(course) %></td>
-      <td><%= link_to 'Edit', edit_course_path(course) %></td>
-      <td><%= link_to 'Delete', course_path(course), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
-  </table>
+<div class="content-group">
+  <%= render :partial => "course_table", :locals => { :courses => @courses } %>
 </div>

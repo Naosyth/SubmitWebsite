@@ -18,18 +18,14 @@ class CoursesController < ApplicationController
   def create
     @course = Course.new(course_params)
 
-    @course.join_token = SecureRandom.base64(8)
-
-    if current_user.has_role? :instructor
+    if @course.save
+      @course.generate_join_token()
       current_user.courses << @course
       current_user.add_role :instructor, @course
-    end
 
-    if @course.save
       flash[:notice] = "Course created successfully."
       redirect_to @course
     else
-      flash[:notice] = "Error creating course."
       render :action => :new
     end
   end
@@ -40,9 +36,7 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:id])
     @assignments = @course.assignments.select { |assignment| Time.now > assignment.start_date }
 
-    if current_user.has_local_role? :instructor, @course
-      render "courses/manage"
-    end
+    render "courses/manage" if current_user.has_local_role? :instructor, @course
   end
 
   # Displays a list of all courses in the application.
@@ -81,13 +75,10 @@ class CoursesController < ApplicationController
   def join
     course = Course.where(join_token: params[:course][:join_token]).first
 
-    if course and not current_user.courses.include? @course
+    if course and not current_user.courses.include? course
       current_user.courses << course
       current_user.add_role :student, course
-
-      course.assignments.each do |assignment|
-        assignment.create_submissions_for_students
-      end
+      course.assignments.each { |assignment| assignment.create_submissions_for_students }
 
       flash[:notice] = "Successfully joined class"
       redirect_to course_path(course.id)
@@ -131,9 +122,7 @@ class CoursesController < ApplicationController
     @course = Course.find(params[:course_id])
     @user = User.find(params[:user_id])
 
-    User::ROLES.each do |role|
-      @user.remove_role role, @course
-    end
+    User::ROLES.each { |role| @user.remove_role role, @course }
     @course.users.delete(@user)
 
     flash[:notice] = "User has been kicked from the course."
@@ -149,15 +138,15 @@ class CoursesController < ApplicationController
   # Deletes a course.
   # Removes all roles in the scope of the course from any enrolled users.
   def destroy
-    @course = Course.find(params[:id])
+    course = Course.find(params[:id])
 
-    @course.users.each do |user|
+    course.users.each do |user|
       User::ROLES.each do |role|
         user.remove_role role, @course
       end
     end
-
-    @course.destroy
+    course.destroy
+    
     flash[:notice] = "Course successfully deleted"
     redirect_to :back
   end
