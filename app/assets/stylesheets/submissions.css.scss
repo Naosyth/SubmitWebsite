@@ -1,6 +1,7 @@
 // Place all the styles related to the Submissions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
 @import "variables";
 
 .files-display{
@@ -33,4 +34,9 @@
   .grade-value{
     padding: 10px;
   }
+}
+
+.files-display{
+  width: 75%;
+  font-family: verdana;
 }
