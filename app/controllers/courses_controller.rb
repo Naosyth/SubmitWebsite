@@ -5,8 +5,7 @@ class CoursesController < ApplicationController
   before_filter :require_student, :only => [:enrolled]
   before_filter :require_enrolled, :only => [:show]
   before_filter :require_instructor_owner, :only => [:edit, :edit_user, :users, :update, :update_user, :destroy]
-  before_filter :require_instructor, :only => [:new, :create, :taught]
-  before_filter :require_admin, :only => [:index]
+  before_filter :require_instructor, :only => [:new, :create, :index]
   
   # Creates the form for creating a new course.
   def new
@@ -41,7 +40,13 @@ class CoursesController < ApplicationController
 
   # Displays a list of all courses in the application.
   def index
-    @courses = Course.all
+    if current_user.has_role? :admin
+      @courses = Course.all
+    else
+      @user = current_user
+      @courses = current_user.courses.select { |course| current_user.has_local_role? :instructor, course }
+      render "courses/taught"
+    end
   end
 
   # Displays all users enrolled in a specific course.
@@ -62,6 +67,8 @@ class CoursesController < ApplicationController
     if @course.update_attributes(course_params)
       flash[:notice] = "Course updated!"
       redirect_to courses_url
+    else
+      render :action => :edit
     end
   end
 
@@ -129,12 +136,6 @@ class CoursesController < ApplicationController
     redirect_to :back
   end
 
-  # Displays all courses an instructor teaches.
-  def taught
-    @user = current_user
-    @courses = current_user.courses.select { |course| current_user.has_local_role? :instructor, course }
-  end
-
   # Deletes a course.
   # Removes all roles in the scope of the course from any enrolled users.
   def destroy
@@ -146,7 +147,7 @@ class CoursesController < ApplicationController
       end
     end
     course.destroy
-    
+
     flash[:notice] = "Course successfully deleted"
     redirect_to :back
   end
@@ -154,5 +155,60 @@ class CoursesController < ApplicationController
   private
   def course_params
     params.require(:course).permit(:name, :description, :term, :year, :open, :join_token)
+  end
+
+  def require_admin
+    if not current_user.has_role? :admin
+      flash[:notice] = "That action is only available to admins"
+      redirect_to dashboard_url
+    end
+  end
+
+  def require_instructor
+    return if current_user.has_role? :admin
+    
+    if not current_user.has_role? :instructor
+      flash[:notice] = "That action is only available to instructors"
+      redirect_to dashboard_url
+    end
+  end
+
+  def require_instructor_owner
+    return if current_user.has_role? :admin
+
+    course = Course.find(params[:id])
+    if not current_user.has_role? :instructor, course
+      flash[:notice] = "That action is only available to the instructor of the course"
+      redirect_to dashboard_url
+    end
+  end
+
+  def require_student
+    return if current_user.has_role? :admin
+
+    if not current_user.has_role? :student
+      flash[:notice] = "That action is only available to students"
+      redirect_to dashboard_url
+    end
+  end
+
+  def require_student_enrolled
+    return if current_user.has_role? :admin
+
+    course = Course.find(params[:id])
+    if not current_user.has_local_role? :student, course
+      flash[:notice] = "That action is only available to students enrolled in the course"
+      redirect_to dashboard_url
+    end
+  end
+
+  def require_enrolled
+    return if current_user.has_role? :admin
+
+    course = Course.find(params[:id])
+    if not current_user.courses.include? course
+      flash[:notice] = "That action is only available to users enrolled in the course"
+      redirect_to dashboard_url
+    end
   end
 end
