@@ -123,7 +123,7 @@ class CoursesController < ApplicationController
     end
 
     flash[:notice] = "User has been updated."
-    redirect_to :back
+    redirect_to courses_users_url(@course)
   end
 
   # Kicks a user out of a course.

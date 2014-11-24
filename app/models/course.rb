@@ -6,7 +6,7 @@ class Course < ActiveRecord::Base
   validates :description, presence: true
   validates :term, presence: true
   validates :year, presence: true
-  validate :course_is_unique, on: :create
+  validate :course_is_unique
 
   TERMS = %w[spring fall summer winter]
 
@@ -17,6 +17,6 @@ class Course < ActiveRecord::Base
   private
   def course_is_unique
     original = Course.where(name: name, term: term, year: year).first
-    errors.add(:name, "appears to be a duplicate of " + original.name) unless original.nil?
+    errors.add(:name, "appears to be a duplicate of " + original.name) unless original.nil? or original == self
   end
 end
