@@ -18,7 +18,7 @@ class CoursesController < ApplicationController
     @course = Course.new(course_params)
 
     if @course.save
-      @course.generate_join_token()
+      @course.generate_join_token
       if current_user.has_role? :instructor
         current_user.courses << @course
         current_user.add_role :instructor, @course
