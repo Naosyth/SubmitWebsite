@@ -13,21 +13,5 @@
 </header>
 
 <div class="content-group">
-  <table class="courses-list">
-    <tr>
-      <th>Name</th>
-      <th>Users</th>
-      <th>Modify</th>
-      <th>Delete</th>
-    </tr>
-
-  <% @courses.each do |course| %>
-    <tr>
-      <td><%= link_to course.name, course_path(course) %></td>
-      <td><%= link_to 'Enrolled Users', courses_users_path(course) %></td>
-      <td><%= link_to 'Edit', edit_course_path(course) %></td>
-      <td><%= link_to 'Delete', course_path(course), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-    </tr>
-  <% end %>
-  </table>
+  <%= render :partial => "course_table", :locals => { :courses => @courses } %>
 </div>

@@ -61,19 +61,3 @@ form.new_assignment, form.edit_assignment {
       margin: 0 auto;
     }
 }
-
-.courses-list, .assignment-list {
-  text-align: left;
-  border: 4px solid #e9e9e9;
-  border-collapse: collapse;
-
-  td, th {
-    padding: 3px 16px;
-  }
-  tr:nth-child(even) {
-    background-color: #f9f9f9;
-  }
-  tr:nth-child(odd) {
-    background-color: #e9e9e9;
-  }
-}

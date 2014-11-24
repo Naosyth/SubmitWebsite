@@ -14,7 +14,7 @@
       </div>
     <% end %>
   <% elsif current_user.has_role? :instructor %>
-    <%= link_to courses_taught_url do %>
+    <%= link_to courses_url do %>
       <div>
         <%= image_tag('icon_courses.png', size: "32x32", alt: "Courses", title: "Courses") %><br>
         Courses
