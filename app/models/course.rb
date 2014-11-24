@@ -6,7 +6,7 @@ class Course < ActiveRecord::Base
   validates :description, presence: true
   validates :term, presence: true
   validates :year, presence: true
-  validate :course_is_unique, on: create
+  validate :course_is_unique, on: :create
 
   TERMS = %w[spring fall summer winter]
 

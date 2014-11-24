@@ -19,8 +19,10 @@ class CoursesController < ApplicationController
 
     if @course.save
       @course.generate_join_token()
-      current_user.courses << @course
-      current_user.add_role :instructor, @course
+      if current_user.has_role? :instructor
+        current_user.courses << @course
+        current_user.add_role :instructor, @course
+      end
 
       flash[:notice] = "Course created successfully."
       redirect_to @course
@@ -143,7 +145,7 @@ class CoursesController < ApplicationController
 
     course.users.each do |user|
       User::ROLES.each do |role|
-        user.remove_role role, @course
+        user.remove_role role, course
       end
     end
     course.destroy
