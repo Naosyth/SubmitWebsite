@@ -11,7 +11,7 @@ class Course < ActiveRecord::Base
   TERMS = %w[spring fall summer winter]
 
   def generate_join_token
-    join_token = SecureRandom.base64(8)
+    update(join_token: SecureRandom.base64(8))
   end
 
   private
