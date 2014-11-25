@@ -49,16 +49,17 @@ class SubmissionsController < ApplicationController
   # Runs the code and creates the outputs
   def run_program
     @submission = Submission.find(params[:id])
-    tempDirectory = create_directory
+    @tempDirectory = create_directory
 
     # Compiles and runs the program
-    make = "make -C " + tempDirectory
+    make = "make -C " + @tempDirectory
     if system(make)
-      run_test_cases(tempDirectory, @submission)
+      run_test_cases(@tempDirectory, @submission)
     else
       stream = capture(:stderr) { system(make) }
       flash[:notice] = "Not Compiled"
       flash[:comperr] = stream
+      redirect_to :back
     end
   end
 
@@ -132,12 +133,10 @@ class SubmissionsController < ApplicationController
     def run_test_cases(directory, submission)
       Dir.glob(directory + 'input_*') do |file|
         run = directory + "main < " + file
-        stream = capture(:stdout) { system(run) }
+        @stream = capture(:stdout) { system(run) }
         f = File.open(file.gsub("input", "output"), "w")
-        f.write(stream)
+        f.write(@stream)
         f.close
-        submission.upload_data.create
-        submission.upload_data.create(f)
         flash[:notice] = "Test Case Compiled"
       end
     end
