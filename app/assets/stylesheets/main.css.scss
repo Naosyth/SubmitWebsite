@@ -2,13 +2,21 @@
 @import "variables";
 
 * {
-  font-family: 'Ubuntu', sans-serif;
   margin: 0;
   padding: 0;
 }
 
+input, p, h1, h2, h3, table, div.sidebar, div.content-group, div.flash-messages {
+  font-family: 'Ubuntu', sans-serif;
+}
+
 a {
   outline: 0;
+  text-decoration: none;
+}
+
+a:visited {
+  color: blue;
 }
 
 html, body.application {
@@ -40,7 +48,7 @@ html, body.application {
 .application-content {
   background-color: $color-background;
   box-sizing: border-box;
-  height: 100%;
+  min-height: 100%;
   padding: 16px 16px 16px $sidebar-width+16px;
   position: absolute;
   width: 100%;

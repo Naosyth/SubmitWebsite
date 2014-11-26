@@ -1,18 +1,18 @@
-<%= render "shared/error_messages", :target => @course %>
+<%= render "shared/error_messages", :target => @assignment %>
 
 <%= form_for @assignment, url: assignment_url(@assignment), method: :patch do |f| %>
   <%= f.text_field :name, :placeholder => 'Assignment Name' %><br>
   <%= f.text_area :description, :placeholder => 'Assignment Description' %><br>
   <%= f.label "Assignment Available Date: " %>
-  <%= f.text_field :start_date %><br>
+  <div class="datetime-picker-container"><%= f.text_field :start_date %></div><br>
   <%= f.label "Assignment Due Date: " %>
-  <%= f.text_field :due_date %><br>
-  <%= f.submit "Edit" %>
+  <div class="datetime-picker-container"><%= f.text_field :due_date %></div><br>
+  <%= f.submit "Save" %>
 <% end %>
 
 <script>
-  $(document).on("page:load", function() {
-    $('#assignment_start_date').datetimepicker({format: 'unixtime', value: Math.floor(new Date().getTime()/1000)});
-    $('#assignment_due_date').datetimepicker({format: 'unixtime', value: Math.floor(new Date().getTime()/1000)});
+  $(document).on("page:change", function() {
+    $('#assignment_start_date').datetimepicker({format: 'unixtime', inline: true, value: <%= @assignment.start_date.to_time.to_i %>});
+    $('#assignment_due_date').datetimepicker({format: 'unixtime', inline: true, value: <%= @assignment.due_date.to_time.to_i %>});
   });
 </script>
