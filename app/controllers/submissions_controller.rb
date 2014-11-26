@@ -107,7 +107,7 @@ class SubmissionsController < ApplicationController
       submission = Submission.find(params[:id])
 
       # Creates a temporary directory for the student files
-      tempDirectory = "/Users/nolanburfield/Documents/submitTest/tempDirectory/" + submission.user.name + '_' + submission.id.to_s + '/'
+      tempDirectory = Rails.configuration.compile_directory + submission.user.name + '_' + submission.id.to_s + '/'
       if not Dir.exists?(tempDirectory) 
         Dir.mkdir(tempDirectory)
       end
@@ -121,7 +121,7 @@ class SubmissionsController < ApplicationController
       end
 
       # Adds in the test case files
-      submission.assignment.test_case.upload_data.each do |upload_data|
+      submission.assignment.test_case.upload_data.select { |u| u.name.include? "input" or u.name.downcase == "makefile" }.each do |upload_data|
         output = tempDirectory + upload_data.name
         f = File.open(output, "w" )
         f.write(upload_data.contents)
