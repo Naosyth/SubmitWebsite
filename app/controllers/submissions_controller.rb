@@ -107,7 +107,7 @@ class SubmissionsController < ApplicationController
       submission = Submission.find(params[:id])
 
       # Creates a temporary directory for the student files
-      tempDirectory = "/home/nolan/Documents/submitTest/tempDirectory/" + submission.user.name + '_' + submission.id.to_s + '/'
+      tempDirectory = "/Users/nolanburfield/Documents/submitTest/tempDirectory/" + submission.user.name + '_' + submission.id.to_s + '/'
       if not Dir.exists?(tempDirectory) 
         Dir.mkdir(tempDirectory)
       end
