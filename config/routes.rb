@@ -24,11 +24,14 @@ Rails.application.routes.draw do
   post 'assignments/new/:course_id' => 'assignments#create'
   resources :assignments
 
+  get 'submissions/compile/:id' => 'submissions#compile'
+  get 'submissions/run_program/:id' => 'submissions#run_program'
   resources :submissions
 
   post '/upload_data/:type/:destination_id' => 'upload_data#create', :as => :create_file
   resources :upload_data
 
+  get 'test_cases/create_output/:id' => 'test_cases#create_output'
   resources :test_cases
   
   root :to => 'user_sessions#new'

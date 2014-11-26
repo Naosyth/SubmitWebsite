@@ -1,5 +1,24 @@
-<div class="flash-messages">
-  <% flash.each do |key, value| %>
-    <%= content_tag(:div, value, :class => "flash #{key}") %>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    $(".compile-messages").fadeOut(10000);
+
+    $("#compile-error-button").click(function(){
+      $(".compile-messages").hide();
+    });
+  });
+</script>
+
+<% flash.each do |key, value| %>
+  <% if key == 'notice' %>
+    <div class="flash-messages">
+      <%= content_tag(:div, value, :class => "flash #{key}") %>
+    </div>
+  <% elsif key == 'comperr' %>
+    <div class="compile-messages">
+      <center><b>Not Compiled</b></center><br>
+      <%= (value.gsub! "\n", "<br>").html_safe %>
+      <center><button id="compile-error-button">Close</button></center>
+    </div>
   <% end %>
-</div>
+<% end %>
