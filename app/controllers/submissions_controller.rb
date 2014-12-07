@@ -28,6 +28,7 @@ class SubmissionsController < ApplicationController
     end
   end
 
+  # Compiles but does not run a user's submission
   def compile
     tempDirectory = create_directory
 
@@ -46,7 +47,7 @@ class SubmissionsController < ApplicationController
     redirect_to :back
   end
 
-  # Runs the code and creates the outputs
+  # Compiles, runs the code, and creates the output files
   def run_program
     @submission = Submission.find(params[:id])
     @tempDirectory = create_directory
@@ -130,6 +131,7 @@ class SubmissionsController < ApplicationController
       return tempDirectory
     end
 
+    # Runs the code on a test case input
     def run_test_cases(directory, submission)
       Dir.glob(directory + 'input_*') do |file|
         run = directory + "main < " + file
