@@ -67,7 +67,21 @@
 
     
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-create_file">#create_file</a>
+    
+    <li ><a href="#method-i-make_file">#make_file</a>
+    
+    <li ><a href="#method-i-source">#source</a>
+    
+  </ul>
+</div>
+
   </div>
 </nav>
 
@@ -93,6 +107,118 @@
     
 
     
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-create_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_file</span><span
+            class="method-args">(file_data)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="create_file-source">
+            <pre><span class="ruby-comment"># File app/models/upload_datum.rb, line 9</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_file</span>(<span class="ruby-identifier">file_data</span>)
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">file_data</span>.<span class="ruby-identifier">original_filename</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">contents</span> = <span class="ruby-identifier">file_data</span>.<span class="ruby-identifier">read</span>
+      <span class="ruby-keyword">self</span>.<span class="ruby-identifier">file_type</span> = <span class="ruby-identifier">file_data</span>.<span class="ruby-identifier">content_type</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-make_file" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">make_file</span><span
+            class="method-args">(name, file_data)</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="make_file-source">
+            <pre><span class="ruby-comment"># File app/models/upload_datum.rb, line 15</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">make_file</span>(<span class="ruby-identifier">name</span>, <span class="ruby-identifier">file_data</span>)
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">name</span> = <span class="ruby-identifier">name</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">contents</span> = <span class="ruby-identifier">file_data</span>
+  <span class="ruby-keyword">self</span>.<span class="ruby-identifier">file_type</span> = <span class="ruby-string">&quot;text/plain&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-source" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">source</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="source-source">
+            <pre><span class="ruby-comment"># File app/models/upload_datum.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">source</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">test_case</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">test_case</span>.<span class="ruby-identifier">nil?</span>
+  <span class="ruby-keyword">return</span> <span class="ruby-identifier">submission</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">submission</span>.<span class="ruby-identifier">nil?</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 

@@ -4,7 +4,7 @@
 <head>
 <meta charset="utf-8">
 
-<title>class Course - Rails Application Documentation</title>
+<title>class CommentsController - Rails Application Documentation</title>
 
 <link href="./fonts.css" rel="stylesheet">
 <link href="./rdoc.css" rel="stylesheet">
@@ -61,7 +61,7 @@
   <h3>Parent</h3>
 
   
-  <p class="link">ActiveRecord::Base
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
   
 </div>
 
@@ -73,7 +73,9 @@
 
   <ul class="link-list" role="directory">
     
-    <li ><a href="#method-i-generate_join_token">#generate_join_token</a>
+    <li ><a href="#method-i-create">#create</a>
+    
+    <li ><a href="#method-i-show">#show</a>
     
   </ul>
 </div>
@@ -81,9 +83,9 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-Course">
-  <h1 id="class-Course" class="class">
-    class Course
+<main role="main" aria-labelledby="class-CommentsController">
+  <h1 id="class-CommentsController" class="class">
+    class CommentsController
   </h1>
 
   <section class="description">
@@ -99,20 +101,6 @@
     
 
     
-    <section class="constants-list">
-      <header>
-        <h3>Constants</h3>
-      </header>
-      <dl>
-      
-        <dt id="TERMS">TERMS
-        
-        <dd>
-        
-      
-      </dl>
-    </section>
-    
 
     
 
@@ -123,10 +111,10 @@
        </header>
 
     
-      <div id="method-i-generate_join_token" class="method-detail ">
+      <div id="method-i-create" class="method-detail ">
         
         <div class="method-heading">
-          <span class="method-name">generate_join_token</span><span
+          <span class="method-name">create</span><span
             class="method-args">()</span>
           
           <span class="method-click-advice">click to toggle source</span>
@@ -136,15 +124,46 @@
 
         <div class="method-description">
           
-          
+          <p>Creates a new comment</p>
           
           
 
           
-          <div class="method-source-code" id="generate_join_token-source">
-            <pre><span class="ruby-comment"># File app/models/course.rb, line 13</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">generate_join_token</span>
-  <span class="ruby-identifier">update</span>(<span class="ruby-identifier">join_token</span><span class="ruby-operator">:</span> <span class="ruby-constant">SecureRandom</span>.<span class="ruby-identifier">base64</span>(<span class="ruby-value">8</span>))
+          <div class="method-source-code" id="create-source">
+            <pre><span class="ruby-comment"># File app/controllers/comments_controller.rb, line 4</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-show" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">show</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Shows a comment</p>
+          
+          
+
+          
+          <div class="method-source-code" id="show-source">
+            <pre><span class="ruby-comment"># File app/controllers/comments_controller.rb, line 8</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
