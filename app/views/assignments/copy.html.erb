@@ -17,12 +17,14 @@
     </tr>
 
     <% @current_user.courses.each do |c| %>
-      <% c.assignments.each do |assignment| %>
-        <tr>
-          <td><%= link_to assignment.name, copy_assignment_path(@course, assignment), method: :post %></td>
-          <td><%= assignment.description %></td>
-          <td><%= c.term + " " + c.year.to_s %></td>
-        </tr>
+      <% if c != @course %>
+        <% c.assignments.each do |assignment| %>
+          <tr>
+            <td><%= link_to assignment.name, copy_assignment_path(@course, assignment), method: :post %></td>
+            <td><%= assignment.description %></td>
+            <td><%= c.term + " " + c.year.to_s %></td>
+          </tr>
+        <% end %>
       <% end %>
     <% end %>
   </table>
