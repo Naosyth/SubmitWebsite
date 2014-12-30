@@ -34,5 +34,5 @@ Rails.application.configure do
 
   # Raises error for missing translations
   # config.action_view.raise_on_missing_translations = true
-  config.compile_directory = '/Users/nolanburfield/Documents/submitTest/tempDirectory/'
+  config.compile_directory = '/home/nolan/Documents/submitTest/tempDirectory/'
 end

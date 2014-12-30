@@ -11,10 +11,18 @@
   </tr>
   <% Dir.glob(@tempDirectory  + 'output_*') do |file| %>
     <tr>
-      <td><%= data = File.read(file) %></td>
+      <% data = File.read(file) %>
       <% cmpName = file.gsub! @tempDirectory, "" %>
       <% test = @submission.assignment.test_case.upload_data.select { |out| out.name == cmpName } %>
-      <td><%= data2 = test.first.contents %></td>
+      <% data2 = test.first.contents %>
+      <% difference = Diffy::Diff.new(data, data2).to_s(:html_simple) %>
+      <% insOut = data2.gsub! "\n", "<br>" %>
+      <% studOut = data.gsub! "\n", "<br>" %>
+      <td><%= studOut.html_safe %></td>
+      <td><%= insOut.html_safe %></td>
+    </tr>
+    <tr>
+      <td colspan="2"><center><%= difference.html_safe %></center></td>
     </tr>
   <% end %>
 </table>
