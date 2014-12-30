@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   include AssignmentsHelper
 
   before_filter :require_user
-  before_filter :require_instructor_owner, :only => [:new, :create, :destroy]
+  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy]
   before_filter :require_enrolled, :only => [:show]
 
   # Creates the form to make a new assignment
@@ -24,6 +24,24 @@ class AssignmentsController < ApplicationController
     else
       render :action => :new
     end
+  end
+
+  # Copys over an old assignment
+  def copy
+    @course = Course.find(params[:course_id])
+  end
+
+  # Saves the selected assignment to copy over
+  def copy_create
+    assignment_old = Assignment.find(params[:old_assignment_id])
+    course = Course.find(params[:course_id])
+    assignment = course.assignments.new
+    assignment.name = assignment_old.name
+    assignment.due_date = Time.now
+    assignment.start_date = Time.now
+    assignment.save
+    # render :action => :edit, :id => assignment
+    redirect_to course_path(assignment.course)
   end
 
   # Displays an assignment
