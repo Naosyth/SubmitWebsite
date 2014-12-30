@@ -37,11 +37,16 @@ class AssignmentsController < ApplicationController
     course = Course.find(params[:course_id])
     assignment = course.assignments.new
     assignment.name = assignment_old.name
-    assignment.due_date = Time.now
-    assignment.start_date = Time.now
-    assignment.save
-    # render :action => :edit, :id => assignment
-    redirect_to course_path(assignment.course)
+    assignment.description = assignment_old.description
+    assignment.due_date = assignment_old.due_date
+    assignment.start_date = assignment_old.start_date
+    if assignment.save
+      copy_files(assignment.test_case, assignment_old.test_case)
+      redirect_to edit_assignment_path(assignment)
+    else
+      flash[:notice] = "Could not copy Assignment"
+      redirect_to course_path(assignment.course)
+    end
   end
 
   # Displays an assignment
@@ -92,5 +97,13 @@ class AssignmentsController < ApplicationController
   def convert_dates_to_utc
     params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i)
     params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i)
+  end
+
+  def copy_files(test, old_test)
+    old_test.upload_data.each do |file|
+      upload = test.upload_data.new()
+      upload.make_file(file.name, file.contents, file.file_type)
+      upload.save
+    end
   end
 end
