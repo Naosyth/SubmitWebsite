@@ -47,3 +47,7 @@ gem 'railroady'
 
 # Using roles for users
 gem 'rolify'
+
+# For the diff of the outputs
+gem 'differ'
+gem 'diffy'
