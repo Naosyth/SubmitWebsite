@@ -36,9 +36,8 @@ class UploadDataController < ApplicationController
       send_data @upload_data.contents, type: 'application/pdf', filename: @upload_data.name, disposition: 'inline'
     elsif @upload_data.file_type.include? "text"
       render :action => :show
-    else
-      flash[:notice] = "Cannot Display that file type."
-      redirect_to :back
+    elsif @upload_data.file_type.include? "application"
+      render :action => :show
     end
   end
 

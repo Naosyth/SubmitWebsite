@@ -47,3 +47,6 @@ gem 'railroady'
 
 # Using roles for users
 gem 'rolify'
+
+#Using syntax highlighter for text editor
+gem 'jquery-ace-rails'
