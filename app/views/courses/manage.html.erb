@@ -40,6 +40,7 @@
   </header>
 
   <div class="content-group">
-    <%= link_to 'Add Assignment', new_assignment_url(@course) %>
+    <%= link_to 'Add Assignment', new_assignment_url(@course) %><br>
+    <%= link_to 'Copy over old Assignment', select_assignment_url(@course) %>
   </div>
 <% end %>

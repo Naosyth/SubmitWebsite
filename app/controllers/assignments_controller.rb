@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   include AssignmentsHelper
 
   before_filter :require_user
-  before_filter :require_instructor_owner, :only => [:new, :create, :destroy]
+  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy]
   before_filter :require_enrolled, :only => [:show]
 
   # Creates the form to make a new assignment
@@ -23,6 +23,31 @@ class AssignmentsController < ApplicationController
       redirect_to course_path(@course)
     else
       render :action => :new
+    end
+  end
+
+  # Copys over an old assignment
+  def copy
+    @course = Course.find(params[:course_id])
+  end
+
+  # Saves the selected assignment to copy over
+  def copy_create
+    assignment_old = Assignment.find(params[:old_assignment_id])
+    course = Course.find(params[:course_id])
+    assignment = course.assignments.new
+    assignment.name = assignment_old.name
+    assignment.description = assignment_old.description
+    assignment.due_date = assignment_old.due_date
+    assignment.start_date = assignment_old.start_date
+    if assignment.save
+      @test = assignment.test_case
+      @old_test = assignment_old.test_case
+      copy_files
+      redirect_to edit_assignment_path(assignment)
+    else
+      flash[:notice] = "Could not copy Assignment"
+      redirect_to course_path(assignment.course)
     end
   end
 
@@ -74,5 +99,13 @@ class AssignmentsController < ApplicationController
   def convert_dates_to_utc
     params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i)
     params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i)
+  end
+
+  def copy_files
+    @old_test.upload_data.each do |file|
+      upload = @test.upload_data.new()
+      upload.make_file(file.name, file.contents, file.file_type)
+      upload.save
+    end
   end
 end

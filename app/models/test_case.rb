@@ -20,7 +20,7 @@ class TestCase < ActiveRecord::Base
         f = File.open(file.gsub("input", "output"), "w")
         f.write(stream)
         upload = upload_data.new()
-        upload.make_file(file.gsub(path, "").gsub("input", "output"), stream)
+        upload.make_file(file.gsub(path, "").gsub("input", "output"), stream, "text/plain")
         upload.save
         f.close
       end

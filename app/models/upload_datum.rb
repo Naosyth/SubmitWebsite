@@ -12,10 +12,10 @@ class UploadDatum < ActiveRecord::Base
   	self.file_type = file_data.content_type
   end
 
-  def make_file(name, file_data)
+  def make_file(name, file_data, type)
     self.name = name
     self.contents = file_data
-    self.file_type = "text/plain"
+    self.file_type = type
   end
 
   def source
