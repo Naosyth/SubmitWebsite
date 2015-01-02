@@ -1,5 +1,7 @@
 <% content_for :title, "Test Case Run" %>
 
+<%= link_to 'Back', edit_submission_url(@submission) %>
+
 <header>
   <h1>Output Compared to Expected Output</h1>
 </header>
@@ -15,7 +17,7 @@
       <% cmpName = file.gsub! @tempDirectory, "" %>
       <% test = @submission.assignment.test_case.upload_data.select { |out| out.name == cmpName } %>
       <% data2 = test.first.contents %>
-      <% difference = Diffy::Diff.new(data, data2, :include_plus_and_minus_in_html => true).to_s(:html) %>
+      <% difference = Diffy::Diff.new(data, data2, :include_plus_and_minus_in_html => true, :highlight_words => true).to_s(:html) %>
       <td><%= simple_format(data) %></td>
       <td><%= simple_format(data2) %></td>
     </tr>
