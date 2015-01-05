@@ -7,6 +7,7 @@ class Assignment < ActiveRecord::Base
   validates :description, presence: true
   validates :start_date, presence: true
   validates :due_date, presence: true
+  validates :total_grade, presence: true
   validate :due_date_after_start_date
 
   after_save :create_submissions_for_students
