@@ -1,7 +1,28 @@
+<html>
 <% content_for :title, @upload_data.name + " - Edit" %>
-
-<%= form_for :upload_datum, url: upload_datum_url(@upload_data), method: :patch do |f| %>
-  <%= f.text_field :name, value: @upload_data.name %><br>
-  <%= f.text_area :contents, value: @upload_data.contents %><br>
-  <%= f.submit "Edit" %>
-<% end %>
+  <head>
+    <style type="text/css" media="screen">
+      #editor { 
+          position: absolute;
+          top: 0;
+          right: 10%;
+          bottom: 0;
+          left: 150px;
+      }
+    </style>
+  </head>
+  <%= form_for :upload_datum, url: upload_datum_url(@upload_data), method: :patch do |f| %>
+    <%= f.text_field  :name, value: @upload_data.name %><br>
+    <%= f.text_area :contents, value: @upload_data.contents %><br>
+    <%= f.submit "Edit" %>
+  <% end %>
+  <script>
+      editor = ace.edit("editor");
+      editor.focus();
+      editor.resize(true);
+      editor.setTheme("ace/theme/monokai");
+      session = editor.getSession();
+      session.setMode("ace/mode/c_cpp");
+      editor.session.setAnnotations(annots);  
+  </script>
+</html>

@@ -49,5 +49,7 @@ gem 'railroady'
 gem 'rolify'
 
 # For the diff of the outputs
-gem 'differ'
 gem 'diffy'
+
+#Using syntax highlighter for text editor
+gem 'jquery-ace-rails'
