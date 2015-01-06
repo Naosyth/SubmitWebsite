@@ -11,6 +11,16 @@ form.new_assignment, form.edit_assignment {
     width: 250px;
   }
 
+  input[type="number"] {
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-medium;
+    margin: 0 auto;
+    padding: 5px;
+    width: 250px;
+  }
+
   textarea {
     background-color: $color-form-white;
     border-radius: 0px;

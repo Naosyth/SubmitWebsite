@@ -2,6 +2,7 @@
 
 <%= form_for @assignment, url: new_assignment_url(@course), method: :post do |f| %>
   <%= f.text_field :name, :placeholder => 'Assignment Name' %><br>
+  <%= f.number_field :total_grade, :class => 'text_field', :step => 0.5, :placeholder => 'Points Possible' %><br>
   <%= f.text_area :description, :placeholder => 'Assignment Description' %><br>
   <%= f.label "Assignment Available Date: " %>
   <div class="datetime-picker-container"><%= f.text_field :start_date %></div><br>

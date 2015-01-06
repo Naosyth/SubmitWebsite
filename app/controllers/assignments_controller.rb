@@ -93,7 +93,7 @@ class AssignmentsController < ApplicationController
 
   private
   def assignment_params
-    params.require(:assignment).permit(:name, :description, :start_date, :due_date, :lock)
+    params.require(:assignment).permit(:name, :total_grade, :description, :start_date, :due_date, :lock)
   end
 
   def convert_dates_to_utc
