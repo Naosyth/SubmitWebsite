@@ -20,6 +20,13 @@
  <%= link_to 'Test Case', test_case_url(@test_case) %><br>
 
   <% @submissions.each do |submission| %>
-    <%= submission.user.name %> - <%= link_to 'Edit', edit_submission_url(submission) %><br>
+    <% submission_grade = submission.instructor_grade %>
+    <%= submission.user.name %> - <%= link_to 'Edit', edit_submission_url(submission) %>
+    <% if submission_grade[:compiled] %>
+      <%= submission_grade[:correct][:correct].to_s + " out of " + submission_grade[:correct][:total].to_s %>
+    <% else %>
+      Does Not Run
+    <% end %>
+    <br>
   <% end %>
 </div>
