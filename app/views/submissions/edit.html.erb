@@ -8,7 +8,15 @@
   <%= render "shared/error_messages", :target => @submission %>
   <%= form_for @submission, url: submission_url(@submission), method: :patch do |f| %>
     <%= f.text_area :note, :placeholder => 'Grader Notes' %><br>
-    <%= f.number_field :grade, :step => 0.01 %>
+    <%= f.number_field :grade, :step => 0.1 %>
     <%= f.submit "Save" %>
   <% end %>
 </div>
+
+<% directory = @submission.create_directory %>
+<% if @submission.compile(directory, flash) %>
+  <% correct = @submission.run_test_cases(directory) %>
+  <%= render :template => 'submissions/run_program', :submission => @submission, :locals => {:@correct => correct, :@tempDirectory => directory} %>
+<% else %>
+  The program does not run.
+<% end %>
