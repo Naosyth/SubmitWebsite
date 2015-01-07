@@ -50,8 +50,12 @@ class Submission < ActiveRecord::Base
     correct[:correct] = 0
     Dir.glob(directory + 'input_*') do |file|
       # make output file
+      cputime = "/usr/bin/ulimit -t 2"
       run = directory + "main < " + file
-      stream = capture(:stdout) { system(run) }
+      # stream = capture(:stdout) { system(run) }
+      Open3.popen3(cputime)
+      stdin, stdout, stderr = Open3.popen3(run)
+      stream = stdout.read
       f = File.open(file.gsub("input", "output"), "w")
       f.write(stream)
       f.close

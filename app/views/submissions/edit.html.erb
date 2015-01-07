@@ -16,7 +16,16 @@
 <% directory = @submission.create_directory %>
 <% if @submission.compile(directory, flash) %>
   <% correct = @submission.run_test_cases(directory) %>
-  <%= render :template => 'submissions/run_program', :submission => @submission, :locals => {:@correct => correct, :@tempDirectory => directory} %>
+  <div class="grade-display">
+    <center>
+    <p class="grade">Output Grade</p>
+    <p class="grade-value"><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></p>
+    </center>
+    <br>
+  </div>
+  <%= render :partial => 'output_comparison', :locals => {:@submission => @submission, :@tempDirectory => directory} %>
 <% else %>
-  The program does not run.
+  <header>
+    <h1>The program does not run.</h1>
+  </header>
 <% end %>

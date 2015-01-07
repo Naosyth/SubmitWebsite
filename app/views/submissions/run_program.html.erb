@@ -10,33 +10,4 @@
   <br>
 </div>
 
-<header>
-  <h1>Output Compared to Expected Output</h1>
-</header>
-
-<table class="output-compare">
-  <tr>
-    <th>Output</th>
-    <th>Expected Output</th>
-  </tr>
-  <% Dir.glob(@tempDirectory  + 'output_*') do |file| %>
-    <tr>
-      <% data = File.read(file) %>
-      <% cmpName = file.gsub(@tempDirectory, "") %>
-      <% test = @submission.assignment.test_case.upload_data.select { |out| out.name == cmpName } %>
-      <% data2 = test.first.contents %>
-      <td><%= simple_format(data) %></td>
-      <td><%= simple_format(data2) %></td>
-    </tr>
-    <tr>
-      <% difference = File.read(file.gsub("output", "diff")) %>
-      <% if not difference.empty? %>
-        <td colspan="2"><center><%= simple_format(difference) %></center></td>
-      <% else %>
-        <td colspan="2"><center>All Good</center></td>
-      <% end %> 
-    </tr>
-  <% end %>
-</table>
-
-<% FileUtils.rm_rf(@tempDirectory) %>
+<%= render :partial => 'output_comparison' %>
