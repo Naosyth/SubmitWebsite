@@ -52,10 +52,14 @@ class Submission < ActiveRecord::Base
       # make output file
       cputime = "/usr/bin/ulimit -t 2"
       run = directory + "main < " + file
+      shell = "#!/bin/bash\nulimit -t 1\nulimit -t\n" + run
+      f = File.open(file.gsub("input", "run"), "w")
+      f.write(shell)
+      f.close
       # stream = capture(:stdout) { system(run) }
       Open3.popen3(cputime)
-      stdin, stdout, stderr = Open3.popen3(run)
-      stream = stdout.read
+      stdin, stdout, stderr = Open3.popen3(shell)
+      stream = stderr.read
       f = File.open(file.gsub("input", "output"), "w")
       f.write(stream)
       f.close
