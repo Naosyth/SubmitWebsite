@@ -7,8 +7,10 @@
 <div class="content-group">
   <%= render "shared/error_messages", :target => @submission %>
   <%= form_for @submission, url: submission_url(@submission), method: :patch do |f| %>
-    <%= f.text_area :note, :placeholder => 'Grader Notes' %><br>
+    <%= f.text_area :note, :placeholder => 'Grader Notes', :size => "41.5x10" %><br>
+    <%= f.label :student_grade, "Student Total Grade " %>
     <%= f.number_field :grade, :step => 0.1 %>
+    <%= f.label :out_of, " out of " + @submission.assignment.total_grade.to_s %><br>
     <%= f.submit "Save" %>
   <% end %>
 </div>

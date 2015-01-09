@@ -31,3 +31,25 @@
   <% end %>
   <%= link_to "Create Outputs", :method => :get, :action => :create_output %>
 </div>
+
+<header>
+  <h1>Test Case Running Variables</h1>
+</header>
+
+<div class="content-group">
+  <%= form_for @test_case, url: test_case_url(@test_case), method: :patch do |f| %>
+    <table>
+      <tr>
+        <td><%= f.label "CPU Max Run Time" %></td>
+        <td><%= f.number_field :cpu_time, :step => 1 %></td>
+      </tr>
+      <tr>
+        <td><%= f.label "Max Core Dump Size" %></td>
+        <td><%= f.number_field :core_size, :step => 1 %></td>
+      </tr>
+      <tr>
+        <td><%= f.submit "Save" %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150105225415) do
+ActiveRecord::Schema.define(version: 20150108235139) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -90,6 +90,8 @@ ActiveRecord::Schema.define(version: 20150105225415) do
     t.integer  "assignment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cpu_time",      default: 10
+    t.integer  "core_size",     default: 0
   end
 
   add_index "test_cases", ["assignment_id"], name: "index_test_cases_on_assignment_id", using: :btree

@@ -5,6 +5,16 @@ class TestCasesController < ApplicationController
     @test_case = TestCase.find(params[:id])
   end
 
+  # Updates the test case
+  def update
+    test_case = TestCase.find(params[:id])
+
+    if test_case.update_attributes(test_case_params)
+      flash[:notice] = "Test Case updated!"
+    end
+    redirect_to :back
+  end
+
   # Create the output files
   def create_output
     test_case = TestCase.find(params[:id])
@@ -31,6 +41,10 @@ class TestCasesController < ApplicationController
   end
   
   private
+    def test_case_params
+      params.require(:test_case).permit(:cpu_time, :core_size)
+    end
+
     # Gets the course this test case belongs to
     def get_course
 	    return TestCase.find(params[:id]).assignment.course
