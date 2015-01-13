@@ -15,7 +15,15 @@
   <% end %>
 </div>
 
-<%= collection_select :post, :file_id, @submission.upload_data.all, :id, :name, {:onchange => "submit();", prompt: true} %>
+<header>
+  <h1>Submitted Files</h1>
+</header>
+
+<div class="content-group">
+  <% @submission.upload_data.each do |file| %>
+    <%= link_to file.name, upload_datum_path(file), target: "_new" %><br>
+  <% end %>
+</div>
 
 <% directory = @submission.create_directory %>
 <% if @submission.compile(directory, flash) %>
@@ -33,14 +41,3 @@
     <h1>The program does not run.</h1>
   </header>
 <% end %>
-
-<script type="text/javascript">
-$("form.submit_on_change").each(function(idx,form){
-  $(form).find("select,input").each(function(idx,element){
-    $(element).change(function(){
-      $(form).submit()
-      window.open("http://www.w3schools.com")
-    });
-  });
-});
-</script>
