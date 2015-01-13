@@ -5,19 +5,29 @@
 </header>
 
 <div class="content-group">
-  <% @test_case.upload_data.each do |upload_data| %>
-    File Name:
-  	<%= link_to upload_data.name, upload_datum_path(upload_data) %>
-    <%= link_to 'Edit', edit_upload_datum_path(upload_data) %>
-  	<%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %>
-    <%= upload_data.updated_at %>
-    <%= upload_data.created_at %>
-    <%= upload_data.file_type %>
-  <br>
-  <% end %>
+  <table class="files-display">
+    <tr>
+      <th>File Name</th>
+      <th>Updated At</th>
+      <th>Uploaded At</th>
+      <th>File Type</th>
+    </tr>
+
+    <% @test_case.upload_data.each do |upload_data| %>
+      <tr>
+        <td><%= link_to upload_data.name, upload_datum_path(upload_data) %></td>
+        <td><%= upload_data.updated_at %></td>
+        <td><%= upload_data.created_at %></td>
+        <td><%= upload_data.file_type %></td>
+        <td><%= link_to 'Edit', edit_upload_datum_path(upload_data) %></td>
+        <td><%= button_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </table>
   <br>
   <%= form_tag create_file_url("test_case", @test_case), method: :post, :multipart => true do %>
   	<%= file_field_tag 'upload_file' %>
   	<%= submit_tag "Save File" %>
   <% end %>
+  <%= link_to "Create Outputs", :method => :get, :action => :create_output %>
 </div>

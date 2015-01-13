@@ -128,13 +128,13 @@
 
         <div class="method-description">
           
-          
+          <p>Logs a user in</p>
           
           
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/user_sessions_controller.rb, line 19</span>
+            <pre><span class="ruby-comment"># File app/controllers/user_sessions_controller.rb, line 20</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@user_session</span> = <span class="ruby-constant">UserSession</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:user_session</span>])
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@user_session</span>.<span class="ruby-identifier">save</span>
@@ -167,13 +167,13 @@
 
         <div class="method-description">
           
-          
+          <p>Logs a user out</p>
           
           
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/user_sessions_controller.rb, line 29</span>
+            <pre><span class="ruby-comment"># File app/controllers/user_sessions_controller.rb, line 31</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-identifier">current_user_session</span>.<span class="ruby-identifier">destroy</span>
   <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Logout successful!&quot;</span>

@@ -243,7 +243,13 @@
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">require_instructor_owner</span>
   <span class="ruby-keyword">return</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_role?</span> <span class="ruby-value">:admin</span>
 
-  <span class="ruby-identifier">course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:course_id</span>
+    <span class="ruby-identifier">course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">assignment</span> = <span class="ruby-constant">Assignment</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+    <span class="ruby-identifier">course</span> = <span class="ruby-identifier">assignment</span>.<span class="ruby-identifier">course</span>
+  <span class="ruby-keyword">end</span>
+  
   <span class="ruby-keyword">if</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_role?</span> <span class="ruby-value">:instructor</span>, <span class="ruby-identifier">course</span>
     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;You must be an instructor of the course to view that page&quot;</span>
     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">dashboard_url</span>

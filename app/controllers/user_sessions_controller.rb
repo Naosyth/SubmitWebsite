@@ -16,6 +16,7 @@ class UserSessionsController < ApplicationController
     render layout: "authentication"
   end
 
+  # Logs a user in
   def create
     @user_session = UserSession.new(params[:user_session])
     if @user_session.save
@@ -26,6 +27,7 @@ class UserSessionsController < ApplicationController
     end
   end
 
+  # Logs a user out
   def destroy
     current_user_session.destroy
     flash[:notice] = "Logout successful!"

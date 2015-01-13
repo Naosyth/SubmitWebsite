@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141118011902) do
+ActiveRecord::Schema.define(version: 20141120191411) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -95,7 +95,7 @@ ActiveRecord::Schema.define(version: 20141118011902) do
 
   create_table "upload_data", force: true do |t|
     t.string   "name"
-    t.binary   "contents"
+    t.binary   "contents",      limit: 16777215
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "submission_id"

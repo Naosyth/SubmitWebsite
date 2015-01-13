@@ -1,3 +1,50 @@
 // Place all the styles related to the Submissions controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: http://sass-lang.com/
+
+@import "variables";
+
+.files-display{
+  width: 75%;
+
+  th {
+    background-color: $color-th-background;
+  }
+}
+
+.grade-display{
+  width: 500px;
+  right: 0;
+  left: 0;
+  top: 300px;
+  margin: 0 auto;
+  background-color: $color-flash;
+  margin-bottom: 16px;
+  margin-top: 16px;
+  padding: 5px;
+  color: $font-color-dark;
+  text-align: left;
+
+  .grade, .note{
+    font-size: $font-size-medium;
+    font-weight: bold;
+    text-decoration: underline;
+  }
+
+  .grade-value{
+    padding: 10px;
+  }
+}
+
+.files-display{
+  width: 75%;
+  font-family: verdana;
+}
+
+.output-compare{
+  width: 80%;
+
+  th {
+    background-color: $color-th-background;
+  }
+}

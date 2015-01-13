@@ -9,11 +9,13 @@ class UsersController < ApplicationController
     end
   end
 
+  # Displays the new user form
   def new
     @user = User.new
     render layout: "authentication"
   end
 
+  # Creates a new user and saved to the database
   def create
     @user = User.new(user_params)
     @user.add_role :student
@@ -27,31 +29,38 @@ class UsersController < ApplicationController
     end
   end
 
+  # Displays info about a user
   def show
     @user = User.find(params[:id])
   end
 
+  # Main page displayed after logging in
   def dashboard
     @user = current_user
   end
 
+  # Lists all users
   def index
     redirect_to dashboard_url unless current_user.has_role? :admin
     @users = User.all
   end
 
+  # Displays the form to edit a user
   def edit
     @user = User.find(params[:id])
   end
 
+  # Displays the settings page for the currently logged in user
   def settings
     @user = current_user
   end
 
+  # Displays the change password form for the currently logged in user
   def change_password
     @user = current_user
   end
 
+  # Persists changes to a user to the database
   def update
     if params.has_key? :id
       @user = User.find(params[:id])
@@ -82,6 +91,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # Deletes a user
   def destroy
     @user = User.find(params[:id])
     @user.destroy

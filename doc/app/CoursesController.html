@@ -106,8 +106,6 @@
     
     <li ><a href="#method-i-show">#show</a>
     
-    <li ><a href="#method-i-taught">#taught</a>
-    
     <li ><a href="#method-i-update">#update</a>
     
     <li ><a href="#method-i-update_user">#update_user</a>
@@ -167,22 +165,20 @@
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 18</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 17</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">course_params</span>)
 
-  <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">join_token</span> = <span class="ruby-constant">SecureRandom</span>.<span class="ruby-identifier">base64</span>(<span class="ruby-value">8</span>)
-
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_role?</span> <span class="ruby-value">:instructor</span>
-    <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@course</span>
-    <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">add_role</span> <span class="ruby-value">:instructor</span>, <span class="ruby-ivar">@course</span>
-  <span class="ruby-keyword">end</span>
-
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">save</span>
+    <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">generate_join_token</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_role?</span> <span class="ruby-value">:instructor</span>
+      <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@course</span>
+      <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">add_role</span> <span class="ruby-value">:instructor</span>, <span class="ruby-ivar">@course</span>
+    <span class="ruby-keyword">end</span>
+
     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Course created successfully.&quot;</span>
     <span class="ruby-identifier">redirect_to</span> <span class="ruby-ivar">@course</span>
   <span class="ruby-keyword">else</span>
-    <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Error creating course.&quot;</span>
     <span class="ruby-identifier">render</span> <span class="ruby-value">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:new</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
@@ -216,17 +212,17 @@ enrolled users.</p>
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 141</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 143</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
-  <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
+  <span class="ruby-identifier">course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
-  <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">users</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">user</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">course</span>.<span class="ruby-identifier">users</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">user</span><span class="ruby-operator">|</span>
     <span class="ruby-constant">User</span><span class="ruby-operator">::</span><span class="ruby-constant">ROLES</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">role</span><span class="ruby-operator">|</span>
-      <span class="ruby-identifier">user</span>.<span class="ruby-identifier">remove_role</span> <span class="ruby-identifier">role</span>, <span class="ruby-ivar">@course</span>
+      <span class="ruby-identifier">user</span>.<span class="ruby-identifier">remove_role</span> <span class="ruby-identifier">role</span>, <span class="ruby-identifier">course</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">course</span>.<span class="ruby-identifier">destroy</span>
 
-  <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">destroy</span>
   <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Course successfully deleted&quot;</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>
 <span class="ruby-keyword">end</span></pre>
@@ -259,7 +255,7 @@ enrolled users.</p>
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 55</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 61</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -292,7 +288,7 @@ enrolled users.</p>
 
           
           <div class="method-source-code" id="edit_user-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 97</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 107</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit_user</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
   <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>])
@@ -326,7 +322,7 @@ enrolled users.</p>
 
           
           <div class="method-source-code" id="enroll-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 70</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 78</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">enroll</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
@@ -359,7 +355,7 @@ enrolled users.</p>
 
           
           <div class="method-source-code" id="enrolled-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 49</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 55</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">enrolled</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@courses</span> = <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span>
@@ -395,7 +391,13 @@ enrolled users.</p>
           <div class="method-source-code" id="index-source">
             <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 44</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
-  <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">all</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_role?</span> <span class="ruby-value">:admin</span>
+    <span class="ruby-ivar">@courses</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">all</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">current_user</span>
+    <span class="ruby-ivar">@courses</span> = <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">course</span><span class="ruby-operator">|</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_local_role?</span> <span class="ruby-value">:instructor</span>, <span class="ruby-identifier">course</span> }
+    <span class="ruby-identifier">render</span> <span class="ruby-string">&quot;courses/taught&quot;</span>
+  <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -427,15 +429,17 @@ role to the user.</p>
 
           
           <div class="method-source-code" id="join-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 76</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 84</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">join</span>
-  <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">join_token</span><span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course</span>][<span class="ruby-value">:join_token</span>]).<span class="ruby-identifier">first</span>
+  <span class="ruby-identifier">course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">where</span>(<span class="ruby-identifier">join_token</span><span class="ruby-operator">:</span> <span class="ruby-identifier">params</span>[<span class="ruby-value">:course</span>][<span class="ruby-value">:join_token</span>]).<span class="ruby-identifier">first</span>
 
-  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@course</span> <span class="ruby-keyword">and</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span>.<span class="ruby-identifier">include?</span> <span class="ruby-ivar">@course</span>
-    <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@course</span>
-    <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">add_role</span> <span class="ruby-value">:student</span>, <span class="ruby-ivar">@course</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">course</span> <span class="ruby-keyword">and</span> <span class="ruby-keyword">not</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">course</span>
+    <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">course</span>
+    <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">add_role</span> <span class="ruby-value">:student</span>, <span class="ruby-identifier">course</span>
+    <span class="ruby-identifier">course</span>.<span class="ruby-identifier">assignments</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">assignment</span><span class="ruby-operator">|</span> <span class="ruby-identifier">assignment</span>.<span class="ruby-identifier">create_submissions_for_students</span> }
+
     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Successfully joined class&quot;</span>
-    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">course_path</span>(<span class="ruby-ivar">@course</span>.<span class="ruby-identifier">id</span>)
+    <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">course_path</span>(<span class="ruby-identifier">course</span>.<span class="ruby-identifier">id</span>)
   <span class="ruby-keyword">else</span>
     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Failed to join class&quot;</span>
     <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>
@@ -470,14 +474,12 @@ role to the user.</p>
 
           
           <div class="method-source-code" id="kick_user-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 120</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 130</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">kick_user</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
   <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>])
 
-  <span class="ruby-constant">User</span><span class="ruby-operator">::</span><span class="ruby-constant">ROLES</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">role</span><span class="ruby-operator">|</span>
-    <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">remove_role</span> <span class="ruby-identifier">role</span>, <span class="ruby-ivar">@course</span>
-  <span class="ruby-keyword">end</span>
+  <span class="ruby-constant">User</span><span class="ruby-operator">::</span><span class="ruby-constant">ROLES</span>.<span class="ruby-identifier">each</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">role</span><span class="ruby-operator">|</span> <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">remove_role</span> <span class="ruby-identifier">role</span>, <span class="ruby-ivar">@course</span> }
   <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">users</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-ivar">@user</span>)
 
   <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;User has been kicked from the course.&quot;</span>
@@ -512,7 +514,7 @@ role to the user.</p>
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 12</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 11</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">new</span>
 <span class="ruby-keyword">end</span></pre>
@@ -545,44 +547,13 @@ role to the user.</p>
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 38</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 35</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
+  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">current_user</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@assignments</span> = <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">assignments</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">assignment</span><span class="ruby-operator">|</span> <span class="ruby-constant">Time</span>.<span class="ruby-identifier">now</span> <span class="ruby-operator">&gt;</span> <span class="ruby-identifier">assignment</span>.<span class="ruby-identifier">start_date</span> }
-<span class="ruby-keyword">end</span></pre>
-          </div>
-          
-        </div>
 
-        
-
-        
-      </div>
-
-    
-      <div id="method-i-taught" class="method-detail ">
-        
-        <div class="method-heading">
-          <span class="method-name">taught</span><span
-            class="method-args">()</span>
-          
-          <span class="method-click-advice">click to toggle source</span>
-          
-        </div>
-        
-
-        <div class="method-description">
-          
-          <p>Displays all courses an instructor teaches.</p>
-          
-          
-
-          
-          <div class="method-source-code" id="taught-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 134</span>
-<span class="ruby-keyword">def</span> <span class="ruby-identifier">taught</span>
-  <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">current_user</span>
-  <span class="ruby-ivar">@courses</span> = <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">courses</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">course</span><span class="ruby-operator">|</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_local_role?</span> <span class="ruby-value">:instructor</span>, <span class="ruby-identifier">course</span> }
+  <span class="ruby-identifier">render</span> <span class="ruby-string">&quot;courses/manage&quot;</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_local_role?</span> <span class="ruby-value">:instructor</span>, <span class="ruby-ivar">@course</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -613,13 +584,15 @@ role to the user.</p>
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 60</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 66</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 
   <span class="ruby-keyword">if</span> <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">update_attributes</span>(<span class="ruby-identifier">course_params</span>)
     <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;Course updated!&quot;</span>
     <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">courses_url</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">render</span> <span class="ruby-value">:action</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">:edit</span>
   <span class="ruby-keyword">end</span>
 <span class="ruby-keyword">end</span></pre>
           </div>
@@ -651,7 +624,7 @@ role to the user.</p>
 
           
           <div class="method-source-code" id="update_user-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 103</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 113</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update_user</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:course_id</span>])
   <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:user_id</span>])
@@ -665,7 +638,7 @@ role to the user.</p>
   <span class="ruby-keyword">end</span>
 
   <span class="ruby-identifier">flash</span>[<span class="ruby-value">:notice</span>] = <span class="ruby-string">&quot;User has been updated.&quot;</span>
-  <span class="ruby-identifier">redirect_to</span> <span class="ruby-value">:back</span>
+  <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">courses_users_url</span>(<span class="ruby-ivar">@course</span>)
 <span class="ruby-keyword">end</span></pre>
           </div>
           
@@ -696,7 +669,7 @@ role to the user.</p>
 
           
           <div class="method-source-code" id="users-source">
-            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 91</span>
+            <pre><span class="ruby-comment"># File app/controllers/courses_controller.rb, line 101</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">users</span>
   <span class="ruby-ivar">@course</span> = <span class="ruby-constant">Course</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@users</span> = <span class="ruby-ivar">@course</span>.<span class="ruby-identifier">users</span>.<span class="ruby-identifier">all</span>

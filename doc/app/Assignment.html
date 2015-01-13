@@ -67,7 +67,19 @@
 
     
     
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-create_submissions_for_students">#create_submissions_for_students</a>
+    
+    <li ><a href="#method-i-create_test_case">#create_test_case</a>
+    
+  </ul>
+</div>
+
   </div>
 </nav>
 
@@ -93,6 +105,82 @@
     
 
     
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-create_submissions_for_students" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_submissions_for_students</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="create_submissions_for_students-source">
+            <pre><span class="ruby-comment"># File app/models/assignment.rb, line 15</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_submissions_for_students</span>
+  <span class="ruby-identifier">course</span>.<span class="ruby-identifier">users</span>.<span class="ruby-identifier">select</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">user</span><span class="ruby-operator">|</span> <span class="ruby-identifier">user</span>.<span class="ruby-identifier">has_local_role?</span> <span class="ruby-value">:student</span>, <span class="ruby-identifier">course</span> }.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">student</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">submission</span> = <span class="ruby-identifier">submissions</span>.<span class="ruby-identifier">create</span>(<span class="ruby-identifier">user</span><span class="ruby-operator">:</span> <span class="ruby-identifier">student</span>) <span class="ruby-keyword">unless</span> <span class="ruby-identifier">submissions</span>.<span class="ruby-identifier">exists?</span>(<span class="ruby-identifier">user</span><span class="ruby-operator">:</span> <span class="ruby-identifier">student</span>)
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-create_test_case" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">create_test_case</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="create_test_case-source">
+            <pre><span class="ruby-comment"># File app/models/assignment.rb, line 21</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">create_test_case</span>
+  <span class="ruby-identifier">test_case</span> = <span class="ruby-constant">TestCase</span>.<span class="ruby-identifier">create</span>(<span class="ruby-value">:assignment_id</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">id</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
   </section>
 </main>
 

@@ -142,13 +142,13 @@
 
         <div class="method-description">
           
-          
+          <p>Displays the change password form for the currently logged in user</p>
           
           
 
           
           <div class="method-source-code" id="change_password-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 51</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 59</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">change_password</span>
   <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">current_user</span>
 <span class="ruby-keyword">end</span></pre>
@@ -175,13 +175,13 @@
 
         <div class="method-description">
           
-          
+          <p>Creates a new user and saved to the database</p>
           
           
 
           
           <div class="method-source-code" id="create-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 17</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 19</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">create</span>
   <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">user_params</span>)
   <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">add_role</span> <span class="ruby-value">:student</span>
@@ -217,13 +217,13 @@
 
         <div class="method-description">
           
-          
+          <p>Main page displayed after logging in</p>
           
           
 
           
           <div class="method-source-code" id="dashboard-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 34</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 38</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">dashboard</span>
   <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">current_user</span>
 <span class="ruby-keyword">end</span></pre>
@@ -250,13 +250,13 @@
 
         <div class="method-description">
           
-          
+          <p>Deletes a user</p>
           
           
 
           
           <div class="method-source-code" id="destroy-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 85</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 95</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">destroy</span>
   <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
   <span class="ruby-ivar">@user</span>.<span class="ruby-identifier">destroy</span>
@@ -287,13 +287,13 @@
 
         <div class="method-description">
           
-          
+          <p>Displays the form to edit a user</p>
           
           
 
           
           <div class="method-source-code" id="edit-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 43</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 49</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">edit</span>
   <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -320,13 +320,13 @@
 
         <div class="method-description">
           
-          
+          <p>Lists all users</p>
           
           
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 38</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 43</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
   <span class="ruby-identifier">redirect_to</span> <span class="ruby-identifier">dashboard_url</span> <span class="ruby-keyword">unless</span> <span class="ruby-identifier">current_user</span>.<span class="ruby-identifier">has_role?</span> <span class="ruby-value">:admin</span>
   <span class="ruby-ivar">@users</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">all</span>
@@ -354,13 +354,13 @@
 
         <div class="method-description">
           
-          
+          <p>Displays the new user form</p>
           
           
 
           
           <div class="method-source-code" id="new-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 12</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 13</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">new</span>
   <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">new</span>
   <span class="ruby-identifier">render</span> <span class="ruby-identifier">layout</span><span class="ruby-operator">:</span> <span class="ruby-string">&quot;authentication&quot;</span>
@@ -424,13 +424,13 @@
 
         <div class="method-description">
           
-          
+          <p>Displays the settings page for the currently logged in user</p>
           
           
 
           
           <div class="method-source-code" id="settings-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 47</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 54</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">settings</span>
   <span class="ruby-ivar">@user</span> = <span class="ruby-identifier">current_user</span>
 <span class="ruby-keyword">end</span></pre>
@@ -457,13 +457,13 @@
 
         <div class="method-description">
           
-          
+          <p>Displays info about a user</p>
           
           
 
           
           <div class="method-source-code" id="show-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 30</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 33</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">show</span>
   <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
 <span class="ruby-keyword">end</span></pre>
@@ -490,13 +490,13 @@
 
         <div class="method-description">
           
-          
+          <p>Persists changes to a user to the database</p>
           
           
 
           
           <div class="method-source-code" id="update-source">
-            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 55</span>
+            <pre><span class="ruby-comment"># File app/controllers/users_controller.rb, line 64</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">update</span>
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">params</span>.<span class="ruby-identifier">has_key?</span> <span class="ruby-value">:id</span>
     <span class="ruby-ivar">@user</span> = <span class="ruby-constant">User</span>.<span class="ruby-identifier">find</span>(<span class="ruby-identifier">params</span>[<span class="ruby-value">:id</span>])
