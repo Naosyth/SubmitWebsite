@@ -38,8 +38,10 @@ class AssignmentsController < ApplicationController
     assignment = course.assignments.new
     assignment.name = assignment_old.name
     assignment.description = assignment_old.description
-    assignment.due_date = assignment_old.due_date
-    assignment.start_date = assignment_old.start_date
+    assignment.due_date = DateTime.now + 10.days
+    assignment.start_date = DateTime.now
+    assignment.total_grade = assignment_old.total_grade
+
     if assignment.save
       @test = assignment.test_case
       @old_test = assignment_old.test_case
@@ -47,7 +49,7 @@ class AssignmentsController < ApplicationController
       redirect_to edit_assignment_path(assignment)
     else
       flash[:notice] = "Could not copy Assignment"
-      redirect_to course_path(assignment.course)
+      redirect_to :back
     end
   end
 

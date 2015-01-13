@@ -38,6 +38,9 @@ class UploadDataController < ApplicationController
       render :action => :show
     elsif @upload_data.file_type.include? "application"
       render :action => :show
+    else
+      flash[:notice] = "Cannot Display that file type."
+      redirect_to :back
     end
   end
 

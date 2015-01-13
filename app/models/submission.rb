@@ -30,16 +30,17 @@ class Submission < ActiveRecord::Base
   end
 
   # Compiles and runs the program
-  def compile(directory, flash)
+  def compile(directory)
+    flash = {}
     make = "make -C " + directory
     if system(make)
-      flash[:notice] = "Compiled"
-      return true
+      flash[:compile] = true
+      return flash
     else
       stream = capture(:stderr) { system(make) }
-      flash[:notice] = "Not Compiled"
+      flash[:compile] = false
       flash[:comperr] = stream
-      return false
+      return flash
     end
   end
 
@@ -98,11 +99,9 @@ class Submission < ActiveRecord::Base
     gradeData = {}
 
     # Compiles and runs the program
-    if compile(directory, gradeData)
-      gradeData[:compiled] = true
+    gradeData = compile(directory)
+    if gradeData[:compile]
       gradeData[:correct] = run_test_cases(directory)
-    else
-      gradeData[:compiled] = false
     end
     FileUtils.rm_rf(directory)
     return gradeData

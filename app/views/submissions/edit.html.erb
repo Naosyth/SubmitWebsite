@@ -25,17 +25,15 @@
   <% end %>
 </div>
 
-<% directory = @submission.create_directory %>
-<% if @submission.compile(directory, flash) %>
-  <% correct = @submission.run_test_cases(directory) %>
+<% if @comp_message[:compile] %>
   <div class="grade-display">
     <center>
     <p class="grade">Output Grade</p>
-    <p class="grade-value"><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></p>
+    <p class="grade-value"><%= @correct[:correct].to_s + " out of " + @correct[:total].to_s %></p>
     </center>
     <br>
   </div>
-  <%= render :partial => 'output_comparison', :locals => {:@submission => @submission, :@tempDirectory => directory} %>
+  <%= render :partial => 'output_comparison', :locals => {:@submission => @submission, :@tempDirectory => @directory} %>
 <% else %>
   <header>
     <h1>The program does not run.</h1>

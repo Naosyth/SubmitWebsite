@@ -14,6 +14,15 @@ class SubmissionsController < ApplicationController
     if current_user.has_local_role? :student, get_course
       render :action => :show
     else
+      @directory = @submission.create_directory 
+      @comp_message = @submission.compile(@directory) 
+      if @comp_message[:compile]
+        flash.now[:notice] = "Compiled"
+        @correct = @submission.run_test_cases(@directory)
+      else
+        flash.now[:notice] = "Not Compiled"
+        flash.now[:comperr] = @comp_message[:comperr]
+      end
       render :action => :edit
     end
   end
@@ -32,7 +41,15 @@ class SubmissionsController < ApplicationController
   def compile
     submission = Submission.find(params[:id])
     tempDirectory = submission.create_directory
-    submission.compile(tempDirectory, flash)
+    comp_message = submission.compile(tempDirectory)
+
+    # Check if program compiled
+    if comp_message[:compile]
+      flash[:notice] = "Compiled"
+    else
+      flash[:notice] = "Not Compiled"
+      flash[:comperr] = comp_message[:comperr]
+    end
 
     # Cleans up the files
     FileUtils.rm_rf(tempDirectory)
@@ -45,9 +62,13 @@ class SubmissionsController < ApplicationController
     @tempDirectory = @submission.create_directory
 
     # Compiles and runs the program
-    if @submission.compile(@tempDirectory, flash)
+    comp_message = @submission.compile(@tempDirectory)
+    if comp_message[:compile]
+      flash.now[:notice] = "Compiled"
       @correct = @submission.run_test_cases(@tempDirectory)
     else
+      flash.now[:notice] = "Not Compiled"
+      flash.now[:comperr] = comp_message[:comperr]
       redirect_to :back
     end
   end

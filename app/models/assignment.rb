@@ -25,6 +25,6 @@ class Assignment < ActiveRecord::Base
 
   private
   def due_date_after_start_date
-      errors.add(:due_date, "can't be before start date") if due_date < start_date
+    errors.add(:due_date, "can't be before start date") if due_date < start_date
   end
 end

@@ -1,28 +1,5 @@
-<html>
-  <head>
-    <style type="text/css" media="screen">
-      #editor { 
-          position: absolute;
-          top: 0;
-          right: 10%;
-          bottom: 0;
-          left: 150px ;
-      }
-    </style>
-  </head>
-  <% content_for :title, @upload_data.name %>
-  <div class="editor" id="editor" style="width: 60%;" >
+<% content_for :title, @upload_data.name + " - View" %>
+
+<textarea>
   <%= @upload_data.contents %>
-  </div>
-  <script>
-      annots = [{row: 105, text: "You have a problem here.",type: "error"}, {row: 111, text: "You have a problem here.",type: "error"}, {row: 113, text: "You have a problem here.",type: "error"}];
-      editor = ace.edit("editor");
-      editor.focus();
-      editor.resize(true);
-      editor.setTheme("ace/theme/monokai");
-      session = editor.getSession();
-      session.setMode("ace/mode/c_cpp");
-      editor.setReadOnly(true);
-      editor.session.setAnnotations(annots);  
-  </script>
-</html>
+</textarea>

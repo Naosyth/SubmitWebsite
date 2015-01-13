@@ -22,7 +22,7 @@
   <% @submissions.each do |submission| %>
     <% submission_grade = submission.instructor_grade %>
     <%= submission.user.name %> - <%= link_to 'Edit', edit_submission_url(submission) %>
-    <% if submission_grade[:compiled] %>
+    <% if submission_grade[:compile] %>
       <%= submission_grade[:correct][:correct].to_s + " out of " + submission_grade[:correct][:total].to_s %>
     <% else %>
       Does Not Run
