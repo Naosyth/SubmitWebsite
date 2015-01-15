@@ -35,7 +35,13 @@ class CoursesController < ApplicationController
   def show
     @user = current_user
     @course = Course.find(params[:id])
-    @assignments = @course.assignments.select { |assignment| Time.now > assignment.start_date }
+
+    # Only give students the available assignments
+    if current_user.has_local_role? :student, @course
+      @assignments = @course.assignments.select { |assignment| Time.now > assignment.start_date }
+    else
+      @assignments = @course.assignments
+    end
 
     render "courses/manage" if current_user.has_local_role? :instructor, @course
   end

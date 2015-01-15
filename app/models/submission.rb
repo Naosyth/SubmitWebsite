@@ -3,6 +3,13 @@ class Submission < ActiveRecord::Base
   belongs_to :user
   has_many :upload_data
 
+  after_create :set_note_empty
+
+  def set_note_empty
+    self.note = ""
+    self.save
+  end
+
   # Sets up the directory
   def create_directory
     # Creates a temporary directory for the student files

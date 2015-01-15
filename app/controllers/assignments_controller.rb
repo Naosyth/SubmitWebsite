@@ -36,11 +36,7 @@ class AssignmentsController < ApplicationController
     assignment_old = Assignment.find(params[:old_assignment_id])
     course = Course.find(params[:course_id])
     assignment = course.assignments.new
-    assignment.name = assignment_old.name
-    assignment.description = assignment_old.description
-    assignment.due_date = DateTime.now + 10.days
-    assignment.start_date = DateTime.now
-    assignment.total_grade = assignment_old.total_grade
+    assignment.copy(assignment_old)
 
     if assignment.save
       @test = assignment.test_case
