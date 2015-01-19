@@ -48,8 +48,30 @@
         <td><%= f.number_field :core_size, :step => 1 %></td>
       </tr>
       <tr>
+        <% if @test_case.make.nil? %>
+          <td><%= link_to "Add Makefile", new_make_url(@test_case) %></td>
+        <% else %>
+          <td><%= link_to @test_case.make.name, make_url(@test_case.make) %></td>
+          <td><%= link_to 'Delete', make_url(@test_case.make), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+      <tr>
         <td><%= f.submit "Save" %></td>
       </tr>
     </table>
   <% end %>
+</div>
+
+<header>
+  <h1>Test Case Run Methods</h1>
+</header>
+
+<div class="content-group">
+  <% @test_case.run_methods.each do |r| %>
+    <%= link_to r.name, run_method_url(r) %>
+    <% r.inputs.each do |i| %>
+      <%= i.name %>
+    <% end %>
+  <% end %>
+  <%= link_to "Add Run Method", new_run_method_url(@test_case) %>
 </div>

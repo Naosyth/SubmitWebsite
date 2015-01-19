@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150108235139) do
+ActiveRecord::Schema.define(version: 20150119195413) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -63,6 +63,27 @@ ActiveRecord::Schema.define(version: 20150108235139) do
     t.datetime "updated_at"
   end
 
+  create_table "inputs", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "data"
+    t.text     "output"
+    t.boolean  "student_visible"
+    t.integer  "run_method_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "inputs", ["run_method_id"], name: "index_inputs_on_run_method_id", using: :btree
+
+  create_table "makes", force: true do |t|
+    t.string   "name",         default: "Makefile"
+    t.integer  "test_case_id"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", force: true do |t|
     t.string   "name"
     t.integer  "resource_id"
@@ -73,6 +94,17 @@ ActiveRecord::Schema.define(version: 20150108235139) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "run_methods", force: true do |t|
+    t.string   "name"
+    t.string   "run_command"
+    t.text     "description"
+    t.integer  "test_case_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "run_methods", ["test_case_id"], name: "index_run_methods_on_test_case_id", using: :btree
 
   create_table "submissions", force: true do |t|
     t.float    "grade",         limit: 24
