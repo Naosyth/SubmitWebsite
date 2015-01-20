@@ -69,8 +69,9 @@
 <div class="content-group">
   <% @test_case.run_methods.each do |r| %>
     <%= link_to r.name, run_method_url(r) %>
+    <%= link_to "Add Inputs", new_input_url(r) %><br>
     <% r.inputs.each do |i| %>
-      <%= i.name %>
+      <%= i.name %><br>
     <% end %>
   <% end %>
   <%= link_to "Add Run Method", new_run_method_url(@test_case) %>
