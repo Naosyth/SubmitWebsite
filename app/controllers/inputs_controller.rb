@@ -11,6 +11,9 @@ class InputsController < ApplicationController
     run_method = RunMethod.find(params[:run_method_id])
     input = run_method.inputs.new(input_params)
 
+    # Do not allow spaces in that name
+    input.name.gsub! " ", "_"
+
     if input.save
       redirect_to test_case_url(run_method.test_case_id)
     else

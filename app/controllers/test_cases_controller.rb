@@ -36,7 +36,7 @@ class TestCasesController < ApplicationController
       flash.now[:comperr] = comp_status
     end
 
-    # FileUtils.rm_rf(tempDirectory)
+    FileUtils.rm_rf(tempDirectory)
     redirect_to :back
   end
   

@@ -57,6 +57,7 @@ class Submission < ActiveRecord::Base
     stream = {}
     correct[:total] = 0
     correct[:correct] = 0
+    
     Dir.glob(directory + 'input_*') do |file|
       # make output file
       shell = create_run_script(directory, file)

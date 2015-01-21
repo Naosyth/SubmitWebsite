@@ -28,18 +28,24 @@ class TestCase < ActiveRecord::Base
     end
     
     run_methods.each do |run|
-      run.inputs.each do |file|
-        output = path + file.name
-        f = File.open(output, "w" )
-        f.write(file.data)
-        f.close
-        shell = create_run_script(path, run.run_command, output)
+      if run.inputs.empty?
+        file = run.inputs.new
+        shell = create_run_script(path, run.run_command, nil)
         stdin, stdout, stderr = Open3.popen3(shell)
         stream = stdout.read
-        file.output = stream
-        puts stream
-        puts "=========================================================================================================================="
-        file.save
+        file.add("No_Inputs", "This is auto-generated for a program with no given inputs.", nil, stream, true)
+      else
+        run.inputs.each do |file|
+          output = path + file.name
+          f = File.open(output, "w" )
+          f.write(file.data)
+          f.close
+          shell = create_run_script(path, run.run_command, output)
+          stdin, stdout, stderr = Open3.popen3(shell)
+          stream = stdout.read
+          file.output = stream
+          file.save
+        end
       end
     end
     return nil
@@ -47,7 +53,11 @@ class TestCase < ActiveRecord::Base
 
   private
     def create_run_script(directory, command, file)
-      run = directory + command + " < " + file
+      if file.nil?
+        run = directory + command + " &"
+      else
+        run = directory + command + " < " + file + " &"
+      end
       shell = "#!/bin/bash\n"
       shell = shell + "ulimit -t " + cpu_time.to_s
       shell = shell + "\n" 
