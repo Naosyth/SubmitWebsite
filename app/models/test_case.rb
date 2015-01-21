@@ -27,22 +27,27 @@ class TestCase < ActiveRecord::Base
       end
     end
     
-    Dir.glob(path + 'input_*') do |file|
-      shell = create_run_script(path, "main", file)
-      stdin, stdout, stderr = Open3.popen3(shell)
-      stream = stdout.read
-      f = File.open(file.gsub("input", "output"), "w")
-      f.write(stream)
-      upload = upload_data.new()
-      upload.make_file(file.gsub(path, "").gsub("input", "output"), stream, "text/plain")
-      upload.save
-      f.close
+    run_methods.each do |run|
+      run.inputs.each do |file|
+        output = path + file.name
+        f = File.open(output, "w" )
+        f.write(file.data)
+        f.close
+        shell = create_run_script(path, run.run_command, output)
+        stdin, stdout, stderr = Open3.popen3(shell)
+        stream = stdout.read
+        file.output = stream
+        puts stream
+        puts "=========================================================================================================================="
+        file.save
+      end
     end
+    return nil
   end
 
   private
     def create_run_script(directory, command, file)
-      run = directory + command + " < " + file 
+      run = directory + command + " < " + file
       shell = "#!/bin/bash\n"
       shell = shell + "ulimit -t " + cpu_time.to_s
       shell = shell + "\n" 

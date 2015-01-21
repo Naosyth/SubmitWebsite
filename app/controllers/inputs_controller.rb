@@ -12,7 +12,7 @@ class InputsController < ApplicationController
     input = run_method.inputs.new(input_params)
 
     if input.save
-      redirect_to test_case_url(run_method.test_case)
+      redirect_to test_case_url(run_method.test_case_id)
     else
       redirect :action => :new
     end
@@ -20,7 +20,7 @@ class InputsController < ApplicationController
 
   # show
   def show
-
+    @input = Input.find(params[:id])
   end
 
   # Update
@@ -29,7 +29,9 @@ class InputsController < ApplicationController
 
   # DELETE 
   def destroy
-    @input.destroy
+    input = Input.find(params[:id])
+    input.destroy
+    redirect_to test_case_url(input.run_method.test_case_id)
   end
 
   private
