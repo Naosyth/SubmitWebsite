@@ -1,28 +1,36 @@
-<html>
+<div id="upload_data_container">
 <% content_for :title, @upload_data.name + " - Edit" %>
-  <head>
-    <style type="text/css" media="screen">
-      #editor { 
-          position: absolute;
-          top: 0;
-          right: 10%;
-          bottom: 0;
-          left: 150px;
-      }
-    </style>
-  </head>
-  <%= form_for :upload_datum, url: upload_datum_url(@upload_data), method: :patch do |f| %>
-    <%= f.text_field  :name, value: @upload_data.name %><br>
-    <%= f.text_area :contents, value: @upload_data.contents %><br>
-    <%= f.submit "Edit" %>
-  <% end %>
-  <script>
-      editor = ace.edit("editor");
-      editor.focus();
-      editor.resize(true);
-      editor.setTheme("ace/theme/monokai");
-      session = editor.getSession();
-      session.setMode("ace/mode/c_cpp");
-      editor.session.setAnnotations(annots);  
-  </script>
-</html>
+<%= form_for :upload_datum, url: upload_datum_url(@upload_data), method: :patch do |f| %>
+  <%= f.text_field  :name, value: @upload_data.name %><br>
+  <%= f.text_area :contents, style: 'display:none' , value: @upload_data.contents %><br>
+  <div id="editor" class="editor" style="position: relative; width: 60%; height: 400px;">
+    <%= @upload_data.contents %>
+  </div>
+  <%= f.submit "Edit" %>
+<% end %>
+</div>
+<div id="annotations">
+</div>
+<script>
+  annots = [{row: 105, text: "You have a problem here.",type: "error"}, 
+            {row: 111, text: "You have a problem here.",type: "error"},
+            {row: 113, text: "You have a problem here.",type: "error"}];
+  editor = ace.edit("editor");
+  editor.focus();
+  editor.resize(true);
+  editor.setTheme("ace/theme/monokai");
+  session = editor.getSession();
+  session.setMode("ace/mode/c_cpp"); 
+  editor.session.setAnnotations(annots); 
+  editor.on("change", function() {$("textarea[name='upload_datum[contents]']").val(editor.getValue()); });
+  createLink = function(annotation)
+  {
+   var link= "<a href=\"#\" onclick=\"editor.focus(); editor.scrollToLine(" + annotation.row.toString() + ",true); editor.gotoLine(" + (annotation.row+ 1).toString() + ",10, true);\">" + (annotation.row+ 1).toString() + ": " + annotation.text + "</a><br>";
+   return link;
+  };
+  annotsHandler=$("#annotations") ;
+  for(i=0; i < annots.length; i++)
+  {
+  annotsHandler.html( annotsHandler.html() + createLink(annots[i]) );
+    }
+</script>
