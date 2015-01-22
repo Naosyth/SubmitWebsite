@@ -54,5 +54,7 @@ Rails.application.routes.draw do
   post '/run_methods/new/:test_case_id' => 'run_methods#create'
   resources :run_methods
   
+  post '/comments/new/:upload_id' => 'comments#create', :as => :create_comment
+  resources :comments
   root :to => 'user_sessions#new'
 end
