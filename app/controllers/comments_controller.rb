@@ -2,11 +2,12 @@ class CommentsController < ApplicationController
 
   # Creates a new comment
   def create
-    @comment = User.new(comment_params)
+    @upload_datum=UploadDatum.find(params[:upload_id])
+    @comment = @upload_datum.comments.new(comment_params)
     if @comment.save
-      flash[:notice] = "Comment has been posted"
+      redirect_to :back
     else
-      flash[:notice] = "There was a problem creating your comment"
+      flash[:notice] = "Comment Failed To Upload!"
     end
   end
 
@@ -14,4 +15,15 @@ class CommentsController < ApplicationController
   def show
   end
 
+  def destroy
+    @comment = Comment.find(params[:id])
+    @comment.destroy
+    flash[:notice] = "Comment successfully deleted"
+    redirect_to :back
+  end
+
+  private
+  def comment_params
+    params.require(:comment).permit(:contents, :line)
+  end
 end

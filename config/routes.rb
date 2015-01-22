@@ -36,5 +36,7 @@ Rails.application.routes.draw do
   get 'test_cases/create_output/:id' => 'test_cases#create_output'
   resources :test_cases
   
+  post '/comments/new/:upload_id' => 'comments#create', :as => :create_comment
+  resources :comments
   root :to => 'user_sessions#new'
 end

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141120191411) do
+ActiveRecord::Schema.define(version: 20150119195413) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -22,6 +22,7 @@ ActiveRecord::Schema.define(version: 20141120191411) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "name"
+    t.float    "total_grade", limit: 24
   end
 
   add_index "assignments", ["course_id"], name: "index_assignments_on_course_id", using: :btree
@@ -62,6 +63,27 @@ ActiveRecord::Schema.define(version: 20141120191411) do
     t.datetime "updated_at"
   end
 
+  create_table "inputs", force: true do |t|
+    t.string   "name"
+    t.text     "description"
+    t.text     "data"
+    t.text     "output"
+    t.boolean  "student_visible"
+    t.integer  "run_method_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "inputs", ["run_method_id"], name: "index_inputs_on_run_method_id", using: :btree
+
+  create_table "makes", force: true do |t|
+    t.string   "name",         default: "Makefile"
+    t.integer  "test_case_id"
+    t.text     "data"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "roles", force: true do |t|
     t.string   "name"
     t.integer  "resource_id"
@@ -72,6 +94,17 @@ ActiveRecord::Schema.define(version: 20141120191411) do
 
   add_index "roles", ["name", "resource_type", "resource_id"], name: "index_roles_on_name_and_resource_type_and_resource_id", using: :btree
   add_index "roles", ["name"], name: "index_roles_on_name", using: :btree
+
+  create_table "run_methods", force: true do |t|
+    t.string   "name"
+    t.string   "run_command"
+    t.text     "description"
+    t.integer  "test_case_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "run_methods", ["test_case_id"], name: "index_run_methods_on_test_case_id", using: :btree
 
   create_table "submissions", force: true do |t|
     t.float    "grade",         limit: 24
@@ -89,6 +122,8 @@ ActiveRecord::Schema.define(version: 20141120191411) do
     t.integer  "assignment_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "cpu_time",      default: 10
+    t.integer  "core_size",     default: 0
   end
 
   add_index "test_cases", ["assignment_id"], name: "index_test_cases_on_assignment_id", using: :btree

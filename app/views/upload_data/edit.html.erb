@@ -10,11 +10,27 @@
 <% end %>
 </div>
 <div id="annotations">
+<%= form_for :comment, url: create_comment_url(@upload_data), method: :post do |f| %>
+  <%= f.text_field :line %><br>
+  <%= f.text_area :contents %>
+  <%= f.submit "Submit" %>
+<% end %>
+<table id="comment_table">
+
+</table>
 </div>
 <script>
-  annots = [{row: 105, text: "You have a problem here.",type: "error"}, 
+  annots = [
+  <% @upload_data.comments.each do |c| %>
+    <%= raw '{row: ' + c.line.to_s + ', text: "' + c.contents + '", type: "error" , id:' + c.id.to_s + '}' %>
+    <% if c != @upload_data.comments.last %>
+      <%= ',' %>
+    <% end %> 
+  <% end %>
+  ];
+  /*annots = [{row: 105, text: "You have a problem here.",type: "error"}, 
             {row: 111, text: "You have a problem here.",type: "error"},
-            {row: 113, text: "You have a problem here.",type: "error"}];
+            {row: 113, text: "You have a problem here.",type: "error"}];*/
   editor = ace.edit("editor");
   editor.focus();
   editor.resize(true);
@@ -25,12 +41,25 @@
   editor.on("change", function() {$("textarea[name='upload_datum[contents]']").val(editor.getValue()); });
   createLink = function(annotation)
   {
-   var link= "<a href=\"#\" onclick=\"editor.focus(); editor.scrollToLine(" + annotation.row.toString() + ",true); editor.gotoLine(" + (annotation.row+ 1).toString() + ",10, true);\">" + (annotation.row+ 1).toString() + ": " + annotation.text + "</a><br>";
-   return link;
+   var link= "<td> \
+                <a href=\"#\" \
+                  onclick=\"editor.focus(); \
+                  editor.scrollToLine(" + annotation.row.toString() + ",true); \
+                  editor.gotoLine(" + (annotation.row+ 1).toString() + ",10, true);\">" + (annotation.row+ 1).toString() + ": " + annotation.text + 
+                "</a>" + 
+              "</td>";
+   var deleteLink = "<td><a rel='nofollow' href='/comments/" + annotation.id + "' data-method='delete' data-confirm='Are you sure?'> delete </a></td>" ;
+   return link + deleteLink;
   };
-  annotsHandler=$("#annotations") ;
+  annotsHandler=$("#comment_table") ;
   for(i=0; i < annots.length; i++)
-  {
-  annotsHandler.html( annotsHandler.html() + createLink(annots[i]) );
+    {
+  annotsHandler.html( annotsHandler.html() + "<tr>" + createLink(annots[i]) + "</tr>" );
     }
+
+  $(document).on("page:change", function() {
+    $('#comment_table').tablesorter({
+      sortList: [[0,0]]
+    });
+  });
 </script>

@@ -45,6 +45,7 @@ class UploadDataController < ApplicationController
   # Edits an existing upload data
   def edit
     @upload_data = UploadDatum.find(params[:id])
+    @comment = Comment.new
   end
 
   # Updates an upload data
