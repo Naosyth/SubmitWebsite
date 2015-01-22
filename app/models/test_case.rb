@@ -11,6 +11,8 @@ class TestCase < ActiveRecord::Base
       f.write(upload_data.contents)
       f.close
     end
+
+    # Add in make file if needed
     if not make.nil?
       output = path + make.name
       f = File.open(output, "w")
@@ -28,7 +30,7 @@ class TestCase < ActiveRecord::Base
     end
     
     run_methods.each do |run|
-      if run.inputs.empty?
+      if run.inputs.nil? or run.inputs.empty?
         file = run.inputs.new
         shell = create_run_script(path, run.run_command, nil)
         stdin, stdout, stderr = Open3.popen3(shell)

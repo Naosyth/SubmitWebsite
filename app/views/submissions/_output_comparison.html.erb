@@ -7,23 +7,25 @@
     <th>Output</th>
     <th>Expected Output</th>
   </tr>
-  <% Dir.glob(@tempDirectory  + 'output_*') do |file| %>
-    <tr>
-      <% data = File.read(file) %>
-      <% cmpName = file.gsub(@tempDirectory, "") %>
-      <% test = @submission.assignment.test_case.upload_data.select { |out| out.name == cmpName } %>
-      <% data2 = test.first.contents %>
-      <td><%= simple_format(data) %></td>
-      <td><%= simple_format(data2) %></td>
-    </tr>
-    <tr>
-      <% difference = File.read(file.gsub("output", "diff")) %>
-      <% if not difference.empty? %>
-        <td colspan="2"><center><%= simple_format(difference) %></center></td>
-      <% else %>
-        <td colspan="2"><center>All Good</center></td>
-      <% end %> 
-    </tr>
+  <% @submission.assignment.test_case.run_methods.each do |run| %>
+    <th colspan="2">Run Method <%= run.name %></th>
+    <% submit_run = run.inputs %>
+    <% submit_run = run.inputs.select {|i| i.student_visible} if current_user.has_local_role? :student, @submission.assignment.course %>
+    <% submit_run.each do |input| %>
+      <tr>
+        <% data = File.read(@tempDirectory + input.name) %>
+        <td><%= simple_format(data) %></td>
+        <td><%= simple_format(input.output) %></td>
+      </tr>
+      <tr>
+        <% difference = File.read(@tempDirectory + input.name + "diff") %>
+        <% if not difference.empty? %>
+          <td colspan="2"><center><%= simple_format(difference) %></center></td>
+        <% else %>
+          <td colspan="2"><center>All Good</center></td>
+        <% end %> 
+      </tr>
+    <% end %>
   <% end %>
 </table>
 

@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   before_filter :require_user
-  before_filter :require_owner, :only => [:show]
+  before_filter :require_owner, :only => [:show, :run_program]
   before_filter :require_instructor_owner, :only => [:index]
 
   # Shows a submission
@@ -18,7 +18,7 @@ class SubmissionsController < ApplicationController
       @comp_message = @submission.compile(@directory) 
       if @comp_message[:compile]
         flash.now[:notice] = "Compiled"
-        @correct = @submission.run_test_cases(@directory)
+        @correct = @submission.run_test_cases(@directory, false)
       else
         flash.now[:notice] = "Not Compiled"
         flash.now[:comperr] = @comp_message[:comperr]
@@ -65,7 +65,7 @@ class SubmissionsController < ApplicationController
     comp_message = @submission.compile(@tempDirectory)
     if comp_message[:compile]
       flash.now[:notice] = "Compiled"
-      @correct = @submission.run_test_cases(@tempDirectory)
+      @correct = @submission.run_test_cases(@tempDirectory, true)
     else
       flash.now[:notice] = "Not Compiled"
       flash.now[:comperr] = comp_message[:comperr]
