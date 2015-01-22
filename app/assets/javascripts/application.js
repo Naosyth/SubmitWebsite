@@ -16,3 +16,7 @@
 //= require jquery.datetimepicker
 //= require jquery.tablesorter
 //= require_tree .
+//= require ace/ace
+//= require ace/theme-twilight
+//= require ace/mode-c_cpp.js
+//= require jquery-ace.min
