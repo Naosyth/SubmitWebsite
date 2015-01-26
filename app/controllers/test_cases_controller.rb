@@ -33,7 +33,7 @@ class TestCasesController < ApplicationController
       flash[:notice] = "Outputs Made"
     else
       flash[:notice] = "No Outputs Made"
-      flash.now[:comperr] = comp_status
+      flash[:comperr] = comp_status
     end
 
     FileUtils.rm_rf(tempDirectory)

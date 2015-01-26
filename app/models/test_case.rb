@@ -22,6 +22,7 @@ class TestCase < ActiveRecord::Base
   end
 
   def compile_code(path)
+    error_hold = ""
     if not make.nil?
       make = "make -C " + path
       if not system(make)
@@ -32,34 +33,30 @@ class TestCase < ActiveRecord::Base
     run_methods.each do |run|
       if run.inputs.nil? or run.inputs.empty?
         file = run.inputs.new
-        shell = create_run_script(path, run.run_command, nil)
+        file.add("No_Inputs", "This is auto-generated for a program with no given inputs.", nil, "", true)
+      end
+      run.inputs.each do |file|
+        output = path + file.name
+        f = File.open(output, "w" )
+        f.write(file.data)
+        f.close
+        shell = create_run_script(path, run.run_command, output)
         stdin, stdout, stderr = Open3.popen3(shell)
-        stream = stdout.read
-        file.add("No_Inputs", "This is auto-generated for a program with no given inputs.", nil, stream, true)
-      else
-        run.inputs.each do |file|
-          output = path + file.name
-          f = File.open(output, "w" )
-          f.write(file.data)
-          f.close
-          shell = create_run_script(path, run.run_command, output)
-          stdin, stdout, stderr = Open3.popen3(shell)
-          stream = stdout.read
-          file.output = stream
-          file.save
+        stream = stderr.read
+        if not stream.empty?
+          error_hold = error_hold + "There was an error running input: " + file.name + "\n" + "Error: " + stream + "\n\n"
         end
+        stream = stdout.read
+        file.output = stream
+        file.save
       end
     end
-    return nil
+    return error_hold if not error_hold.empty?
   end
 
   private
     def create_run_script(directory, command, file)
-      if file.nil?
-        run = directory + command + " &"
-      else
-        run = directory + command + " < " + file + " &"
-      end
+      run = directory + command + " < " + file
       shell = "#!/bin/bash\n"
       shell = shell + "ulimit -t " + cpu_time.to_s
       shell = shell + "\n" 
