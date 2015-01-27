@@ -67,13 +67,30 @@
 </header>
 
 <div class="content-group">
+  <table>
   <% @test_case.run_methods.each do |r| %>
-    <%= link_to r.name, run_method_url(r) %>
-    <%= link_to "Add Inputs", new_input_url(r) %><br>
+    <tr>
+      <th>Run Method</th>
+      <td><%= link_to r.name, edit_run_method_url(r) %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <th>Inputs</th>
+    <tr>
     <% r.inputs.each do |i| %>
-      <%= link_to i.name, input_url(i) %>
-      <%= link_to 'Delete', input_url(i), method: :delete, data: { confirm: 'Are you sure?' } %><br>
+      <tr>
+        <td></td>
+        <td><%= link_to i.name, edit_input_url(i) %></td>
+        <td><%= link_to 'Delete', input_url(i), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
     <% end %>
+    <tr>
+      <td></td>
+      <td><%= link_to "&oplus;Add Inputs".html_safe, new_input_url(r) %></td>
+    </tr>
   <% end %>
-  <%= link_to "Add Run Method", new_run_method_url(@test_case) %>
+  <tr>
+    <td><%= link_to "Add New Run Method", new_run_method_url(@test_case) %></td>
+  </tr>
+  </table>
 </div>

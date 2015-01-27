@@ -24,6 +24,7 @@ Rails.application.routes.draw do
   post 'assignments/new/:course_id' => 'assignments#create'
   get 'assignments/copy/:course_id' => 'assignments#copy', :as => :select_assignment
   post 'assignments/copy/:course_id/old_assignment/:old_assignment_id' => 'assignments#copy_create', :as => :copy_assignment
+  get 'assignments/grade_all/:id' => 'assignments#grade_all', :as => :grade_all_assignment
   resources :assignments
 
   get 'submissions/compile/:id' => 'submissions#compile'

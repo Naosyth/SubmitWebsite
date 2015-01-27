@@ -44,7 +44,12 @@ class TestCase < ActiveRecord::Base
         stdin, stdout, stderr = Open3.popen3(shell)
         stream = stderr.read
         if not stream.empty?
-          error_hold = error_hold + "There was an error running input: " + file.name + "\n" + "Error: " + stream + "\n\n"
+          stream.gsub! path, ""
+          if stream.include? "Kill" or stream.include? "Cputime" 
+            error_hold = error_hold + "There was an error running input: " + file.name + "\n" + "Error: " + stream + "Process Exceeded Max CPU Time of: " + self.cpu_time.to_s + " seconds.\n\n"
+          else
+            error_hold = error_hold + "There was an error running input: " + file.name + "\n" + "Error: " + stream + "\n\n"
+          end
         end
         stream = stdout.read
         file.output = stream

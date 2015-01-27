@@ -26,8 +26,21 @@ class InputsController < ApplicationController
     @input = Input.find(params[:id])
   end
 
+  # edit
+  def edit
+    @input = Input.find(params[:id])
+  end
+
   # Update
   def update
+    @input = Input.find(params[:id])
+    #test_case = TestCase.find(@input.run_method.test_case_id)
+
+    if @input.update_attributes(input_params)
+      redirect_to test_case_url(@input.run_method.test_case_id)
+    else
+      render :action => :edit
+    end
   end
 
   # DELETE 

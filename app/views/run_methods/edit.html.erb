@@ -1,0 +1,16 @@
+<% content_for :title, "Update Run Method " + @run_method.name %>
+
+<header>
+  <h1>Update Run Method <%= @run_method.name %></h1>
+</header>
+
+<div class="content-group">
+  <%= form_for @run_method, url: run_method_url(@run_method), method: :patch do |f| %>
+    <%= f.text_field :name, :placeholder => 'Run Name' %><br>
+    <%= f.text_field :run_command, :placeholder => 'Run Command' %><br>
+    <%= f.text_area :description, :placeholder => 'Run Description' %><br>
+    <%= f.submit "Update" %>
+  <% end %>
+</div>
+
+<%= button_to 'Delete', run_method_url(@run_method), method: :delete, data: { confirm: 'Are you sure?' } %>

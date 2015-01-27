@@ -13,20 +13,38 @@
 </div>
 
 <header>
-  <h1>All submissions</h1>
+  <h1>Test Case</h1>
 </header>
 
 <div class="content-group">
- <%= link_to 'Test Case', test_case_url(@test_case) %><br>
+  <%= link_to 'Test Case', test_case_url(@test_case) %><br>
+</div>
 
+<header>
+  <h1>All submissions</h1>
+  <center><%= link_to "Grade All Submissions", grade_all_assignment_url(@assignment) %></center>
+</header>
+
+<div class="content-group">
+  <table>
+  <tr>
+    <th>Student Name</th>
+    <th>View Submission</th>
+    <%= "<th>Output Grade</th>".html_safe if @grade_all %>
+  </tr>
   <% @submissions.each do |submission| %>
-    <% submission_grade = submission.instructor_grade %>
-    <%= submission.user.name %> - <%= link_to 'Edit', edit_submission_url(submission) %>
-    <% if submission_grade[:compile] %>
-      <%= submission_grade[:correct][:correct].to_s + " out of " + submission_grade[:correct][:total].to_s %>
-    <% else %>
-      Does Not Run
-    <% end %>
-    <br>
+    <tr>
+      <td><%= submission.user.name %></td>
+      <td><%= link_to 'View', edit_submission_url(submission) %></td>
+      <% if @grade_all %>
+        <% submission_grade = submission.instructor_grade %>
+        <% if submission_grade[:compile] %>
+          <td><%= submission_grade[:correct][:correct].to_s + " out of " + submission_grade[:correct][:total].to_s %></td>
+        <% else %>
+          <td>Does Not Run</td>
+        <% end %>
+      <% end %>
+    </tr>
   <% end %>
+  </table>
 </div>

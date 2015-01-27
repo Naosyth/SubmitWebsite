@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   include AssignmentsHelper
 
   before_filter :require_user
-  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy]
+  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy, :grade_all]
   before_filter :require_enrolled, :only => [:show]
 
   # Creates the form to make a new assignment
@@ -57,8 +57,19 @@ class AssignmentsController < ApplicationController
 
     if current_user.has_local_role? :instructor, @course
       @test_case = @assignment.test_case 
+      @grade_all = false
       render "assignments/manage"
     end
+  end
+
+  # Grade all
+  def grade_all
+    @assignment = Assignment.find(params[:id])
+    @course = @assignment.course
+    @submissions = @assignment.submissions
+    @test_case = @assignment.test_case 
+    @grade_all = true
+    render "assignments/manage"
   end
 
   # Creates the form to modify an assignment

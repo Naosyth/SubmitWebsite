@@ -20,6 +20,7 @@ class RunMethodsController < ApplicationController
 
   # edit
   def edit
+    @run_method = RunMethod.find(params[:id])
   end
 
   # show
@@ -29,11 +30,22 @@ class RunMethodsController < ApplicationController
 
   # update
   def update
+    @run_method = RunMethod.find(params[:id])
+    test_case = TestCase.find(@run_method.test_case_id)
+
+    if @run_method.update_attributes(run_method_params)
+      redirect_to test_case_url(test_case)
+    else
+      render :action => :edit
+    end
   end
 
   # DELETE
   def destroy
-    @run_method.destroy
+    run_method = RunMethod.find(params[:id])
+    test_case = TestCase.find(run_method.test_case_id)
+    run_method.destroy
+    redirect_to test_case_url(test_case)
   end
 
   private
