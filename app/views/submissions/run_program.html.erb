@@ -1,22 +1,13 @@
 <% content_for :title, "Test Case Run" %>
 
-<header>
-  <h1>Output Compared to Expected Output</h1>
-</header>
+<%= link_to 'Back', edit_submission_url(@submission) %>
 
-<table class="output-compare">
-  <tr>
-    <th>Output</th>
-    <th>Expected Output</th>
-  </tr>
-  <% Dir.glob(@tempDirectory  + 'output_*') do |file| %>
-    <tr>
-      <td><%= data = File.read(file) %></td>
-      <% cmpName = file.gsub! @tempDirectory, "" %>
-      <% test = @submission.assignment.test_case.upload_data.select { |out| out.name == cmpName } %>
-      <td><%= data2 = test.first.contents %></td>
-    </tr>
-  <% end %>
-</table>
+<div class="grade-display">
+  <center>
+  <p class="grade">Correct Outputs</p>
+  <p class="grade-value"><%= @correct[:correct].to_s + " out of " + @correct[:total].to_s %></p>
+  </center>
+  <br>
+</div>
 
-<% FileUtils.rm_rf(@tempDirectory) %>
+<%= render :partial => 'output_comparison' %>

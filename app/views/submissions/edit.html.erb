@@ -7,8 +7,35 @@
 <div class="content-group">
   <%= render "shared/error_messages", :target => @submission %>
   <%= form_for @submission, url: submission_url(@submission), method: :patch do |f| %>
-    <%= f.text_area :note, :placeholder => 'Grader Notes' %><br>
-    <%= f.number_field :grade, :step => 0.01 %>
+    <%= f.text_area :note, :placeholder => 'Grader Notes', :size => "41.5x10" %><br>
+    <%= f.label :student_grade, "Student Total Grade " %>
+    <%= f.number_field :grade, :step => 0.1 %>
+    <%= f.label :out_of, " out of " + @submission.assignment.total_grade.to_s %><br>
     <%= f.submit "Save" %>
   <% end %>
 </div>
+
+<header>
+  <h1>Submitted Files</h1>
+</header>
+
+<div class="content-group">
+  <% @submission.upload_data.each do |file| %>
+    <%= link_to file.name, upload_datum_path(file), target: "_new" %><br>
+  <% end %>
+</div>
+
+<% if @comp_message[:compile] %>
+  <div class="grade-display">
+    <center>
+    <p class="grade">Output Grade</p>
+    <p class="grade-value"><%= @correct[:correct].to_s + " out of " + @correct[:total].to_s %></p>
+    </center>
+    <br>
+  </div>
+  <%= render :partial => 'output_comparison', :locals => {:@submission => @submission, :@tempDirectory => @directory} %>
+<% else %>
+  <header>
+    <h1>The program does not run.</h1>
+  </header>
+<% end %>

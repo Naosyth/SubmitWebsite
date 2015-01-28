@@ -1,6 +1,6 @@
 class SubmissionsController < ApplicationController
   before_filter :require_user
-  before_filter :require_owner, :only => [:show]
+  before_filter :require_owner, :only => [:show, :run_program]
   before_filter :require_instructor_owner, :only => [:index]
 
   # Shows a submission
@@ -14,6 +14,15 @@ class SubmissionsController < ApplicationController
     if current_user.has_local_role? :student, get_course
       render :action => :show
     else
+      @directory = @submission.create_directory 
+      @comp_message = @submission.compile(@directory) 
+      if @comp_message[:compile]
+        flash.now[:notice] = "Compiled"
+        @correct = @submission.run_test_cases(@directory, false)
+      else
+        flash.now[:notice] = "Not Compiled"
+        flash.now[:comperr] = @comp_message[:comperr]
+      end
       render :action => :edit
     end
   end
@@ -30,16 +39,16 @@ class SubmissionsController < ApplicationController
 
   # Compiles but does not run a user's submission
   def compile
-    tempDirectory = create_directory
+    submission = Submission.find(params[:id])
+    tempDirectory = submission.create_directory
+    comp_message = submission.compile(tempDirectory)
 
-    # Compiles and runs the program
-    make = "make -C " + tempDirectory
-    if system(make)
+    # Check if program compiled
+    if comp_message[:compile]
       flash[:notice] = "Compiled"
     else
-      stream = capture(:stderr) { system(make) }
       flash[:notice] = "Not Compiled"
-      flash[:comperr] = stream
+      flash[:comperr] = comp_message[:comperr]
     end
 
     # Cleans up the files
@@ -50,16 +59,16 @@ class SubmissionsController < ApplicationController
   # Compiles, runs the code, and creates the output files
   def run_program
     @submission = Submission.find(params[:id])
-    @tempDirectory = create_directory
+    @tempDirectory = @submission.create_directory
 
     # Compiles and runs the program
-    make = "make -C " + @tempDirectory
-    if system(make)
-      run_test_cases(@tempDirectory, @submission)
+    comp_message = @submission.compile(@tempDirectory)
+    if comp_message[:compile]
+      flash.now[:notice] = "Compiled"
+      @correct = @submission.run_test_cases(@tempDirectory, true)
     else
-      stream = capture(:stderr) { system(make) }
-      flash[:notice] = "Not Compiled"
-      flash[:comperr] = stream
+      flash.now[:notice] = "Not Compiled"
+      flash.now[:comperr] = comp_message[:comperr]
       redirect_to :back
     end
   end
@@ -100,46 +109,6 @@ class SubmissionsController < ApplicationController
       if not current_user.has_role? :instructor, course
         flash[:notice] = "That action is only available to the instructor of the course"
         redirect_to dashboard_url
-      end
-    end
-
-    # Sets up the directory
-    def create_directory
-      submission = Submission.find(params[:id])
-
-      # Creates a temporary directory for the student files
-      tempDirectory = Rails.configuration.compile_directory + submission.user.name + '_' + submission.id.to_s + '/'
-      if not Dir.exists?(tempDirectory) 
-        Dir.mkdir(tempDirectory)
-      end
-
-      # Adds in all the student files 
-      submission.upload_data.each do |upload_data|
-        output = tempDirectory + upload_data.name
-        f = File.open(output, "w" )
-        f.write(upload_data.contents)
-        f.close
-      end
-
-      # Adds in the test case files
-      submission.assignment.test_case.upload_data.select { |u| u.name.include? "input" or u.name.downcase == "makefile" }.each do |upload_data|
-        output = tempDirectory + upload_data.name
-        f = File.open(output, "w" )
-        f.write(upload_data.contents)
-        f.close
-      end
-      return tempDirectory
-    end
-
-    # Runs the code on a test case input
-    def run_test_cases(directory, submission)
-      Dir.glob(directory + 'input_*') do |file|
-        run = directory + "main < " + file
-        @stream = capture(:stdout) { system(run) }
-        f = File.open(file.gsub("input", "output"), "w")
-        f.write(@stream)
-        f.close
-        flash[:notice] = "Test Case Compiled"
       end
     end
 end

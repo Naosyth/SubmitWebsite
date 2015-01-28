@@ -34,13 +34,11 @@
   </table>
 </div>
 
-<% if @user.has_local_role? :instructor, @course %>
-  <header>
-    <h1>Instructor Actions</h1>
-  </header>
+<header>
+  <h1>Instructor Actions</h1>
+</header>
 
-  <div class="content-group">
-    <%= link_to 'Add Assignment', new_assignment_url(@course) %><br>
-    <%= link_to 'Copy over old Assignment', select_assignment_url(@course) %>
-  </div>
-<% end %>
+<div class="content-group">
+  <%= link_to 'Add Assignment', new_assignment_url(@course) %><br>
+  <%= link_to 'Copy over old Assignment', select_assignment_url(@course) %>
+</div>

@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   include AssignmentsHelper
 
   before_filter :require_user
-  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy]
+  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy, :grade_all]
   before_filter :require_enrolled, :only => [:show]
 
   # Creates the form to make a new assignment
@@ -36,10 +36,8 @@ class AssignmentsController < ApplicationController
     assignment_old = Assignment.find(params[:old_assignment_id])
     course = Course.find(params[:course_id])
     assignment = course.assignments.new
-    assignment.name = assignment_old.name
-    assignment.description = assignment_old.description
-    assignment.due_date = assignment_old.due_date
-    assignment.start_date = assignment_old.start_date
+    assignment.copy(assignment_old)
+
     if assignment.save
       @test = assignment.test_case
       @old_test = assignment_old.test_case
@@ -47,7 +45,7 @@ class AssignmentsController < ApplicationController
       redirect_to edit_assignment_path(assignment)
     else
       flash[:notice] = "Could not copy Assignment"
-      redirect_to course_path(assignment.course)
+      redirect_to :back
     end
   end
 
@@ -59,8 +57,19 @@ class AssignmentsController < ApplicationController
 
     if current_user.has_local_role? :instructor, @course
       @test_case = @assignment.test_case 
+      @grade_all = false
       render "assignments/manage"
     end
+  end
+
+  # Grade all
+  def grade_all
+    @assignment = Assignment.find(params[:id])
+    @course = @assignment.course
+    @submissions = @assignment.submissions
+    @test_case = @assignment.test_case 
+    @grade_all = true
+    render "assignments/manage"
   end
 
   # Creates the form to modify an assignment
@@ -93,7 +102,7 @@ class AssignmentsController < ApplicationController
 
   private
   def assignment_params
-    params.require(:assignment).permit(:name, :description, :start_date, :due_date, :lock)
+    params.require(:assignment).permit(:name, :total_grade, :description, :start_date, :due_date, :lock)
   end
 
   def convert_dates_to_utc

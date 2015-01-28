@@ -31,3 +31,66 @@
   <% end %>
   <%= link_to "Create Outputs", :method => :get, :action => :create_output %>
 </div>
+
+<header>
+  <h1>Test Case Running Variables</h1>
+</header>
+
+<div class="content-group">
+  <%= form_for @test_case, url: test_case_url(@test_case), method: :patch do |f| %>
+    <table>
+      <tr>
+        <td><%= f.label "CPU Max Run Time" %></td>
+        <td><%= f.number_field :cpu_time, :step => 1 %></td>
+      </tr>
+      <tr>
+        <td><%= f.label "Max Core Dump Size" %></td>
+        <td><%= f.number_field :core_size, :step => 1 %></td>
+      </tr>
+      <tr>
+        <% if @test_case.make.nil? %>
+          <td><%= link_to "Add Makefile", new_make_url(@test_case) %></td>
+        <% else %>
+          <td><%= link_to @test_case.make.name, make_url(@test_case.make) %></td>
+          <td><%= link_to 'Delete', make_url(@test_case.make), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
+      </tr>
+      <tr>
+        <td><%= f.submit "Save" %></td>
+      </tr>
+    </table>
+  <% end %>
+</div>
+
+<header>
+  <h1>Test Case Run Methods</h1>
+</header>
+
+<div class="content-group">
+  <table>
+  <% @test_case.run_methods.each do |r| %>
+    <tr>
+      <th>Run Method</th>
+      <td><%= link_to r.name, edit_run_method_url(r) %></td>
+    </tr>
+    <tr>
+      <td></td>
+      <th>Inputs</th>
+    <tr>
+    <% r.inputs.each do |i| %>
+      <tr>
+        <td></td>
+        <td><%= link_to i.name, edit_input_url(i) %></td>
+        <td><%= link_to 'Delete', input_url(i), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+    <tr>
+      <td></td>
+      <td><%= link_to "&oplus;Add Inputs".html_safe, new_input_url(r) %></td>
+    </tr>
+  <% end %>
+  <tr>
+    <td><%= link_to "Add New Run Method", new_run_method_url(@test_case) %></td>
+  </tr>
+  </table>
+</div>

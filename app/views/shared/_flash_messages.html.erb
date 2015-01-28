@@ -1,8 +1,6 @@
 
 <script type="text/javascript">
   $(document).ready(function(){
-    $(".compile-messages").fadeOut(10000);
-
     $("#compile-error-button").click(function(){
       $(".compile-messages").hide();
     });
@@ -16,7 +14,7 @@
     </div>
   <% elsif key == 'comperr' %>
     <div class="compile-messages">
-      <center><b>Not Compiled</b></center><br>
+      <center><b>Problem with Program</b></center><br>
       <%= (value.gsub! "\n", "<br>").html_safe %>
       <center><button id="compile-error-button">Close</button></center>
     </div>

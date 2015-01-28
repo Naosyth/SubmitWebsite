@@ -41,6 +41,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.8.0)
+    diffy (3.0.7)
     erubis (2.7.0)
     execjs (2.2.1)
     ffi (1.9.5)
@@ -131,6 +132,7 @@ PLATFORMS
 DEPENDENCIES
   authlogic
   coffee-rails (~> 4.0.0)
+  diffy
   jbuilder (~> 2.0)
   jquery-rails
   mysql2
