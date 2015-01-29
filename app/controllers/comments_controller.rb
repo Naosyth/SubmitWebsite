@@ -7,7 +7,8 @@ class CommentsController < ApplicationController
     if @comment.save
       redirect_to :back
     else
-      flash[:notice] = "Comment Failed To Upload!"
+      flash[:notice] = "Comment Failed To Upload! Check Required Fields"
+      redirect_to :back;
     end
   end
 

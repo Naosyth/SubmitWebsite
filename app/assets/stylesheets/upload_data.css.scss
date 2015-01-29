@@ -3,8 +3,8 @@
 // You can use Sass (SCSS) here: http://sass-lang.com/
 
 #editor { 
-  position: relative; 
-  width: 60%; 
+  position: relative;
+  width: 60%;
   height: 400px;
 }
 
@@ -16,3 +16,8 @@
   height: 400px;
   border-style: solid;
 }
+
+.ace_gutter-cell.ace_breakpoint{ 
+    border-radius: 20px 0px 0px 20px; 
+    box-shadow: 0px 0px 1px 1px red inset; 
+} 
