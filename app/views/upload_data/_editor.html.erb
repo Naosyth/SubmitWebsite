@@ -1,0 +1,25 @@
+<div id="editor" class="editor">
+  <%= @upload_data.contents %>
+</div>
+
+<script>
+      // randcomment
+      editor = ace.edit("editor");
+      editor.focus();
+      editor.resize(true);
+      editor.setTheme("ace/theme/monokai");
+      session = editor.getSession();
+      session.setMode("ace/mode/c_cpp"); 
+      <% if @can_edit %> 
+        editor.setReadOnly(false);
+      <% else %>
+        editor.setReadOnly(true);
+      <% end %>
+      editor.on("change", function() {$("textarea[name='upload_datum[contents]']").val(editor.getValue()); });
+      editor.on("guttermousedown", function(e){ 
+        var target = e.domEvent.target; 
+        var row = e.getDocumentPosition().row;
+        $("input[id='comment_line']").val(row);
+        e.stop();
+      });
+</script>
