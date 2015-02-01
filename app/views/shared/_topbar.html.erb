@@ -1,6 +1,6 @@
 <div class="topbar">
   <div class="user-info">
-    <p><%= @user.name %></p>
+    <p><%= current_user.name %></p>
 
     <div class="expand">
       <div>.&nbsp;.&nbsp;.</div>
@@ -15,7 +15,7 @@
         </li>
         <li>
           <%= link_to settings_url do %>
-            <%= image_tag('icon_settings.png', size: "32x32", alt: "Settings", title: "Settings") %>Settings
+            <%= image_tag('icon_settings.png', alt: "Settings", title: "Settings") %>Settings
           <% end %>
         </li>
       </ul>

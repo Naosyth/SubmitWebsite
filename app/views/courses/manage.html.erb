@@ -4,13 +4,36 @@
   <h1>Manage Course</h1>
   <h2><%= @course.name %></h2>
 </header>
-
 <div class="content-group">
-  <p><%= @course.name %></p>
-  <p><%= @course.description %></p>
-  <p><%= @course.term %>&nbsp;<%= @course.year %></p>
-  <p><%= @course.open %></p>
-  <p><%= @course.join_token %></p><br>
+  <p>Description: <%= @course.description %></p>
+  <p>Term: <%= @course.term %>&nbsp;<%= @course.year %></p>
+  <p>Open: <%= @course.open %></p>
+  <p>Join Token: <%= @course.join_token %></p><br>
+</div>
+
+<header>
+  <h1>Instructor Actions</h1>
+</header>
+<div class="content-group">
+  <div class="course-actions">
+    <ul>
+      <li>
+        <%= link_to new_assignment_url(@course) do %>
+          <div>
+            <%= image_tag('icon_add.png', size: "64x64", alt: "Add Assignment", title: "Add Assignment") %><br>
+            New Assignment
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to select_assignment_url(@course) do %>
+          <div>
+            <%= image_tag('icon_copy.png', size: "64x64", alt: "Import Assignment", title: "Import Assignment") %><br>
+            Import Assignment
+          </div>
+        <% end %>
+      </li>
+  </div>
 </div>
 
 <header>
@@ -32,13 +55,4 @@
       </tr>
     <% end %>
   </table>
-</div>
-
-<header>
-  <h1>Instructor Actions</h1>
-</header>
-
-<div class="content-group">
-  <%= link_to 'Add Assignment', new_assignment_url(@course) %><br>
-  <%= link_to 'Copy over old Assignment', select_assignment_url(@course) %>
 </div>

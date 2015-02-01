@@ -6,10 +6,6 @@
   padding: 0;
 }
 
-body {
-  background-color: $color-background;
-}
-
 ul {
   list-style-type: none;
 }
@@ -29,6 +25,7 @@ a:visited {
 
 html, body.application {
   height: 100%;
+  background-color: $color-background;
 }
 
 .flash-messages {
@@ -56,15 +53,16 @@ html, body.application {
 .application-content {
   background-color: $color-background;
   box-sizing: border-box;
-  min-height: 100%;
   padding: 16px 16px 16px $sidebar-width+16px;
   position: absolute;
   width: 100%;
+  margin-top: $topbar-height;
 
   header {
     background-color: $color-header;
     border-bottom: 1px solid $color-border-light;
     padding: 4px;
+    box-shadow: 2px 2px 3px #aaa;
 
     h1 {
       color: $font-color-dark;
@@ -75,6 +73,19 @@ html, body.application {
       color: $font-color-dark;
       text-align: center;
     }
+  }
+}
+
+.content-group {
+  background-color: $color-foreground;
+  padding: 16px;
+  margin-bottom: 32px;
+  box-shadow: 2px 2px 3px #aaa;
+
+  h2 {
+    color: $font-color-dark;
+    text-align: center;
+    margin-bottom: 16px;
   }
 }
 
