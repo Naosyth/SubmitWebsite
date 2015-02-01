@@ -44,8 +44,8 @@ Rails.application.configure do
 
   # Brandon home computer and lab computer
   # config.compile_directory = 
-  # config.compile_directory = 
+  config.compile_directory = '/home/brandon/Documents/submitTest/tempDirectory/'
 
   # Webserver
-  config.compile_directory = '/home/submit_temp/'
+  # config.compile_directory = '/home/submit_temp/'
 end
