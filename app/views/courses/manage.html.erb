@@ -1,14 +1,15 @@
 <% content_for :title, @course.name %>
 
 <header>
-  <h1>Manage Course</h1>
-  <h2><%= @course.name %></h2>
+  <h1><%= @course.name %></h1>
+  <h2><%= @course.term.humanize + " " + @course.year.to_s %></h2>
 </header>
 <div class="content-group">
-  <p>Description: <%= @course.description %></p>
-  <p>Term: <%= @course.term %>&nbsp;<%= @course.year %></p>
-  <p>Open: <%= @course.open %></p>
-  <p>Join Token: <%= @course.join_token %></p><br>
+  <div class="center-wrapper">
+    <p class="description"><%= @course.description.gsub(/\n/, '<br>').html_safe %></p>
+    <p class="course-info">Join Token<br><%= @course.join_token %></p>
+    <p class="course-info">This course is <%= @course.open ? "<span class='course-visible'>visible</span>".html_safe : "<span class='course-hidden'>hidden</span>".html_safe %> to students</p>
+  </div>
 </div>
 
 <header>
@@ -30,6 +31,30 @@
           <div>
             <%= image_tag('icon_copy.png', size: "64x64", alt: "Import Assignment", title: "Import Assignment") %><br>
             Import Assignment
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to courses_users_path(@course) do %>
+          <div>
+            <%= image_tag('icon_users_dark.png', size: "64x64", alt: "Enrolled Students", title: "Enrolled Students") %><br>
+            Enrolled Students
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to edit_course_path(@course) do %>
+          <div>
+            <%= image_tag('icon_edit.png', size: "64x64", alt: "Edit Course", title: "Edit Course") %><br>
+            Edit Course
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to course_path(@course), method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <div>
+            <%= image_tag('icon_delete.png', size: "64x64", alt: "Delete Course", title: "Delete Course") %><br>
+            Delete Course
           </div>
         <% end %>
       </li>

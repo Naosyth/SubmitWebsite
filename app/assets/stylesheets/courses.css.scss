@@ -138,3 +138,26 @@ table {
     box-shadow: 1px 1px 3px #888;
   }
 }
+
+.course-info {
+  margin: 10px;
+}
+
+.description {
+  display: inline-block;
+  margin: 0 auto;
+  border: 1px solid $color-border-light;
+  padding: 10px;
+  max-width: 50%;
+  text-align: left;
+}
+
+.course-visible {
+  color: #0f0;
+  font-weight: bold;
+}
+
+.course-hidden {
+  color: #f00;
+  font-weight: bold;
+}

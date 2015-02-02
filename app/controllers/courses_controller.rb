@@ -74,7 +74,7 @@ class CoursesController < ApplicationController
 
     if @course.update_attributes(course_params)
       flash[:notice] = "Course updated!"
-      redirect_to courses_url
+      redirect_to course_url(@course)
     else
       render :action => :edit
     end
@@ -157,7 +157,7 @@ class CoursesController < ApplicationController
     course.destroy
 
     flash[:notice] = "Course successfully deleted"
-    redirect_to :back
+    redirect_to courses_url
   end
 
   private

@@ -29,6 +29,10 @@ html, body.application {
 }
 
 .flash-messages {
+  position: fixed;
+  z-index: 10000;
+  top: $topbar-height + 20px;
+  left: $sidebar-width + 20px;
   background-color: $color-flash;
   margin-bottom: 16px;
   padding: 5px;
@@ -102,4 +106,8 @@ html, body.application {
   padding: 5px;
   color: $font-color-dark;
   text-align: left;
+}
+
+.center-wrapper {
+  text-align: center;
 }
