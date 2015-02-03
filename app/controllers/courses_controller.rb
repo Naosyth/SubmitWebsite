@@ -111,13 +111,13 @@ class CoursesController < ApplicationController
 
   # Creates the form for editing a user in the scope of a course.
   def edit_user
-    @course = Course.find(params[:course_id])
+    @course = Course.find(params[:id])
     @user = User.find(params[:user_id])
   end
 
   # Applies changes to a user in the scope of a specific course.
   def update_user
-    @course = Course.find(params[:course_id])
+    @course = Course.find(params[:id])
     @user = User.find(params[:user_id])
 
     User::ROLES.each do |role|
@@ -134,7 +134,7 @@ class CoursesController < ApplicationController
 
   # Kicks a user out of a course.
   def kick_user
-    @course = Course.find(params[:course_id])
+    @course = Course.find(params[:id])
     @user = User.find(params[:user_id])
 
     User::ROLES.each { |role| @user.remove_role role, @course }

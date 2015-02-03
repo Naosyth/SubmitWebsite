@@ -15,9 +15,9 @@ Rails.application.routes.draw do
   post 'courses/enroll' => 'courses#join'
   get 'courses/enrolled' => 'courses#enrolled', :as => :courses_enrolled
   get 'courses/:id/users' => 'courses#users', :as => :courses_users
-  get '/courses/:course_id/users/:user_id' => 'courses#edit_user', :as => :course_user_edit
-  patch '/courses/:course_id/users/:user_id' => 'courses#update_user'
-  get 'course/:course_id/users/:user_id/kick' => 'courses#kick_user', :as => :course_user_kick
+  get '/courses/:id/users/:user_id' => 'courses#edit_user', :as => :course_user_edit
+  patch '/courses/:id/users/:user_id' => 'courses#update_user'
+  get 'course/:id/users/:user_id/kick' => 'courses#kick_user', :as => :course_user_kick
   resources :courses
 
   get 'assignments/new/:course_id' => 'assignments#new', :as => :new_assignment

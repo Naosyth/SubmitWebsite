@@ -106,8 +106,8 @@ class AssignmentsController < ApplicationController
   end
 
   def convert_dates_to_utc
-    params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i)
-    params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i)
+    params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i).utc
+    params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i).utc
   end
 
   def copy_files

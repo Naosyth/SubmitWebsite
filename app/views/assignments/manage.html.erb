@@ -1,50 +1,69 @@
 <% content_for :title, @course.name + ' assignment ' + @assignment.name %>
 
 <header>
-  <h1><%= @course.name %> assignment <%= @assignment.name %></h1>
+  <h1><%= @course.name %></h1>
+  <h2><%= @assignment.name %></h2>
 </header>
-
 <div class="content-group">
-  <%= @assignment.name %><br>
-  <%= @assignment.description %><br>
-  <%= "Total Points " + @assignment.total_grade.to_s %><br>
-  <%= @assignment.start_date %><br>
-  <%= @assignment.due_date %><br>
+  <div class="center-wrapper">
+    <p class="description"><%= @assignment.description.gsub(/\n/, '<br>').html_safe %></p>
+    <div class="assignment-info-wrapper">
+      <p class="assignment-info">Total Points: <%= @assignment.total_grade.to_s %></p>
+      <p class="assignment-info">Start Date: <span data-time><%= @assignment.start_date.to_i %></span></p>
+      <p class="assignment-info">Due Date: <span data-time><%= @assignment.due_date.to_i %></span></p>
+    </div>
+  </div>
 </div>
 
 <header>
-  <h1>Test Case</h1>
+  <h1>Instructor Actions</h1>
 </header>
-
 <div class="content-group">
-  <%= link_to 'Test Case', test_case_url(@test_case) %><br>
+  <div class="assignment-actions">
+    <ul>
+      <li>
+        <%= link_to test_case_url(@test_case) do %>
+          <div>
+            <%= image_tag('icon_edit.png', size: "64x64", alt: "Edit Test Case", title: "Edit Test Case") %><br>
+            Edit Test Case
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to grade_all_assignment_url(@assignment) do %>
+          <div>
+            <%= image_tag('icon_test.png', size: "64x64", alt: "Grade All Submissions", title: "Grade All Submissions") %><br>
+            Grade All Submissions
+          </div>
+        <% end %>
+      </li>
+    </ul>
+  </div>
 </div>
 
 <header>
-  <h1>All submissions</h1>
-  <center><%= link_to "Grade All Submissions", grade_all_assignment_url(@assignment) %></center>
+  <h1>Submissions</h1>
 </header>
-
 <div class="content-group">
   <table>
-  <tr>
-    <th>Student Name</th>
-    <th>View Submission</th>
-    <%= "<th>Output Grade</th>".html_safe if @grade_all %>
-  </tr>
-  <% @submissions.each do |submission| %>
     <tr>
-      <td><%= submission.user.name %></td>
-      <td><%= link_to 'View', edit_submission_url(submission) %></td>
-      <% if @grade_all %>
-        <% submission_grade = submission.instructor_grade %>
-        <% if submission_grade[:compile] %>
-          <td><%= submission_grade[:correct][:correct].to_s + " out of " + submission_grade[:correct][:total].to_s %></td>
-        <% else %>
-          <td>Does Not Run</td>
-        <% end %>
-      <% end %>
+      <th>Student Name</th>
+      <th>View Submission</th>
+      <%= "<th>Output Grade</th>".html_safe if @grade_all %>
     </tr>
-  <% end %>
+    <% @submissions.each do |submission| %>
+      <tr>
+        <td><%= submission.user.name %></td>
+        <td><%= link_to 'View', edit_submission_url(submission) %></td>
+        <% if @grade_all %>
+          <% submission_grade = submission.instructor_grade %>
+          <% if submission_grade[:compile] %>
+            <td><%= submission_grade[:correct][:correct].to_s + " out of " + submission_grade[:correct][:total].to_s %></td>
+          <% else %>
+            <td>Does Not Run</td>
+          <% end %>
+        <% end %>
+      </tr>
+    <% end %>
   </table>
 </div>

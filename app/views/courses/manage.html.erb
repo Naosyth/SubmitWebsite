@@ -19,22 +19,6 @@
   <div class="course-actions">
     <ul>
       <li>
-        <%= link_to new_assignment_url(@course) do %>
-          <div>
-            <%= image_tag('icon_add.png', size: "64x64", alt: "Add Assignment", title: "Add Assignment") %><br>
-            New Assignment
-          </div>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to select_assignment_url(@course) do %>
-          <div>
-            <%= image_tag('icon_copy.png', size: "64x64", alt: "Import Assignment", title: "Import Assignment") %><br>
-            Import Assignment
-          </div>
-        <% end %>
-      </li>
-      <li>
         <%= link_to courses_users_path(@course) do %>
           <div>
             <%= image_tag('icon_users_dark.png', size: "64x64", alt: "Enrolled Students", title: "Enrolled Students") %><br>
@@ -65,6 +49,27 @@
   <h1>Assignments</h1>
 </header>
 <div class="content-group">
+    <div class="course-actions">
+    <ul>
+      <li>
+        <%= link_to new_assignment_url(@course) do %>
+          <div>
+            <%= image_tag('icon_add.png', size: "64x64", alt: "Add Assignment", title: "Add Assignment") %><br>
+            New Assignment
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to select_assignment_url(@course) do %>
+          <div>
+            <%= image_tag('icon_copy.png', size: "64x64", alt: "Import Assignment", title: "Import Assignment") %><br>
+            Import Assignment
+          </div>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+  
   <table class="assignment-list">
     <tr>
       <th>Assignment Name</th>

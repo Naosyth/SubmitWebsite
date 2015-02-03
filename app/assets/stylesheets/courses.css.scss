@@ -1,6 +1,6 @@
 @import "variables";
 
-form.new_course, form.edit_course {
+form.new_course, form.edit_course, form.edit_user {
   input[type="text"] {
     border-radius: 0px;
     border: 1px solid $color-border-light;
@@ -85,6 +85,10 @@ form.new_course, form.edit_course {
       padding: 0 5px 0 5px;
       text-align: center;
   }
+
+  td label {
+    text-align: left;
+  }
 }
 
 table {
@@ -148,7 +152,7 @@ table {
   margin: 0 auto;
   border: 1px solid $color-border-light;
   padding: 10px;
-  max-width: 50%;
+  width: 50%;
   text-align: left;
 }
 

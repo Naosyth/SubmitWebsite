@@ -71,3 +71,47 @@ form.new_assignment, form.edit_assignment {
       margin: 0 auto;
     }
 }
+
+.assignment-info-wrapper {
+  max-width: 50%;
+  margin: 0 auto;
+}
+
+.assignment-info {
+  margin: 10px;
+  text-align: left;
+}
+
+.assignment-actions {
+  text-align: center;
+
+  :after {
+    content: "";
+    display: block; 
+    height: 0; 
+    clear: both;
+  }
+
+  ul {
+    display: inline-block;
+  }
+
+  li {
+    float: left;
+    clear: right;
+    margin: 0 10px;
+
+    a {
+      color: $font-color-dark;
+
+      div {
+        padding: 10px;
+        text-align: center;
+      }
+    }
+  }
+
+  li:hover {
+    box-shadow: 1px 1px 3px #888;
+  }
+}
