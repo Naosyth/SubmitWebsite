@@ -101,11 +101,18 @@ html, body.application {
   top: 300px;
   margin: 0 auto;
   position: fixed;
-  background-color: $color-flash;
+  background-color: $color-compile;
   width: 500px;
-  padding: 5px;
+  padding: 5px 10px;
   color: $font-color-dark;
   text-align: left;
+  border-radius: 5px;
+  border: 1px solid #000;
+
+  #compile-error-button {
+    position: absolute;
+    bottom: 10px;
+  }
 }
 
 .center-wrapper {
