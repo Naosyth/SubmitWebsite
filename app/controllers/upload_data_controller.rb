@@ -52,6 +52,7 @@ class UploadDataController < ApplicationController
     @comment = Comment.new
     @can_edit = (current_user.has_local_role? :instructor, @upload_data.source.assignment.course) ||
                 (@upload_data.submission.user == current_user;)
+    @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
     if not @can_edit
       render "upload_data/show"
     else
@@ -124,4 +125,18 @@ class UploadDataController < ApplicationController
     end
   end
 
+  def get_all_comments(assignment)
+    comments = Hash.new
+    assignment.submissions.each do |s| 
+      s.upload_data.each do |u|
+        u.comments.each do |c|
+          if comments[c.contents] == nil
+            comments[c.contents] = 0
+          end
+          comments[c.contents] += 1
+        end
+      end 
+    end
+    return comments
+  end
 end
