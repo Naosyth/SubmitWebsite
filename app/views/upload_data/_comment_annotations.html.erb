@@ -27,7 +27,7 @@
   createLink = function(annotation)
   {
  
-    var comment_ = (annotation.text.length < 60)? (annotation.text):(annotation.text.substring(0,57)+ "...");
+    var comment_ = (annotation.text.length < 45)? (annotation.text):(annotation.text.substring(0,42)+ "...");
     var link= "<td>" + (annotation.row + 1).toString() + "</td><td> \
                 <a href=\"#\" \
                   onclick=\"editor.focus(); \
