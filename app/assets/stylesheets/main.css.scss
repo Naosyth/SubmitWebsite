@@ -94,6 +94,7 @@ html, body.application {
 }
 
 .compile-messages {
+  z-index: 10000;
   overflow: auto;
   height: 300px;
   right: 0;

@@ -43,8 +43,8 @@ Rails.application.configure do
   # config.compile_directory = 
 
   # Brandon home computer and lab computer
-  config.compile_directory = '/home/bworl/Documents/submitTest/tempDirectory/'
-  # config.compile_directory = '/home/brandon/Documents/submitTest/tempDirectory/'
+  # config.compile_directory = '/home/bworl/Documents/submitTest/tempDirectory/'
+  config.compile_directory = '/home/brandon/Documents/submitTest/tempDirectory/'
 
   # Webserver
   # config.compile_directory = '/home/submit_temp/'

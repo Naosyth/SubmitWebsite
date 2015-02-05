@@ -3,10 +3,8 @@
 <header>
   <h1><%= get_assignment.name %> Submission</h1>
 </header>
-
-<%= render :partial => "grade_form", :locals => { :submisson => @submission } %>
-
 <div class="content-group">
+  <%= render :partial => "grade_form", :locals => { :submission => @submission } %>
   <table class="files-display">
     <tr>
       <th>File Name</th>

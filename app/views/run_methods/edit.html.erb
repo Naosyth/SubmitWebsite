@@ -1,9 +1,9 @@
 <% content_for :title, "Update Run Method " + @run_method.name %>
 
 <header>
-  <h1>Update Run Method <%= @run_method.name %></h1>
+  <h1>Update Run Method</h1>
+  <h2><%= @run_method.name %></h2>
 </header>
-
 <div class="content-group">
   <%= form_for @run_method, url: run_method_url(@run_method), method: :patch do |f| %>
     <%= f.text_field :name, :placeholder => 'Run Name' %><br>
@@ -11,6 +11,32 @@
     <%= f.text_area :description, :placeholder => 'Run Description' %><br>
     <%= f.submit "Update" %>
   <% end %>
+
+  <%= button_to 'Delete', run_method_url(@run_method), method: :delete, data: { confirm: 'Are you sure?' } %>
 </div>
 
-<%= button_to 'Delete', run_method_url(@run_method), method: :delete, data: { confirm: 'Are you sure?' } %>
+<header>
+  <h1>Manage Inputs</h1>
+</header>
+<div class="content-group">
+  <table>
+    <thead>
+      <tr>
+        <th>Inputs</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @run_method.inputs.each do |i| %>
+        <tr>
+          <td><%= link_to i.name, edit_input_url(i) %></td>
+          <td><%= link_to 'Delete', input_url(i), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+      <tr>
+        <td>
+          <%= link_to "&oplus;Add Inputs".html_safe, new_input_url(@run_method) %>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

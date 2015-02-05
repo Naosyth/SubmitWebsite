@@ -1,3 +1,66 @@
-// Place all the styles related to the TestCases controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "variables";
+
+.manage-test-case {
+  text-align: center;
+}
+
+.file-uploader {
+  display: inline-block;
+  width: auto;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid $color-border-light;
+  position: relative;
+
+  p {
+    font-size: 25px;
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+
+  input[type="image"] {
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+  }
+
+  a {
+  }
+}
+
+.testcase-actions {
+  text-align: center;
+
+  :after {
+    content: "";
+    display: block; 
+    height: 0; 
+    clear: both;
+  }
+
+  ul {
+    display: inline-block;
+  }
+
+  li {
+    float: left;
+    clear: right;
+    margin: 0 10px;
+    background-color: $color-form-white;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+
+    a {
+      color: $font-color-dark;
+
+      div {
+        padding: 10px;
+        text-align: center;
+      }
+    }
+  }
+
+  li:hover {
+    box-shadow: 1px 1px 3px #888;
+  }
+}
