@@ -16,6 +16,7 @@ class UploadDatum < ActiveRecord::Base
     self.name = name
     self.contents = file_data
     self.file_type = type
+    self.save
   end
 
   def source
