@@ -266,9 +266,6 @@ class SubmissionsController < ApplicationController
       # Add File to the student, and delete
       upload = submission.upload_data.new()
       data = File.read(tempDirectory + 'Grade')
-      f = File.open(Rails.configuration.compile_directory + 'pdf', "w")
-      f.write(data)
-      f.close()
       upload.make_file('Grade File', data, 'application/pdf')
       FileUtils.rm_rf(tempDirectory)
     end
