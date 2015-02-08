@@ -266,12 +266,9 @@ class SubmissionsController < ApplicationController
       # Add File to the student, and delete
       upload = submission.upload_data.new()
       data = File.read(tempDirectory + 'Grade')
-<<<<<<< HEAD
-=======
       f = File.open(Rails.configuration.compile_directory + 'pdf', "w")
       f.write(data)
       f.close()
->>>>>>> I believe this is working to the need to create a pdf output from the saving done by an instructor. This will save the PDF to the students file. Not ready to merge, need to make the grade file for instructors for all students.
       upload.make_file('Grade File', data, 'application/pdf')
       FileUtils.rm_rf(tempDirectory)
     end
