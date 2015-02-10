@@ -103,6 +103,57 @@ class CoursesController < ApplicationController
     end
   end
 
+  # View all the grades
+  def view_grades
+    @course = Course.find(params[:id])
+  end
+
+  # Download All the students grades from all assignments
+  def download_grades
+    @course = Course.find(params[:id])
+    book = Spreadsheet::Workbook.new
+    sheet = book.create_worksheet :name => 'All Student Grades'
+
+    fmt = Spreadsheet::Format.new :number_format => '0.0'
+    sheet.column(2).default_format = fmt
+
+    head = Spreadsheet::Format.new :weight => :bold, :size => 24, :horizontal_align => :center, :vertical_align => :middle
+    sheet.merge_cells(0,0,2,2)
+    sheet.row(0).default_format = head
+    sheet.row(0).push @course.name + " Grades"
+
+    top = Spreadsheet::Format.new :weight => :bold, :size => 18, :horizontal_align => :center
+    sheet.row(3).default_format = top
+    sheet.row(3).push "First Name", "Last Name"
+
+    row = 4
+    @course.users.each do |name|
+      if not name.has_local_role? :instructor, @course
+        sheet.row(row).push name.name, name.name
+        row += 1
+      end
+    end
+
+    col = 2
+    @course.assignments.each do |assignment|
+      sheet.row(3).push assignment.name
+      sheet.column(col).width = 15
+      row = 4
+      assignment.submissions.each do |submission|
+        sheet.row(row).push submission.grade
+        row += 1
+      end
+      col += 1
+    end
+
+    sheet.column(0).width = 30
+    sheet.column(1).width = 30
+
+    blob = StringIO.new
+    book.write blob
+    send_data blob.string, :filename => @course.name + "_grades.xls", :type => "application/xls"
+  end
+
   # List all users in a specific course.
   def users
     @course = Course.find(params[:id])
