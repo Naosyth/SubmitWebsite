@@ -54,9 +54,6 @@ gem 'diffy'
 # For pdf generation
 gem 'pdfkit'
 gem 'wkhtmltopdf-binary'
-<<<<<<< HEAD
 
 # For XML Documents
 gem 'spreadsheet'
-=======
->>>>>>> 3d407d70bfa850d16f87722043ad780e0e9085ae
