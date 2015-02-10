@@ -27,6 +27,14 @@
         <% end %>
       </li>
       <li>
+        <%= link_to course_all_grades_url(@course) do %>
+          <div>
+            <%= image_tag('icon_grade.png', size: "64x64", alt: "View All Grades", title: "View All Grades") %><br>
+            View All Grades
+          </div>
+        <% end %>
+      </li>
+      <li>
         <%= link_to edit_course_path(@course) do %>
           <div>
             <%= image_tag('icon_edit.png', size: "64x64", alt: "Edit Course", title: "Edit Course") %><br>
