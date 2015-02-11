@@ -6,6 +6,7 @@ class SubmissionsController < ApplicationController
   # Shows a submission
   def show
     @submission = Submission.find(params[:id])
+    @assignment = @submission.assignment
   end
 
   # Creates form to set a note or manually enter a grade
@@ -59,6 +60,7 @@ class SubmissionsController < ApplicationController
   # Compiles, runs the code, and creates the output files
   def run_program
     @submission = Submission.find(params[:id])
+    @assignment = @submission.assignment
     @tempDirectory = @submission.create_directory
 
     # Compiles and runs the program

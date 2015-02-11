@@ -2,18 +2,35 @@
 
 <header>
   <h1><%= @course.name %></h1>
+  <h2><%= @course.term.humanize + " " + @course.year.to_s %></h2>
 </header>
-
 <div class="content-group">
-  <p><%= @course.name %></p>
-  <p><%= @course.description %></p>
-  <p><%= @course.term %>&nbsp;<%= @course.year %></p>
-  <p><%= @course.open %></p>
-  <p><%= @course.join_token %></p><br>
+  <div class="center-wrapper">
+    <p class="description"><%= @course.description.gsub(/\n/, '<br>').html_safe %></p>
+  </div>
+</div>
 
-  <% @assignments.each do |assignment| %>
-    <%= link_to assignment.name, assignment_path(assignment) %>
-    &nbsp; 
-    <%= assignment.start_date %><br>
-  <% end %>
+<header>
+  <h1>Assignments</h1>
+</header>
+<div class="content-group">
+  <table>
+    <thead>
+      <tr>
+        <td>Assignment</td>
+        <td>Start Date</td>
+        <td>Due Date</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% @assignments.each do |assignment| %>
+      <% submission = assignment.submissions.select { |submission| submission.user == current_user }.first %>
+      <tr>
+        <td><%= link_to assignment.name, submission_url(submission) %></td>
+        <td><span data-time><%= assignment.start_date.to_i %></span></td>
+        <td><span data-time><%= assignment.due_date.to_i %></span></td>
+      </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>

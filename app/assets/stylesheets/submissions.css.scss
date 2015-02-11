@@ -4,47 +4,96 @@
 
 @import "variables";
 
-.files-display{
+.manage-submission {
+  text-align: center;
+}
+
+.submission-actions {
+  text-align: center;
+
+  :after {
+    content: "";
+    display: block; 
+    height: 0; 
+    clear: both;
+  }
+
+  ul {
+    display: inline-block;
+  }
+
+  li {
+    float: left;
+    clear: right;
+    margin: 0 10px;
+    background-color: $color-form-white;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+
+    a {
+      color: $font-color-dark;
+
+      div {
+        padding: 10px;
+        text-align: center;
+      }
+    }
+  }
+
+  li:hover {
+    box-shadow: 1px 1px 3px #888;
+  }
+}
+
+.files-display {
   width: 75%;
+  margin-bottom: 50px;
 
   th {
     background-color: $color-th-background;
   }
 }
 
-.grade-display{
-  width: 500px;
-  right: 0;
-  left: 0;
-  top: 300px;
-  margin: 0 auto;
-  background-color: $color-flash;
-  margin-bottom: 16px;
-  margin-top: 16px;
-  padding: 5px;
-  color: $font-color-dark;
-  text-align: left;
-
-  .grade, .note{
-    font-size: $font-size-medium;
-    font-weight: bold;
-    text-decoration: underline;
-  }
-
-  .grade-value{
-    padding: 10px;
-  }
-}
-
-.files-display{
+.files-display {
   width: 75%;
   font-family: verdana;
 }
 
-.output-compare{
-  width: 80%;
+.run-diff {
+  width: 75%;
+  display: inline-block;
+  border: 1px solid $color-border-light;
 
-  th {
-    background-color: $color-th-background;
+  p {
+    color: $font-color-dark;
+    font-weight: bold;
+    padding: 10px;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    border: 4px solid #e9e9e9;
+    margin: 0 auto;
+    text-align: left;
+    color: $font-color-dark;
+
+    td, th {
+      padding: 3px 16px;
+    }
+    tbody tr:nth-child(odd) {
+      background-color: #f9f9f9;
+    }
+    tbody tr:nth-child(even) {
+      background-color: #e9e9e9;
+    }
+
+    thead tr {
+      background-color: #e9e9e9;
+
+      td {
+        font-weight: bold;
+      }
+    }
   }
 }

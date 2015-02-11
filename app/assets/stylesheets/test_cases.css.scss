@@ -4,30 +4,6 @@
   text-align: center;
 }
 
-.file-uploader {
-  display: inline-block;
-  width: auto;
-  margin: 0 auto;
-  padding: 10px;
-  border: 1px solid $color-border-light;
-  position: relative;
-
-  p {
-    font-size: 25px;
-    padding-bottom: 10px;
-    display: inline-block;
-  }
-
-  input[type="image"] {
-    width: 64px;
-    height: 64px;
-    display: inline-block;
-  }
-
-  a {
-  }
-}
-
 .testcase-actions {
   text-align: center;
 
