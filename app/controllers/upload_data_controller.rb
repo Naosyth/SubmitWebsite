@@ -34,6 +34,7 @@ class UploadDataController < ApplicationController
     @upload_data = UploadDatum.find(params[:id])
     @can_edit = false
     @comment = Comment.new
+    @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
     if @upload_data.file_type == 'application/pdf'
       send_data @upload_data.contents, type: 'application/pdf', filename: @upload_data.name, disposition: 'inline'
     elsif @upload_data.file_type.include? "text"
