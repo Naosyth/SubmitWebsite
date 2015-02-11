@@ -1,0 +1,56 @@
+<div id="annotations">
+<table id="comment_table">
+  <thead>
+    <tr>
+      <th>Line</th>
+      <th>Comment</th>
+    </tr>
+  </thead>
+  <tbody>
+  </tbody>
+</table>
+</div>
+<script>
+  annots = [
+  <% @upload_data.comments.each do |c| %>
+    <% commentL = raw '{row: ' + (c.line - 1).to_s + ', text: "'%>
+    <% commentL = commentL + c.contents.gsub(/(?:\n\r?|\r\n?)/, '\n')%>
+    <% commentL = commentL + raw( '", type: "error" , id:' + c.id.to_s + '}' )%>
+    <%=commentL %>
+    <% if c != @upload_data.comments.last %>
+      <%= ',' %>
+    <% end %> 
+  <% end %>
+  ];
+  editor = ace.edit("editor");
+  editor.session.setAnnotations(annots); 
+  createLink = function(annotation)
+  {
+ 
+    var comment_ = (annotation.text.length < 45)? (annotation.text):(annotation.text.substring(0,42)+ "...");
+    var link= "<td>" + (annotation.row + 1).toString() + "</td><td> \
+                <a href=\"#\" \
+                  onclick=\"editor.focus(); \
+                  editor.scrollToLine(" + annotation.row.toString() + ",true); \
+                  editor.gotoLine(" + (annotation.row+ 1).toString() + ",10, true);\">" + 
+                  comment_ + 
+                "</a>" + 
+              "</td>";
+   var deleteLink = "<td><a rel='nofollow' href='/comments/" + annotation.id + "' data-method='delete' data-confirm='Are you sure?'> delete </a></td>" ;
+   return link + deleteLink;
+  };
+  annotsHandler=$("#comment_table tbody") ;
+  for(i=0; i < annots.length; i++)
+    {
+  annotsHandler.html( annotsHandler.html() + "<tr>" + createLink(annots[i]) + "</tr>" );
+    }
+
+  $(document).on("page:change", function() {
+    $('#comment_table').tablesorter({
+      sortList: [[0,0]],
+      headers: {
+        1: { sorter: false }
+      }
+    });
+  });
+</script>

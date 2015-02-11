@@ -57,3 +57,6 @@ gem 'wkhtmltopdf-binary'
 
 # For XML Documents
 gem 'spreadsheet'
+
+#For Ace Text Editor
+gem 'ace-rails-ap'

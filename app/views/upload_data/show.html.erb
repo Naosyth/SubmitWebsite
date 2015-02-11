@@ -1,5 +1,16 @@
-<% content_for :title, @upload_data.name + " - View" %>
+<% content_for :title, @upload_data.name %>
 
-<textarea>
+<div id="editor" class="editor" style="position: absolute;
+          top: 0;
+          right: 10%;
+          bottom: 0;
+          left: 150px ;">
   <%= @upload_data.contents %>
-</textarea>
+<div>
+    <div class="content-editor">
+      <%= render :partial => "editor", :locals => { :upload_data => @upload_data } %>
+    </div>
+</div>
+<div class="comment-annotations">
+  <%= render :partial => "comment_annotations", :locals => { :upload_data => @upload_data } %>
+</div>

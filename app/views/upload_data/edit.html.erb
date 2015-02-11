@@ -1,7 +1,17 @@
 <% content_for :title, @upload_data.name + " - Edit" %>
-
-<%= form_for :upload_datum, url: upload_datum_url(@upload_data), method: :patch do |f| %>
-  <%= f.text_field  :name, value: @upload_data.name %><br>
-  <%= f.text_area :contents, value: @upload_data.contents %><br>
-  <%= f.submit "Edit" %>
-<% end %>
+<div id="upload_data_container">
+  <%= form_for :upload_datum, url: upload_datum_url(@upload_data), method: :patch do |f| %>
+    <%= f.text_field  :name, value: @upload_data.name %><br>
+    <%= f.text_area :contents, style: 'display:none' , value: @upload_data.contents %><br>
+    <%= f.submit "Edit" %>
+  <% end %>
+</div>
+<div class="content-editor">
+  <%= render :partial => "editor", :locals => { :upload_data => @upload_data } %>
+</div>
+<div class="comment-annotations">
+  <%= render :partial => "comment_annotations", :locals => { :upload_data => @upload_data } %>
+</div>
+<div class="comment-form">
+  <%= render :partial => "comment_form", :locals => { :upload_data => @upload_data } %>
+</div>
