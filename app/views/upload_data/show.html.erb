@@ -1,5 +1,21 @@
-<% content_for :title, @upload_data.name + " - View" %>
+<% content_for :title, @upload_data.name %>
 
-<textarea>
+<div id="editor" class="editor" style="position: absolute;
+          top: 0;
+          right: 10%;
+          bottom: 0;
+          left: 150px ;">
   <%= @upload_data.contents %>
-</textarea>
+<div>
+
+<script>
+      annots = [{row: 105, text: "You have a problem here.",type: "error"}, {row: 111, text: "You have a problem here.",type: "error"}, {row: 113, text: "You have a problem here.",type: "error"}];
+      editor = ace.edit("editor");
+      editor.focus();
+      editor.resize(true);
+      editor.setTheme("ace/theme/monokai");
+      session = editor.getSession();
+      session.setMode("ace/mode/c_cpp"); 
+      editor.setReadOnly(true);
+      editor.session.setAnnotations(annots); 
+</script>
