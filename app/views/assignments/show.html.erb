@@ -3,7 +3,6 @@
 <header>
   <h1><%= @course.name %> assignment <%= @assignment.name %></h1>
 </header>
-
 <div class="content-group">
   <%= @assignment.name %><br>
   <%= @assignment.description %><br>
@@ -13,11 +12,8 @@
 </div>
 
 <header>
-  <h1>All submissions</h1>
+  <h1>Your Submission</h1>
 </header>
-
 <div class="content-group">
-  <% @submissions.each do |submission| %>
-    <%= submission.user.name %> - <%= link_to 'Edit', edit_submission_url(submission) %><br>
-  <% end %>
+  <%= @submission.user.name %> - <%= link_to 'Edit',  submission_url(@submission) %><br>
 </div>

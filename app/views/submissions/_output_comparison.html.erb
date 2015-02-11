@@ -1,32 +1,33 @@
-<header>
-  <h1>Output Compared to Expected Output</h1>
-</header>
-
-<table class="output-compare">
-  <tr>
-    <th>Output</th>
-    <th>Expected Output</th>
-  </tr>
-  <% @submission.assignment.test_case.run_methods.each do |run| %>
-    <th colspan="2">Run Method <%= run.name %></th>
-    <% submit_run = run.inputs %>
-    <% submit_run = run.inputs.select {|i| i.student_visible} if current_user.has_local_role? :student, @submission.assignment.course %>
-    <% submit_run.each do |input| %>
+<% @submission.assignment.test_case.run_methods.each do |run| %>
+<%= raw "<div class='run-diff' id=" + run.id.to_s + ">" %>
+  <p><%= run.name %></p>
+  <table class="output-diff">
+    <thead>
+      <tr>
+        <td>Your Output</td>
+        <td>Expected Output</td>
+        <td>Difference</td>
+      </tr>
+    </thead>
+    <tbody>
+      <% submit_run = run.inputs %>
+      <% submit_run = run.inputs.select {|i| i.student_visible} if current_user.has_local_role? :student, @submission.assignment.course %>
+      <% submit_run.each do |input| %>
       <tr>
         <% data = File.read(@tempDirectory + input.name) %>
-        <td><%= simple_format(data) %></td>
-        <td><%= simple_format(input.output) %></td>
-      </tr>
-      <tr>
+        <td><%= simple_format(input.output, {}, wrapper_tag: "span") %></td>
+        <td><%= simple_format(data, {}, wrapper_tag: "span") %></td>
         <% difference = File.read(@tempDirectory + input.name + "diff") %>
         <% if not difference.empty? %>
-          <td colspan="2"><center><%= simple_format(difference) %></center></td>
+          <td><%= simple_format(difference, {}, wrapper_tag: "span") %></td>
         <% else %>
-          <td colspan="2"><center>All Good</center></td>
-        <% end %> 
+          <td>All Good</td>
+        <% end %>
       </tr>
-    <% end %>
-  <% end %>
-</table>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+<% end %>
 
 <% FileUtils.rm_rf(@tempDirectory) %>

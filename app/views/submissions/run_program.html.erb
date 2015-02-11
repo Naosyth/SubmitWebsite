@@ -1,13 +1,19 @@
 <% content_for :title, "Test Case Run" %>
 
-<%= link_to 'Back', edit_submission_url(@submission) %>
-
-<div class="grade-display">
-  <center>
-  <p class="grade">Correct Outputs</p>
-  <p class="grade-value"><%= @correct[:correct].to_s + " out of " + @correct[:total].to_s %></p>
-  </center>
-  <br>
+<header>
+  <h1>Program Output</h1>
+  <h2><%= @assignment.name %></h2>
+</header>
+<div class="content-group">
+  <%= @correct[:correct].to_s + " out of " + @correct[:total].to_s %> test cases succeeded<br>
+  <% @submission.assignment.test_case.run_methods.each do |run| %>
+    <%= raw "<a href=" + run.id.to_s + ">" + run.name + "</a>" %>
+  <% end %>
 </div>
 
-<%= render :partial => 'output_comparison' %>
+<header>
+  <h1>Output Comparison</h1>
+</header>
+<div class="content-group manage-submission">
+  <%= render :partial => 'output_comparison' %>
+</div>

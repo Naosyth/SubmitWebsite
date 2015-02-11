@@ -9,17 +9,23 @@ $font-color-error: #f22;
 
 /* Sizes */
 $sidebar-width: 150px;
+$topbar-height: 30px;
 
 /* Colors */
 $color-background: #e9e9e9;
 $color-foreground: #f1f1f1;
+$color-hover: #f4f4f4;
 $color-form-white: #fdfdfd;
+$color-form-grey: #dddddd;
 $color-header: #f8f8f8;
-$color-flash: #f8f8f8;
+$color-flash: rgba(124, 124, 248, 0.2);
+$color-compile: rgba(255, 255, 255, 1.0);
 $color-sidebar-background: #09396b;
-$color-sidebar-hover: #099DCF;
+$color-sidebar-hover: #1f63aa;
 $color-border-dark: #222;
 $color-border-light: #ddd;
 $color-th-background: #D8D8D8;
-
+$color-topbar-background: #09396b;
+$color-topbar-secondary: #1b5694;
+$color-topbar-tertiary: #1f63aa;
 $color-login-header: #09396b;

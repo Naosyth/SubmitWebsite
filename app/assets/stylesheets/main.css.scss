@@ -6,7 +6,11 @@
   padding: 0;
 }
 
-input, p, h1, h2, h3, table, div.sidebar, div.content-group, div.flash-messages {
+ul {
+  list-style-type: none;
+}
+
+input, p, h1, h2, h3, table, div.sidebar, div.content-group, div.flash-messages, a {
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -21,9 +25,14 @@ a:visited {
 
 html, body.application {
   height: 100%;
+  background-color: $color-background;
 }
 
 .flash-messages {
+  position: fixed;
+  z-index: 10000;
+  top: $topbar-height + 20px;
+  left: $sidebar-width + 20px;
   background-color: $color-flash;
   margin-bottom: 16px;
   padding: 5px;
@@ -48,15 +57,16 @@ html, body.application {
 .application-content {
   background-color: $color-background;
   box-sizing: border-box;
-  min-height: 100%;
   padding: 16px 16px 16px $sidebar-width+16px;
   position: absolute;
   width: 100%;
+  margin-top: $topbar-height;
 
   header {
     background-color: $color-header;
     border-bottom: 1px solid $color-border-light;
     padding: 4px;
+    box-shadow: 2px 2px 3px #aaa;
 
     h1 {
       color: $font-color-dark;
@@ -70,7 +80,21 @@ html, body.application {
   }
 }
 
+.content-group {
+  background-color: $color-foreground;
+  padding: 16px;
+  margin-bottom: 32px;
+  box-shadow: 2px 2px 3px #aaa;
+
+  h2 {
+    color: $font-color-dark;
+    text-align: center;
+    margin-bottom: 16px;
+  }
+}
+
 .compile-messages {
+  z-index: 10000;
   overflow: auto;
   height: 300px;
   right: 0;
@@ -78,9 +102,47 @@ html, body.application {
   top: 300px;
   margin: 0 auto;
   position: fixed;
-  background-color: $color-flash;
+  background-color: $color-compile;
   width: 500px;
-  padding: 5px;
+  padding: 5px 10px;
   color: $font-color-dark;
   text-align: left;
+  border-radius: 5px;
+  border: 1px solid #000;
+
+  #compile-error-button {
+    position: absolute;
+    bottom: 10px;
+  }
+}
+
+.center-wrapper {
+  text-align: center;
+}
+
+.file-uploader {
+  display: inline-block;
+  width: auto;
+  margin: 0 auto;
+  padding: 10px;
+  border: 1px solid $color-border-light;
+  position: relative;
+
+  p {
+    font-size: 25px;
+    padding-bottom: 10px;
+    display: inline-block;
+  }
+
+  input[type="image"] {
+    margin-top: 10px;
+    width: 64px;
+    height: 64px;
+    display: inline-block;
+    background-color: $color-form-white;
+    border: 1px solid $color-border-light;
+  }
+
+  a {
+  }
 }

@@ -5,6 +5,7 @@ class Submission < ActiveRecord::Base
 
   after_create :set_note_empty
 
+  # This should be moved to the model
   def set_note_empty
     self.note = ""
     self.save
@@ -13,7 +14,7 @@ class Submission < ActiveRecord::Base
   # Sets up the directory
   def create_directory
     # Creates a temporary directory for the student files
-    tempDirectory = Rails.configuration.compile_directory + user.name + '_' + id.to_s + '/'
+    tempDirectory = Rails.configuration.compile_directory + user.name.tr(" ", "_") + '_' + id.to_s + '/'
     if not Dir.exists?(tempDirectory) 
       Dir.mkdir(tempDirectory)
     end

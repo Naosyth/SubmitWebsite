@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   include AssignmentsHelper
 
   before_filter :require_user
-  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy, :grade_all]
+  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy, :grade_all, :manage]
   before_filter :require_enrolled, :only => [:show]
 
   # Creates the form to make a new assignment
@@ -53,13 +53,17 @@ class AssignmentsController < ApplicationController
   def show
     @assignment = Assignment.find(params[:id])
     @course = @assignment.course
-    @submissions = @assignment.submissions
+    @submission = @assignment.submissions.select { |submission| submission.user == current_user }.first
+  end
 
-    if current_user.has_local_role? :instructor, @course
-      @test_case = @assignment.test_case 
-      @grade_all = false
-      render "assignments/manage"
-    end
+  # Manage an assignment
+  def manage
+    @assignment = Assignment.find(params[:id])
+    @course = @assignment.course
+    @submissions = @assignment.submissions
+    @test_case = @assignment.test_case 
+    @grade_all = false
+    render "assignments/manage"
   end
 
   # Grade all
@@ -106,8 +110,8 @@ class AssignmentsController < ApplicationController
   end
 
   def convert_dates_to_utc
-    params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i)
-    params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i)
+    params[:assignment][:start_date] = Time.at(params[:assignment][:start_date].to_i).utc
+    params[:assignment][:due_date] = Time.at(params[:assignment][:due_date].to_i).utc
   end
 
   def copy_files

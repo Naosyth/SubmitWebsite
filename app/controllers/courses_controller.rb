@@ -74,7 +74,7 @@ class CoursesController < ApplicationController
 
     if @course.update_attributes(course_params)
       flash[:notice] = "Course updated!"
-      redirect_to courses_url
+      redirect_to course_url(@course)
     else
       render :action => :edit
     end
@@ -111,13 +111,13 @@ class CoursesController < ApplicationController
 
   # Creates the form for editing a user in the scope of a course.
   def edit_user
-    @course = Course.find(params[:course_id])
+    @course = Course.find(params[:id])
     @user = User.find(params[:user_id])
   end
 
   # Applies changes to a user in the scope of a specific course.
   def update_user
-    @course = Course.find(params[:course_id])
+    @course = Course.find(params[:id])
     @user = User.find(params[:user_id])
 
     User::ROLES.each do |role|
@@ -134,7 +134,7 @@ class CoursesController < ApplicationController
 
   # Kicks a user out of a course.
   def kick_user
-    @course = Course.find(params[:course_id])
+    @course = Course.find(params[:id])
     @user = User.find(params[:user_id])
 
     User::ROLES.each { |role| @user.remove_role role, @course }
@@ -157,7 +157,7 @@ class CoursesController < ApplicationController
     course.destroy
 
     flash[:notice] = "Course successfully deleted"
-    redirect_to :back
+    redirect_to courses_url
   end
 
   private

@@ -1,79 +1,95 @@
 <% content_for :title, get_assignment.name + " Test Case" %>
 
 <header>
-  <h1><%= get_assignment.name %> Test Case</h1>
+  <h1><%= get_assignment.name %></h1>
+  <h2>Test Case</h2>
 </header>
-
-<div class="content-group">
+<div class="content-group manage-test-case">
   <table class="files-display">
-    <tr>
-      <th>File Name</th>
-      <th>Updated At</th>
-      <th>Uploaded At</th>
-      <th>File Type</th>
-    </tr>
-
-    <% @test_case.upload_data.each do |upload_data| %>
+    <thead>
       <tr>
-        <td><%= link_to upload_data.name, upload_datum_path(upload_data) %></td>
-        <td><%= upload_data.updated_at %></td>
-        <td><%= upload_data.created_at %></td>
-        <td><%= upload_data.file_type %></td>
-        <td><%= link_to 'Edit', edit_upload_datum_path(upload_data) %></td>
-        <td><%= button_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <th>File Name</th>
+        <th>Updated At</th>
+        <th>Uploaded At</th>
+        <th>File Type</th>
       </tr>
-    <% end %>
+    </thead>
+    <tbody>
+      <% @test_case.upload_data.each do |upload_data| %>
+        <tr>
+          <td><%= link_to upload_data.name, upload_datum_path(upload_data) %></td>
+          <td><%= upload_data.updated_at %></td>
+          <td><%= upload_data.created_at %></td>
+          <td><%= upload_data.file_type %></td>
+          <td><%= link_to 'Edit', edit_upload_datum_path(upload_data) %></td>
+          <td><%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        </tr>
+      <% end %>
+    </tbody>
   </table>
   <br>
-  <%= form_tag create_file_url("test_case", @test_case), method: :post, :multipart => true do %>
-  	<%= file_field_tag 'upload_file' %>
-  	<%= submit_tag "Save File" %>
-  <% end %>
-  <%= link_to "Create Outputs", :method => :get, :action => :create_output %>
+
+  <div class="file-uploader">
+    <p>Upload File</p>
+    <%= form_tag create_file_url("test_case", @test_case), method: :post, :multipart => true do %>
+  	  <%= file_field_tag 'upload_file' %><br>
+  	  <%= image_submit_tag "icon_upload.png", :title => "Upload File" %>
+    <% end %>
+  </div>
 </div>
 
 <header>
-  <h1>Test Case Running Variables</h1>
+  <h1>Makefile Management</h1>
 </header>
-
 <div class="content-group">
-  <%= form_for @test_case, url: test_case_url(@test_case), method: :patch do |f| %>
-    <table>
-      <tr>
-        <td><%= f.label "CPU Max Run Time" %></td>
-        <td><%= f.number_field :cpu_time, :step => 1 %></td>
-      </tr>
-      <tr>
-        <td><%= f.label "Max Core Dump Size" %></td>
-        <td><%= f.number_field :core_size, :step => 1 %></td>
-      </tr>
-      <tr>
-        <% if @test_case.make.nil? %>
-          <td><%= link_to "Add Makefile", new_make_url(@test_case) %></td>
-        <% else %>
-          <td><%= link_to @test_case.make.name, make_url(@test_case.make) %></td>
-          <td><%= link_to 'Delete', make_url(@test_case.make), method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  <div class="testcase-actions">
+    <ul>
+      <% if @test_case.make.nil? %>
+      <li>
+        <%= link_to new_make_url(@test_case) do %>
+          <div>
+            <%= image_tag('icon_add.png', size: "64x64", alt: "Create Makefile", title: "Create Makefile") %><br>
+            Create Makefile
+          </div>
         <% end %>
-      </tr>
-      <tr>
-        <td><%= f.submit "Save" %></td>
-      </tr>
-    </table>
-  <% end %>
+      </li>
+      <% else %>
+      <li>
+        <%= link_to make_url(@test_case.make) do %>
+          <div>
+            <%= image_tag('icon_edit.png', size: "64x64", alt: "Edit Makefile", title: "Edit Makefile") %><br>
+            Edit Makefile
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to make_url(@test_case.make), method: :delete, data: { confirm: 'Are you sure?' } do %>
+          <div>
+            <%= image_tag('icon_delete.png', size: "64x64", alt: "Delete Makefile", title: "Delete Makefile") %><br>
+            Delete Makefile
+          </div>
+        <% end %>
+      </li>
+      <% end %>
+  </div>
 </div>
 
 <header>
   <h1>Test Case Run Methods</h1>
 </header>
-
 <div class="content-group">
   <table>
-  <% @test_case.run_methods.each do |r| %>
-    <tr>
-      <th>Run Method</th>
-      <td><%= link_to r.name, edit_run_method_url(r) %></td>
-    </tr>
-    <tr>
+    <thead>
+      <tr>
+        <th>Run Methods</th>
+      </tr>
+    </thead>
+    <tbody>
+      <% @test_case.run_methods.each do |r| %>
+        <tr>
+          <td><%= link_to r.name, edit_run_method_url(r) %></td>
+        </tr>
+    <!--<tr>
       <td></td>
       <th>Inputs</th>
     <tr>
@@ -87,10 +103,49 @@
     <tr>
       <td></td>
       <td><%= link_to "&oplus;Add Inputs".html_safe, new_input_url(r) %></td>
-    </tr>
-  <% end %>
-  <tr>
-    <td><%= link_to "Add New Run Method", new_run_method_url(@test_case) %></td>
-  </tr>
+    </tr-->
+      <% end %>
+    </tbody>
   </table>
+  <br>
+
+  <div class="testcase-actions">
+    <ul>
+      <li>
+        <%= link_to :method => :get, :action => :create_output do %>
+          <div>
+            <%= image_tag('icon_output.png', size: "64x64", alt: "Delete Makefile", title: "Delete Makefile") %><br>
+            Create Outputs
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to new_run_method_url(@test_case) do %>
+          <div>
+            <%= image_tag('icon_add.png', size: "64x64", alt: "Add Run Method", title: "Add Run Method") %><br>
+            Add Run Method
+          </div>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<header>
+  <h1>Assignment Run Variables</h1>
+</header>
+<div class="content-group">
+  <%= form_for @test_case, url: test_case_url(@test_case), method: :patch do |f| %>
+    <table>
+      <tr>
+        <td><%= f.label "CPU Max Run Time" %></td>
+        <td><%= f.number_field :cpu_time, :step => 1 %></td>
+      </tr>
+      <tr>
+        <td><%= f.label "Max Core Dump Size" %></td>
+        <td><%= f.number_field :core_size, :step => 1 %></td>
+      </tr>
+    </table>
+    <%= f.submit "Save" %>
+  <% end %>
 </div>

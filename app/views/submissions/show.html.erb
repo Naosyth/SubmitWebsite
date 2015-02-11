@@ -1,12 +1,22 @@
 <% content_for :title, get_assignment.name + " Submission" %>
 
 <header>
-  <h1><%= get_assignment.name %> Submission</h1>
+  <h1>Manage Your Submission</h1>
+  <h2><%= get_assignment.name %></h2>
 </header>
-
-<%= render :partial => "grade_form", :locals => { :submisson => @submission } %>
-
 <div class="content-group">
+  <%= @assignment.name %><br>
+  <%= @assignment.description %><br>
+  <%= "Total Points: " + @assignment.total_grade.to_s %><br>
+  Start: <span data-time><%= @assignment.start_date.to_i %></span><br>
+  Due: <span data-time><%= @assignment.due_date.to_i %></span><br>
+</div>
+
+<header>
+  <h1>Files</h1>
+</header>
+<div class="content-group manage-submission">
+  <%= render :partial => "grade_form", :locals => { :submission => @submission } %>
   <table class="files-display">
     <tr>
       <th>File Name</th>
@@ -20,21 +30,46 @@
     <% @submission.upload_data.each do |upload_data| %>
       <tr>
       	<td><%= link_to upload_data.name, upload_datum_path(upload_data) %></td>
-        <td><%= upload_data.updated_at %></td>
-        <td><%= upload_data.created_at %></td>
+        <td><span data-time><%= upload_data.updated_at.to_i %></span></td>
+        <td><span data-time><%= upload_data.created_at.to_i %></span></td>
         <td><%= upload_data.file_type %></td>
         <td><%= link_to 'Edit', edit_upload_datum_path(upload_data) %></td>
-        <td><%= button_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <td><%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
       </tr>
     <% end %>
   </table>
 
-  <br>
-  <%= form_tag create_file_url("submission", @submission), method: :post, :multipart => true do %>
-  	<%= file_field_tag 'upload_file' %>
-  	<%= submit_tag "Save File" %>
-  <% end %>
-  <br>
-  <%= link_to "Test Compile", :method => :get, :action => :compile %>
-  <%= link_to "Run Tests", :method => :get, :action => :run_program %>
+  <div class="file-uploader">
+    <p>Upload File</p>
+    <%= form_tag create_file_url("submission", @submission), method: :post, :multipart => true do %>
+      <%= file_field_tag 'upload_file' %><br>
+      <%= image_submit_tag "icon_upload.png", :title => "Upload File" %>
+    <% end %>
+  </div>
+</div>
+
+<header>
+  <h1>Test Program</h1>
+</header>
+<div class="content-group">
+  <div class="submission-actions">
+    <ul>
+      <li>
+        <%= link_to :method => :get, :action => :compile do %>
+          <div>
+            <%= image_tag('icon_users_dark.png', size: "64x64", alt: "Test Compile", title: "Test Compile") %><br>
+            Test Compile
+          </div>
+        <% end %>
+      </li>
+      <li>
+        <%= link_to :method => :get, :action => :run_program do %>
+          <div>
+            <%= image_tag('icon_users_dark.png', size: "64x64", alt: "Run Tests", title: "Run Tests") %><br>
+            Run Tests
+          </div>
+        <% end %>
+      </li>
+    </ul>
+  </div>
 </div>
