@@ -34,7 +34,7 @@ class SubmissionsController < ApplicationController
     if submission.update_attributes(submission_params)
       make_pdf
       flash[:notice] = "Submission updated!"
-      redirect_to assignment_url(get_assignment)
+      redirect_to manage_assignment_url(get_assignment)
     end
   end
 
@@ -238,7 +238,11 @@ class SubmissionsController < ApplicationController
         run.inputs.each do |input|
           html_output = html_output + '<tr><td id="name">' + input.name + '</td>'
           html_output = html_output + '<td id="description">' + input.description + '</td>'
-          difference = File.read(studentDirectory + input.name + "diff")
+          if File.exist?(studentDirectory + input.name + "diff")
+            difference = File.read(studentDirectory + input.name + "diff")
+          else
+            difference = "Fail"
+          end
           if not difference.empty?
             html_output = html_output + '<td id="grade"><font color="red">Fail</font></td></tr>'
           else
