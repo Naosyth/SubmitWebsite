@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   include AssignmentsHelper
 
   before_filter :require_user
-  before_filter :require_instructor_owner, :only => [:new, :create, :copy, :destroy, :grade_all, :manage, :all_grades, :download_grades]
+  before_filter :require_instructor_owner, :only => [:new, :edit, :create, :copy, :destroy, :grade_all, :manage, :all_grades, :download_grades]
   before_filter :require_enrolled, :only => [:show]
 
   # Creates the form to make a new assignment
@@ -63,7 +63,6 @@ class AssignmentsController < ApplicationController
     @submissions = @assignment.submissions
     @test_case = @assignment.test_case 
     @grade_all = false
-    render "assignments/manage"
   end
 
   # Grade all
