@@ -18,6 +18,8 @@ Rails.application.routes.draw do
   get '/courses/:id/users/:user_id' => 'courses#edit_user', :as => :course_user_edit
   patch '/courses/:id/users/:user_id' => 'courses#update_user'
   get 'course/:id/users/:user_id/kick' => 'courses#kick_user', :as => :course_user_kick
+  get 'course/all_grades/:id' => 'courses#view_grades', :as => :course_all_grades
+  post 'course/all_grades/:id' => 'courses#download_grades'
   resources :courses
 
   get 'assignments/new/:course_id' => 'assignments#new', :as => :new_assignment
@@ -25,6 +27,8 @@ Rails.application.routes.draw do
   get 'assignments/copy/:course_id' => 'assignments#copy', :as => :select_assignment
   post 'assignments/copy/:course_id/old_assignment/:old_assignment_id' => 'assignments#copy_create', :as => :copy_assignment
   get 'assignments/grade_all/:id' => 'assignments#grade_all', :as => :grade_all_assignment
+  get 'assignments/all_grades/:id' => 'assignments#all_grades', :as => :view_all_grades_assignments
+  post 'assignments/all_grades/:id' => 'assignments#download_grades'
   get 'assignments/manage/:id' => 'assignments#manage', :as => :manage_assignment
   resources :assignments
 

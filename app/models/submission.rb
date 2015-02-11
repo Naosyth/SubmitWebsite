@@ -21,10 +21,12 @@ class Submission < ActiveRecord::Base
 
     # Adds in all the student files 
     upload_data.each do |upload_data|
-      output = tempDirectory + upload_data.name
-      f = File.open(output, "w" )
-      f.write(upload_data.contents)
-      f.close
+      if upload_data.file_type != 'application/pdf'
+        output = tempDirectory + upload_data.name
+        f = File.open(output, "w" )
+        f.write(upload_data.contents)
+        f.close
+      end
     end
 
     # Adds in the makefile if exists

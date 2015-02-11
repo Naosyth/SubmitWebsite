@@ -37,6 +37,14 @@
           </div>
         <% end %>
       </li>
+      <li>
+        <%= link_to view_all_grades_assignments_url(@assignment) do %>
+          <div>
+            <%= image_tag('icon_grade.png', size: "64x64", alt: "View All Grades", title: "View All Grades") %><br>
+            View All Grades
+          </div>
+        <% end %>
+      </li>
     </ul>
   </div>
 </div>

@@ -36,7 +36,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   # Nolan home computer and lab computer
-  # config.compile_directory = '/Users/nolanburfield/Documents/submitTest/tempDirectory/'
+  config.compile_directory = '/Users/nolanburfield/Documents/submitTest/tempDirectory/'
   # config.compile_directory = '/home/nolan/Documents/submitTest/tempDirectory/'
 
   # Hardy Macbook
@@ -44,7 +44,7 @@ Rails.application.configure do
 
   # Brandon home computer and lab computer
   # config.compile_directory = '/home/bworl/Documents/submitTest/tempDirectory/'
-  config.compile_directory = '/home/brandon/Documents/submitTest/tempDirectory/'
+  # config.compile_directory = '/home/brandon/Documents/submitTest/tempDirectory/'
 
   # Webserver
   # config.compile_directory = '/home/submit_temp/'
