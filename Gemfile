@@ -50,3 +50,7 @@ gem 'rolify'
 
 # For the diff of the outputs
 gem 'diffy'
+
+# For pdf generation
+gem 'pdfkit'
+gem 'wkhtmltopdf-binary'
