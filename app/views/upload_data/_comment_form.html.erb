@@ -6,12 +6,13 @@
 <div id="comment_favorites">
 <table>
 <% @all_comments.each do |c| %>
-  <tr><td><a href="#" onclick="add_favorites('<%= raw c[0] %>')"> <%=  (c[0].length <= 45)? simple_format(c[0].first(45).gsub(/\n/, '<br>').html_safe) : simple_format(c[0].first(42)) %> </a></td></tr>
+  <tr><td><a href-"#" onclick="add_favorites('<%= c[0].gsub(/\r\n/, '\r\n').gsub('\'', '\\′' ) %>')"> <%= raw (c[0].length <= 45) ? simple_format(c[0].first(45).gsub('\'', '′' )) : simple_format(c[0].first(42).gsub('\'', '\\\'' ) + "..." ) %> </a></td></tr>
 <% end %>
 </table> 
 </div>
 <script>
 add_favorites = function(v){
+  v= v.replace(new RegExp('′', 'g'), '\'');
   $("#comment_contents").val(v);
 }
 </script>
