@@ -14,7 +14,7 @@
   annots = [
   <% @upload_data.comments.each do |c| %>
     <% commentL = raw '{row: ' + (c.line - 1).to_s + ', text: "'%>
-    <% commentL = commentL + c.contents.gsub(/(?:\n\r?|\r\n?)/, '\n')%>
+    <% commentL = commentL + c.contents.gsub(/\r\n/, '\r\n') %>
     <% commentL = commentL + raw( '", type: "error" , id:' + c.id.to_s + '}' )%>
     <%=commentL %>
     <% if c != @upload_data.comments.last %>
