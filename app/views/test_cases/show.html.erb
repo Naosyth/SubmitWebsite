@@ -1,3 +1,4 @@
+<% breadcrumb :test_case, @test_case %>
 <% content_for :title, get_assignment.name + " Test Case" %>
 
 <header>
@@ -89,21 +90,6 @@
         <tr>
           <td><%= link_to r.name, edit_run_method_url(r) %></td>
         </tr>
-    <!--<tr>
-      <td></td>
-      <th>Inputs</th>
-    <tr>
-    <% r.inputs.each do |i| %>
-      <tr>
-        <td></td>
-        <td><%= link_to i.name, edit_input_url(i) %></td>
-        <td><%= link_to 'Delete', input_url(i), method: :delete, data: { confirm: 'Are you sure?' } %></td>
-      </tr>
-    <% end %>
-    <tr>
-      <td></td>
-      <td><%= link_to "&oplus;Add Inputs".html_safe, new_input_url(r) %></td>
-    </tr-->
       <% end %>
     </tbody>
   </table>
@@ -114,7 +100,7 @@
       <li>
         <%= link_to :method => :get, :action => :create_output do %>
           <div>
-            <%= image_tag('icon_output.png', size: "64x64", alt: "Delete Makefile", title: "Delete Makefile") %><br>
+            <%= image_tag('icon_output.png', size: "64x64", alt: "Create Outputs", title: "Create Outputs") %><br>
             Create Outputs
           </div>
         <% end %>

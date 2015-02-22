@@ -5,7 +5,7 @@ class CoursesController < ApplicationController
   before_filter :require_student, :only => [:enrolled]
   before_filter :require_enrolled, :only => [:show]
   before_filter :require_instructor_owner, :only => [:edit, :edit_user, :users, :update, :update_user, :destroy]
-  before_filter :require_instructor, :only => [:new, :create, :index]
+  before_filter :require_instructor, :only => [:new, :create]
   
   # Creates the form for creating a new course.
   def new
@@ -50,17 +50,15 @@ class CoursesController < ApplicationController
   def index
     if current_user.has_role? :admin
       @courses = Course.all
-    else
+      render and return
+    elsif current_user.has_role? :instructor
       @user = current_user
       @courses = current_user.courses.select { |course| current_user.has_local_role? :instructor, course }
-      render "courses/taught"
+      render "courses/taught" and return
+    else
+      @courses = current_user.courses
+      render "courses/enrolled" and return
     end
-  end
-
-  # Displays all users enrolled in a specific course.
-  def enrolled
-    @course = Course.new
-    @courses = current_user.courses
   end
 
   # Creates the form for editing an existing course.
@@ -78,11 +76,6 @@ class CoursesController < ApplicationController
     else
       render :action => :edit
     end
-  end
-
-  # Creates the form for enrolling in a course.
-  def enroll
-    @course = Course.new
   end
 
   # Creates a link between a user and the course.

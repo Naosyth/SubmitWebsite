@@ -1,3 +1,4 @@
+<% breadcrumb :assignment, @assignment, @course %>
 <% content_for :title, @course.name + ' assignment ' + @assignment.name %>
 
 <header>
@@ -62,7 +63,7 @@
     <% @submissions.each do |submission| %>
       <tr>
         <td><%= submission.user.name %></td>
-        <td><%= link_to 'View', edit_submission_url(submission) %></td>
+        <td><%= link_to 'View', submission_url(submission) %></td>
         <% if @grade_all %>
           <% submission_grade = submission.instructor_grade %>
           <% if submission_grade[:compile] %>
