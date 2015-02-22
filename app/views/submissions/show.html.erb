@@ -1,8 +1,9 @@
-<% content_for :title, get_assignment.name + " Submission" %>
+<% breadcrumb :submission, @submission %>
+<% content_for :title, @assignment.name + " Submission" %>
 
 <header>
   <h1>Manage Your Submission</h1>
-  <h2><%= get_assignment.name %></h2>
+  <h2><%= @assignment.name %></h2>
 </header>
 <div class="content-group">
   <%= @assignment.name %><br>

@@ -11,9 +11,7 @@ Rails.application.routes.draw do
   patch 'settings' => 'users#update', :as => :setting
   get 'signup' => 'users#new', :as => :signup
 
-  get 'courses/enroll' => 'courses#enroll', :as => :courses_enroll
   post 'courses/enroll' => 'courses#join'
-  get 'courses/enrolled' => 'courses#enrolled', :as => :courses_enrolled
   get 'courses/:id/users' => 'courses#users', :as => :courses_users
   get '/courses/:id/users/:user_id' => 'courses#edit_user', :as => :course_user_edit
   patch '/courses/:id/users/:user_id' => 'courses#update_user'
@@ -29,7 +27,6 @@ Rails.application.routes.draw do
   get 'assignments/grade_all/:id' => 'assignments#grade_all', :as => :grade_all_assignment
   get 'assignments/all_grades/:id' => 'assignments#all_grades', :as => :view_all_grades_assignments
   post 'assignments/all_grades/:id' => 'assignments#download_grades'
-  get 'assignments/manage/:id' => 'assignments#manage', :as => :manage_assignment
   resources :assignments
 
   get 'submissions/compile/:id' => 'submissions#compile'

@@ -6,15 +6,8 @@ class SubmissionsController < ApplicationController
   # Shows a submission
   def show
     @submission = Submission.find(params[:id])
-    @assignment = @submission.assignment
-  end
 
-  # Creates form to set a note or manually enter a grade
-  def edit
-    @submission = Submission.find(params[:id])
-    if current_user.has_local_role? :student, get_course
-      render :action => :show
-    else
+    if current_user.has_local_role? :instructor, get_course or current_user.has_role? :admin
       @directory = @submission.create_directory 
       @comp_message = @submission.compile(@directory) 
       if @comp_message[:compile]
@@ -24,7 +17,10 @@ class SubmissionsController < ApplicationController
         flash.now[:notice] = "Not Compiled"
         flash.now[:comperr] = @comp_message[:comperr]
       end
-      render :action => :edit
+      render :action => :edit and return
+    else
+      @assignment = @submission.assignment
+      render and return
     end
   end
 
@@ -35,7 +31,7 @@ class SubmissionsController < ApplicationController
     if submission.update_attributes(submission_params)
       make_pdf
       flash[:notice] = "Submission updated!"
-      redirect_to manage_assignment_url(get_assignment)
+      redirect_to assignment_url(get_assignment)
     end
   end
 
