@@ -26,7 +26,6 @@
   editor.session.setAnnotations(annots); 
   createLink = function(annotation)
   {
- 
     var comment_ = (annotation.text.length < 45)? (annotation.text):(annotation.text.substring(0,42)+ "...");
     var link= "<td>" + (annotation.row + 1).toString() + "</td><td> \
                 <a href=\"#\" \
@@ -36,14 +35,13 @@
                   comment_ + 
                 "</a>" + 
               "</td>";
-   var deleteLink = "<td><a rel='nofollow' href='/comments/" + annotation.id + "' data-method='delete' data-confirm='Are you sure?'> delete </a></td>" ;
-   return link + deleteLink;
+    var deleteLink = "<td><a rel='nofollow' href='/comments/" + annotation.id + "' data-method='delete' data-confirm='Are you sure?'> delete </a></td>" ;
+    return link + deleteLink;
   };
   annotsHandler=$("#comment_table tbody") ;
-  for(i=0; i < annots.length; i++)
-    {
-  annotsHandler.html( annotsHandler.html() + "<tr>" + createLink(annots[i]) + "</tr>" );
-    }
+  for(i=0; i < annots.length; i++) {
+    annotsHandler.html( annotsHandler.html() + "<tr>" + createLink(annots[i]) + "</tr>" );
+  }
 
   $(document).on("page:change", function() {
     $('#comment_table').tablesorter({
