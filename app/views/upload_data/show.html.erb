@@ -1,16 +1,13 @@
-<% content_for :title, @upload_data.name %>
 
-<div id="editor" class="editor" style="position: absolute;
-          top: 0;
-          right: 10%;
-          bottom: 0;
-          left: 150px ;">
-  <%= @upload_data.contents %>
-<div>
-    <div class="content-editor">
-      <%= render :partial => "editor", :locals => { :upload_data => @upload_data } %>
-    </div>
+<% content_for :title, @upload_data.name + " - Edit" %>
+
+<div class="content-editor">
+  <%= render :partial => "editor", :locals => { :upload_data => @upload_data } %>
 </div>
 <div class="comment-annotations">
   <%= render :partial => "comment_annotations", :locals => { :upload_data => @upload_data } %>
 </div>
+<div class="comment-form">
+  <%= render :partial => "comment_form", :locals => { :upload_data => @upload_data } %>
+</div>
+

@@ -13,8 +13,6 @@
   left: 70%;
   width: 25%;
   top: 12%;
-  height: 400px;
-  border-style: solid;
 }
 
 .ace_gutter-cell.ace_breakpoint{ 
@@ -40,15 +38,37 @@ input[value=Post] {
 
 }
 
-#comment_favorites {
+#comment_pool{
+  max-height: 45%;
+  position: absolute;
+  left: 40%;
+  width: 20%;
+  top: 74%;
+  overflow: auto;
+}
+
+#comment_suggestions {
   th{
     text-align: center;
     color: rgb(9,57,107);
     border: 1px solid rgb(9,57,107);
+    height: 20px;
   }
-  position: absolute;
-  left: 40%;
-  width: 20%;
-  top: 75%;
-  height: 400px;
+  a{
+    color: green;
+  }
+
+}
+
+#comment_favorites{
+  th{
+    text-align: center;
+    color: rgb(9,57,107);
+    border: 1px solid rgb(9,57,107);
+    height: 20px;
+  }
+  a{
+    color: blue;
+  }
+
 }
