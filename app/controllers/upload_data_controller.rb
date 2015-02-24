@@ -32,13 +32,13 @@ class UploadDataController < ApplicationController
   # Shows an upload data
   def show
     @upload_data = UploadDatum.find(params[:id])
-    @can_edit = false
+    @can_edit = true
     @comment = Comment.new
     @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
     if @upload_data.file_type == 'application/pdf'
       send_data @upload_data.contents, type: 'application/pdf', filename: @upload_data.name, disposition: 'inline'
     elsif @upload_data.file_type.include? "text"
-      render :action => :show
+      render "upload_data/edit"
     elsif @upload_data.file_type.include? "application"
       render :action => :show
     else
@@ -54,11 +54,7 @@ class UploadDataController < ApplicationController
     @can_edit = (current_user.has_local_role? :instructor, @upload_data.source.assignment.course) ||
                 (@upload_data.submission.user == current_user;)
     @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
-    if not @can_edit
-      render "upload_data/show"
-    else
-      render "upload_data/edit"
-    end 
+    render "upload_data/edit"
 
   end
 
