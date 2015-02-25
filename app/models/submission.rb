@@ -2,6 +2,7 @@ class Submission < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :user
   has_many :upload_data
+  has_many :save_runs
 
   after_create :set_note_empty
 
@@ -78,6 +79,7 @@ class Submission < ActiveRecord::Base
         stdin, stdout, stderr = Open3.popen3(shell)
         stream[:stdout] = stdout.read
         stream[:stderr] = stderr.read 
+        save = self.save_runs.new
 
         # Check if the process errored
         f = File.open(output, "w")
@@ -89,9 +91,11 @@ class Submission < ActiveRecord::Base
           f.write(stream[:stderr])
           f.close
           difference = "ERROR"
+          save.output = stream[:stderr]
         else 
           f.write(stream[:stdout])
           f.close
+          save.output = stream[:stdout]
           difference = Diffy::Diff.new(stream[:stdout], file.output, :include_plus_and_minus_in_html => true, :allow_empty_diff => true).to_s(:text)
         end
 
@@ -99,12 +103,16 @@ class Submission < ActiveRecord::Base
         f = File.open(output.gsub(file.name, file.name + "diff"), "w")
         f.write(difference)
         f.close
+        save.difference = difference
+        save.input_name = file.name
 
         # check if the test was correct
         correct[:total] = correct[:total] + 1
         if difference.empty?
           correct[:correct] = correct[:correct] + 1
+          save.pass = true
         end
+        save.save
       end
     end
     return correct
