@@ -243,9 +243,9 @@ class SubmissionsController < ApplicationController
           if File.exist?(studentDirectory + input.name + "diff")
             difference = File.read(studentDirectory + input.name + "diff")
           else
-            difference = "Fail"
+            difference = ""
           end
-          if not difference.empty?
+          if difference.empty?
             html_output = html_output + '<td id="grade"><font color="red">Fail</font></td></tr>'
           else
             html_output = html_output + '<td id="grade"><font color="green">Pass</font></td></tr>'
