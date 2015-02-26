@@ -1,22 +1,24 @@
-<div id="annotations">
-<table id="comment_table">
-  <thead>
-    <tr>
-      <th>Line</th>
-      <th>Comment</th>
-    </tr>
-  </thead>
-  <tbody>
-  </tbody>
-</table>
+<div class="comment-list">
+  <table id="comment_table">
+    <thead>
+      <tr>
+        <th>Line</th>
+        <th>Comment</th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+    </tbody>
+  </table>
 </div>
+
 <script>
   annots = [
   <% @upload_data.comments.each do |c| %>
     <% commentL = raw '{row: ' + (c.line - 1).to_s + ', text: "'%>
     <% commentL = commentL + c.contents.gsub(/(?:\n\r?|\r\n?)/, '\n')%>
     <% commentL = commentL + raw( '", type: "error" , id:' + c.id.to_s + '}' )%>
-    <%=commentL %>
+    <%= commentL %>
     <% if c != @upload_data.comments.last %>
       <%= ',' %>
     <% end %> 

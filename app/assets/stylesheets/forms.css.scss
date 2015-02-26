@@ -91,15 +91,3 @@ form.new_course, form.edit_course, form.edit_user, form.edit_test_case, form.edi
     text-align: left;
   }
 }
-
-  input[type=submit] {
-    background-color: $color-form-white;
-    border-radius: 0px;
-    border: 1px solid $color-border-light;
-    display: block;
-    font-size: $font-size-standard;
-    margin: 16px auto 0 auto;
-    padding: 5px;
-    width: 250px;
-    cursor: pointer;
-  }

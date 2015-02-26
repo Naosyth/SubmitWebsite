@@ -1,4 +1,4 @@
-<%= form_for :comment, url: create_comment_url(@upload_data), method: :post do |f| %>
+<%= form_for :comment, url: create_comment_url(@upload_data), method: :post, remote: true do |f| %>
   <div><h3>Comments</h3></div>
   <%= f.text_field :line %> Line Number <br>
   <%= f.text_area :contents %> 

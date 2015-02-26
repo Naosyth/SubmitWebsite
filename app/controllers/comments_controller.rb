@@ -1,15 +1,24 @@
 class CommentsController < ApplicationController
+  respond_to :html, :js
 
   # Creates a new comment
   def create
-    @upload_datum=UploadDatum.find(params[:upload_id])
+    @upload_datum = UploadDatum.find(params[:upload_id])
     @comment = @upload_datum.comments.new(comment_params)
+    @comments = @upload_datum.comments
+
     if @comment.save
+      respond_to do |format|
+        format.js { }
+      end
+    end
+
+    ''' if @comment.save
       redirect_to :back
     else
       flash[:notice] = "Comment Failed To Upload! Check Required Fields"
       redirect_to :back;
-    end
+    end '''
   end
 
   # Shows a comment

@@ -1,11 +1,72 @@
-// Place all the styles related to the UploadData controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import "variables";
 
-#editor { 
-  position: relative;
-  width: 60%;
-  height: 400px;
+.upload-data-wrapper {
+  display: table;
+  height: 100%;
+  width: 100%;
+
+  .editor-left-col {
+    background-color: #0f0;
+    display: table-cell;
+    width: 70%;
+
+    .editor {
+      width: 100%;
+      position: relative;
+      height: 700px;
+    }
+  }
+
+  .editor-right-col {
+    display: table-cell;
+    width: 30%;
+
+    .comment-list {
+      height: 100%;
+
+      table {
+        width: 100%;
+
+        thead tr th:nth-child(3) {
+          width: 50px;
+        }
+
+        thead tr th:first-of-type {
+          width: 50px;
+        }
+      }
+    }
+  }
+
+  .editor-form {
+    background-color: $color-form-white;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    position: relative;
+
+    input[type="text"] {
+      background-color: $color-form-white;
+      font-size: $font-size-medium;
+      outline: none;
+      border: none;
+      padding: 5px;
+      width: 50%;
+      height: 28px;
+      position: absolute;
+      top: 0;
+      left: 100px;
+    }
+
+    input[type=submit] {
+      background-color: $color-form-white;
+      border-radius: 0px;
+      border: 1px solid $color-border-light;
+      font-size: $font-size-standard;
+      width: 100px;
+      padding: 10px;
+      cursor: pointer;
+    }
+  }
 }
 
 #annotations {

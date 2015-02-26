@@ -1,5 +1,5 @@
 crumb :run_method do |run_method|
-  link "Run Method", run_method
+  link "Run Method", edit_run_method_url(run_method)
   parent :test_case, run_method.test_case
 end
 
