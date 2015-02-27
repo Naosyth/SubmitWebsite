@@ -10,7 +10,7 @@ ul {
   list-style-type: none;
 }
 
-input, p, h1, h2, h3, table, div.sidebar, div.content-group, div.flash-messages, a, label {
+input, p, h1, h2, h3, table, div.sidebar, div.content-group, div.flash-messages, a, label, div.breadcrumbs {
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -31,7 +31,7 @@ html, body.application {
 .flash-messages {
   position: fixed;
   z-index: 10000;
-  top: $topbar-height + 20px;
+  top: $topbar-height + 35px;
   left: $sidebar-width + 20px;
   background-color: $color-flash;
   margin-bottom: 16px;
@@ -145,4 +145,11 @@ html, body.application {
 
   a {
   }
+}
+
+.breadcrumbs {
+  position: relative;
+  top: -3px;
+
+  font-size: 11px;
 }

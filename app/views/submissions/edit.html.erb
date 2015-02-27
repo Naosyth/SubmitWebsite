@@ -19,7 +19,6 @@
 <header>
   <h1>Submitted Files</h1>
 </header>
-
 <div class="content-group">
   <% @submission.upload_data.each do |file| %>
     <%= link_to file.name, upload_datum_path(file), target: "_new" %><br>
@@ -27,6 +26,10 @@
 </div>
 
 <% if @comp_message[:compile] %>
+<header>
+  <h1>Program Output</h1>
+</header>
+<div class="content-group">
   <div class="grade-display">
     <center>
     <p class="grade">Output Grade</p>
@@ -35,6 +38,7 @@
     <br>
   </div>
   <%= render :partial => 'output_comparison', :locals => {:@submission => @submission, :@tempDirectory => @directory} %>
+</div>
 <% else %>
   <header>
     <h1>The program does not run.</h1>
