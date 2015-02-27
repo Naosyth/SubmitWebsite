@@ -6,14 +6,15 @@
   width: 100%;
 
   .editor-left-col {
-    background-color: #0f0;
     display: table-cell;
     width: 70%;
+    height: 100%;
+    padding-right: 5px;
 
     .editor {
       width: 100%;
       position: relative;
-      height: 700px;
+      height: 800px;
     }
   }
 
@@ -21,8 +22,9 @@
     display: table-cell;
     width: 30%;
 
-    .comment-list {
+    .comment-table {
       height: 100%;
+      width: 100%;
 
       table {
         width: 100%;
@@ -69,6 +71,27 @@
   }
 }
 
+.comment-form {
+  height: 100%;
+
+  form {
+    width: 60%;
+  }
+
+  .comment-pool {
+    width: 40%;
+    float: right;
+    padding: 0 15px;
+    box-sizing: border-box;
+    min-height: 50%;
+    margin-top: 113px;
+
+    #comment-favorites, #comment-suggestions {
+      width: 100%;
+    }
+  }
+}
+
 #annotations {
   position: absolute;
   left: 70%;
@@ -82,54 +105,4 @@
 } 
 
 .content-editor{
-  padding-bottom: 10px;
-
-}
-
-#comment_contents{
-  min-width: 75px;
-  max-width: 300px;
-  width: 35%;
-  height: 75px;
-}
-input[value=Post] {
-  border: 1px dotted #999;
-  border-radius: 0;
-  margin: 4px;
-
-}
-
-#comment_pool{
-  max-height: 45%;
-  position: absolute;
-  left: 40%;
-  width: 20%;
-  top: 74%;
-  overflow: auto;
-}
-
-#comment_suggestions {
-  th{
-    text-align: center;
-    color: rgb(9,57,107);
-    border: 1px solid rgb(9,57,107);
-    height: 20px;
-  }
-  a{
-    color: green;
-  }
-
-}
-
-#comment_favorites{
-  th{
-    text-align: center;
-    color: rgb(9,57,107);
-    border: 1px solid rgb(9,57,107);
-    height: 20px;
-  }
-  a{
-    color: blue;
-  }
-
 }

@@ -7,6 +7,7 @@
   editor.focus();
   editor.resize(true);
   editor.setTheme("ace/theme/monokai");
+  editor.setShowPrintMargin(false);
   session = editor.getSession();
   session.setMode("ace/mode/c_cpp"); 
   <% if @can_edit %> 
@@ -18,7 +19,8 @@
   editor.on("guttermousedown", function(e){ 
     var target = e.domEvent.target; 
     var row = e.getDocumentPosition().row;
-    $("input[id='comment_line']").val(row);
+    $("input[id='comment_line']").val(row+1);
+    $(".modal-curtain").show();
     e.stop();
   });
 </script>

@@ -1,43 +1,52 @@
-<%= form_for :comment, url: create_comment_url(@upload_data), method: :post, remote: true do |f| %>
-  <div><h3>Comments</h3></div>
-  <%= f.text_field :line %> Line Number <br>
-  <%= f.text_area :contents %> 
-  <%= f.submit "Post" %>
-<% end %>
+<div class="comment-form">
+  <h1>Create New Comment</h1>
 
-<div id="comment_pool">
-  <table id="comment_favorites">
-    <tr><th>Favorites</th></tr>
-    <% @all_comments.each do |c| %>
-      <tr><td><a href-"#" onclick="add_favorites('<%= c[0].gsub(/\r\n/, '\r\n').gsub('\'', '\\′' ) %>')"> <%= raw (c[0].length <= 45) ? simple_format(c[0].first(45).gsub('\'', '′' )) : simple_format(c[0].first(42).gsub('\'', '\\\'' ) + "..." ) %> </a></td></tr>
-    <% end %>
-  </table> 
+  <%= form_for :comment, url: create_comment_url(@upload_data), method: :post, remote: true do |f| %>
+    <div id="form-error"></div>
+    <%= f.label "Line Number" %><br>
+    <%= f.text_field :line, :placeholder => "Line Number" %> <br>
+    <%= f.label "Comment" %><br>
+    <%= f.text_area :contents, :placeholder => "Comment" %><br>
+    <%= f.submit "Post", :onclick => '$(".modal-curtain").hide();' %>
+  <% end %>
 
-  <table id="comment_suggestions">
-  </table>
+  <div class="comment-pool">
+    <table id="comment-favorites">
+      <tr><th>Favorites</th></tr>
+      <% @all_comments.each do |c| %>
+        <tr><td><a href-"#" onclick="add_favorites('<%= c[0].gsub(/\r\n/, '\r\n').gsub('\'', '\\′' ) %>')"> <%= raw (c[0].length <= 45) ? simple_format(c[0].first(45).gsub('\'', '′' )) : simple_format(c[0].first(42).gsub('\'', '\\\'' ) + "..." ) %> </a></td></tr>
+      <% end %>
+    </table> 
+
+    <table id="comment-suggestions">
+    </table>
+  </div>
 </div>
 
 <script>
   var all_comments = [];
+
   <% @all_comments.each do |c| %>
     all_comments.push("<%= c[0].gsub(/\r\n/, '\r\n').gsub('\'', '\\′' ) %>");
   <% end %>
+
   $("#comment_contents").attr( "onkeyup", "search_comments();");
+
   search_comments = function() {
     var string = $("#comment_contents").val();
     string = string.toLowerCase();
     var words = string.split(' ');
     var isFound;
     var foundIndex = [];
-    $("#comment_suggestions").html("<tr><th> Suggested Comments </th></tr>")
-      for(i = 0;i < all_comments.length; i++) {
+    $("#comment-suggestions").html("<tr><th> Suggested Comments </th></tr>")
+      for(i = 0; i < all_comments.length; i++) {
         isFound = false;
-        for( j = 0; (j < words.length && j < 30); j++){
+        for( j = 0; (j < words.length && j < 30); j++) {
           var temp = all_comments[i].toLowerCase().trim();
           var index = temp.match(new RegExp(words[j].trim(),'g'));
-          if(words[j].search(/\w\s*|\s*\w/) != -1 && index != null){  
-            if(index.length != 0){
-              if (!isFound){
+          if (words[j].search(/\w\s*|\s*\w/) != -1 && index != null) {  
+            if (index.length != 0) {
+              if (!isFound) {
                 isFound = true; 
                 foundIndex[i] = {'key': i.toString(), 'val': 0};
               }
@@ -46,23 +55,25 @@
           }
         }
       }
+
       foundIndex.sort(function(a, b) {
         return all_comments[a.key].toLowerCase() > all_comments[b.key].toLowerCase() ? -1 : 1;
       });
+
       foundIndex.sort(function(a, b) {
         return a.val - b.val;
       });
+
       if(foundIndex.length == 0) {
-        $("#comment_suggestions").hide()
-        $("#comment_favorites").show()
+        $("#comment-suggestions").hide()
+        $("#comment-favorites").show()
       } else {
-        $("#comment_suggestions").show()
-        $("#comment_favorites").hide()
+        $("#comment-suggestions").show()
+        $("#comment-favorites").hide()
         while(foundIndex.length != 0) {
           var newComment = foundIndex.pop()
-          if(typeof newComment !== "undefined")
-          {
-            $("#comment_suggestions").html( $("#comment_suggestions").html() 
+          if(typeof newComment !== "undefined") {
+            $("#comment-suggestions").html( $("#comment-suggestions").html() 
             + '<tr><td><a href="#" onclick="add_favorites(\'' + 
             all_comments[newComment.key].replace(/\r\n/g, '\\r\\n') + '\')">'+ all_comments[newComment.key] +'</a></td></tr>' );
           }
@@ -70,7 +81,7 @@
       }
     }
 
-  add_favorites = function(v){
+  add_favorites = function(v) {
     v = v.replace(new RegExp('′', 'g'), '\'');
     $("#comment_contents").val(v);
   }
