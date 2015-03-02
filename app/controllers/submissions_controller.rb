@@ -58,13 +58,13 @@ class SubmissionsController < ApplicationController
   def run_program
     @submission = Submission.find(params[:id])
     @assignment = @submission.assignment
-    @tempDirectory = @submission.create_directory
+    tempDirectory = @submission.create_directory
 
     # Compiles and runs the program
-    comp_message = @submission.compile(@tempDirectory)
+    comp_message = @submission.compile(tempDirectory)
     if comp_message[:compile]
       flash.now[:notice] = "Compiled"
-      @correct = @submission.run_test_cases(@tempDirectory, true)
+      @correct = @submission.run_test_cases(tempDirectory, true)
     else
       flash.now[:notice] = "Not Compiled"
       flash.now[:comperr] = comp_message[:comperr]

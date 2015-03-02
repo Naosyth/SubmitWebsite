@@ -9,25 +9,20 @@
         <td>Difference</td>
       </tr>
     </thead>
-    <tbody>
-      <% submit_run = run.inputs %>
-      <% submit_run = run.inputs.select {|i| i.student_visible} if current_user.has_local_role? :student, @submission.assignment.course %>
-      <% submit_run.each do |input| %>
-      <tr>
-        <% data = File.read(@tempDirectory + input.name) %>
+    <tbody>      
+      <% @submission.run_save.each do |rs| %>
+        <tr>
+        <% input = run.inputs.select {|i| i.name == rs.input_name}.first %>
+        <td><%= simple_format(rs.output, {}, wrapper_tag: "span") %></td>
         <td><%= simple_format(input.output, {}, wrapper_tag: "span") %></td>
-        <td><%= simple_format(data, {}, wrapper_tag: "span") %></td>
-        <% difference = File.read(@tempDirectory + input.name + "diff") %>
-        <% if not difference.empty? %>
-          <td><%= simple_format(difference, {}, wrapper_tag: "span") %></td>
+        <% if not rs.pass %>
+          <td><%= simple_format(rs.difference, {}, wrapper_tag: "span") %></td>
         <% else %>
           <td>All Good</td>
         <% end %>
-      </tr>
+        </tr>
       <% end %>
     </tbody>
   </table>
 </div>
 <% end %>
-
-<% FileUtils.rm_rf(@tempDirectory) %>

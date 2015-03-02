@@ -8,7 +8,7 @@
 <div class="content-group">
   <%= @correct[:correct].to_s + " out of " + @correct[:total].to_s %> test cases succeeded<br>
   <% @submission.assignment.test_case.run_methods.each do |run| %>
-    <%= raw "<a href=" + run.id.to_s + ">" + run.name + "</a>" %>
+    <%= raw "<a href=#" + run.id.to_s + ">" + run.name + "</a>" %>
   <% end %>
 </div>
 
