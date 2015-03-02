@@ -2,7 +2,7 @@ class Submission < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :user
   has_many :upload_data
-  has_many :save_runs
+  has_many :save_run
 
   after_create :set_note_empty
 
@@ -70,49 +70,56 @@ class Submission < ActiveRecord::Base
         submit_run = run.inputs
       end
       submit_run.each do |file|
-        # make output file
-        output = directory + file.name
-        f = File.open(output, "w" )
-        f.write(file.data)
-        f.close
-        shell = create_run_script(directory, run.run_command, output)
-        stdin, stdout, stderr = Open3.popen3(shell)
-        stream[:stdout] = stdout.read
-        stream[:stderr] = stderr.read 
-        save = self.save_runs.new
+        # Check if there needs to be a new fun
+        saved = save_run.select {|s| s.input_name == file.name}
+        #saved = nil
+        if saved.nil?
+          # make output file
+          output = directory + file.name
+          f = File.open(output, "w" )
+          f.write(file.data)
+          f.close
+          shell = create_run_script(directory, run.run_command, output)
+          stdin, stdout, stderr = Open3.popen3(shell)
+          stream[:stdout] = stdout.read
+          stream[:stderr] = stderr.read 
+          save = SaveRuns.new
+          save.submission_id = self.id
+          save.submission = self
 
-        # Check if the process errored
-        f = File.open(output, "w")
-        if not stream[:stderr].empty?
-          stream[:stderr].gsub! directory, ""
-          if stream[:stderr].include? "Kill" or stream[:stderr].include? "Cputime" 
-            stream[:stderr] = stream[:stderr] + "\nProcess Exceeded Max CPU Time of: " + assignment.test_case.cpu_time.to_s + " seconds."
+          # Check if the process errored
+          f = File.open(output, "w")
+          if not stream[:stderr].empty?
+            stream[:stderr].gsub! directory, ""
+            if stream[:stderr].include? "Kill" or stream[:stderr].include? "Cputime" 
+              stream[:stderr] = stream[:stderr] + "\nProcess Exceeded Max CPU Time of: " + assignment.test_case.cpu_time.to_s + " seconds."
+            end
+            f.write(stream[:stderr])
+            f.close
+            difference = "ERROR"
+            save.output = stream[:stderr]
+          else 
+            f.write(stream[:stdout])
+            f.close
+            save.output = stream[:stdout]
+            difference = Diffy::Diff.new(stream[:stdout], file.output, :include_plus_and_minus_in_html => true, :allow_empty_diff => true).to_s(:text)
           end
-          f.write(stream[:stderr])
-          f.close
-          difference = "ERROR"
-          save.output = stream[:stderr]
-        else 
-          f.write(stream[:stdout])
-          f.close
-          save.output = stream[:stdout]
-          difference = Diffy::Diff.new(stream[:stdout], file.output, :include_plus_and_minus_in_html => true, :allow_empty_diff => true).to_s(:text)
-        end
 
-        # Make Diff file
-        f = File.open(output.gsub(file.name, file.name + "diff"), "w")
-        f.write(difference)
-        f.close
-        save.difference = difference
-        save.input_name = file.name
+          # Make Diff file
+          f = File.open(output.gsub(file.name, file.name + "diff"), "w")
+          f.write(difference)
+          f.close
+          save.difference = difference
+          save.input_name = file.name
 
-        # check if the test was correct
-        correct[:total] = correct[:total] + 1
-        if difference.empty?
-          correct[:correct] = correct[:correct] + 1
-          save.pass = true
+          # check if the test was correct
+          correct[:total] = correct[:total] + 1
+          if difference.empty?
+            correct[:correct] = correct[:correct] + 1
+            save.pass = true
+          end
+          save.save
         end
-        save.save
       end
     end
     return correct
