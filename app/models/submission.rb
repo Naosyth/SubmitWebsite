@@ -2,7 +2,7 @@ class Submission < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :user
   has_many :upload_data
-  has_many :save_run
+  has_many :run_save
 
   after_create :set_note_empty
 
@@ -71,7 +71,7 @@ class Submission < ActiveRecord::Base
       end
       submit_run.each do |file|
         # Check if there needs to be a new fun
-        saved = save_run.select {|s| s.input_name == file.name}
+        saved = run_save.select {|s| s.input_name == file.name}.first
         #saved = nil
         if saved.nil?
           # make output file
@@ -83,9 +83,7 @@ class Submission < ActiveRecord::Base
           stdin, stdout, stderr = Open3.popen3(shell)
           stream[:stdout] = stdout.read
           stream[:stderr] = stderr.read 
-          save = SaveRuns.new
-          save.submission_id = self.id
-          save.submission = self
+          save = run_save.new
 
           # Check if the process errored
           f = File.open(output, "w")
@@ -122,6 +120,7 @@ class Submission < ActiveRecord::Base
         end
       end
     end
+    FileUtils.rm_rf(directory)
     return correct
   end
 
