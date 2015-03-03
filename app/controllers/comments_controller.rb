@@ -1,14 +1,18 @@
 class CommentsController < ApplicationController
-
   # Creates a new comment
   def create
-    @upload_datum=UploadDatum.find(params[:upload_id])
+    @upload_datum = UploadDatum.find(params[:upload_id])
     @comment = @upload_datum.comments.new(comment_params)
+    @comments = @upload_datum.comments
+
     if @comment.save
-      redirect_to :back
+      respond_to do |format|
+        format.js { render :action => "refresh" }
+      end
     else
-      flash[:notice] = "Comment Failed To Upload! Check Required Fields"
-      redirect_to :back;
+      respond_to do |format|
+        format.js { render :action => "error" }
+      end
     end
   end
 
@@ -18,9 +22,12 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
+    @comments = @comment.upload_datum.comments
     @comment.destroy
-    flash[:notice] = "Comment successfully deleted"
-    redirect_to :back
+
+    respond_to do |format|
+      format.js { render :action => "refresh" }
+    end
   end
 
   private

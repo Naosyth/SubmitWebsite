@@ -25,5 +25,5 @@ function formatTimeString(time) {
   if (minutes < 10)
     minutes = "0" + minutes;
 
-  return months[time.getMonth()] + " " + time.getDay() + ", " + time.getFullYear() + " at " + hours + ":" + minutes + " " + ampm;
+  return months[time.getMonth()] + " " + time.getUTCDate() + ", " + time.getFullYear() + " at " + hours + ":" + minutes + " " + ampm;
 }

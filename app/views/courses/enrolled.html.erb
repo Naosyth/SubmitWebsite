@@ -1,11 +1,12 @@
+<% breadcrumb :courses %>
 <% content_for :title, "Your Courses" %>
 
 <header>
   <h1>Join a New Course</h1>
 </header>
 
-<div class="content-group">
-  <%= render :partial => "enroll_form", :locals => { :course => @course } %>
+<div class="content-group enroll-form">
+  <%= render :partial => "enroll_form" %>
 </div>
 
 <header>

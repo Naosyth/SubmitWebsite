@@ -34,16 +34,17 @@ class UploadDataController < ApplicationController
     @upload_data = UploadDatum.find(params[:id])
     @can_edit = true
     @comment = Comment.new
+    @comments = @upload_data.comments
     @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
     if @upload_data.file_type == 'application/pdf'
       send_data @upload_data.contents, type: 'application/pdf', filename: @upload_data.name, disposition: 'inline'
     elsif @upload_data.file_type.include? "text"
-      render "upload_data/edit"
+      render "upload_data/edit" and return
     elsif @upload_data.file_type.include? "application"
-      render :action => :show
+      render :action => :show and return
     else
       flash[:notice] = "Cannot Display that file type."
-      redirect_to :back
+      redirect_to :back and return
     end
   end
 
@@ -54,8 +55,8 @@ class UploadDataController < ApplicationController
     @can_edit = (current_user.has_local_role? :instructor, @upload_data.source.assignment.course) ||
                 (@upload_data.submission.user == current_user;)
     @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
-    render "upload_data/edit"
-
+    @comments = @upload_data.comments
+    render "upload_data/edit" and return
   end
 
   # Updates an upload data

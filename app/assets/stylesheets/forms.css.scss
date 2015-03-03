@@ -1,7 +1,17 @@
 @import "variables";
 
-form.new_course, form.edit_course, form.edit_user, form.edit_test_case, form.edit_run_method {
+form.new_course, form.edit_course, form.edit_user, form.edit_test_case, form.edit_run_method, form.enroll_form, form.edit_submission {
   input[type="text"] {
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-medium;
+    margin: 0 auto;
+    padding: 5px;
+    width: 250px;
+  }
+
+  input[type="number"] {
     border-radius: 0px;
     border: 1px solid $color-border-light;
     display: block;
@@ -91,15 +101,3 @@ form.new_course, form.edit_course, form.edit_user, form.edit_test_case, form.edi
     text-align: left;
   }
 }
-
-  input[type=submit] {
-    background-color: $color-form-white;
-    border-radius: 0px;
-    border: 1px solid $color-border-light;
-    display: block;
-    font-size: $font-size-standard;
-    margin: 16px auto 0 auto;
-    padding: 5px;
-    width: 250px;
-    cursor: pointer;
-  }

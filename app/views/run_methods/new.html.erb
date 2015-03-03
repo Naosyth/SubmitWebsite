@@ -1,9 +1,9 @@
+<% breadcrumb :run_method_new, @test_case %>
 <% content_for :title, "Create Run Method" %>
 
 <header>
-  <h1>Creat Run Method</h1>
+  <h1>Create Run Method</h1>
 </header>
-
 <div class="content-group">
   <%= form_for @run_method, url: new_run_method_url(@test_case), method: :post do |f| %>
     <%= f.text_field :name, :placeholder => 'Run Name' %><br>

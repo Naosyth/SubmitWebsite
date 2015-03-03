@@ -1,9 +1,9 @@
+<% breadcrumb :input, @input %>
 <% content_for :title, "Update Input on run method " + @input.run_method.name %>
 
 <header>
   <h1>Update Input on run method <%= @input.run_method.name %></h1>
 </header>
-
 <div class="content-group">
   <%= form_for @input, url: input_url(@input), method: :patch do |f| %>
     <%= f.text_field :name, :placeholder => 'Run Name' %><br>

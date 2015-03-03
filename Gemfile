@@ -58,5 +58,8 @@ gem 'wkhtmltopdf-binary'
 # For XML Documents
 gem 'spreadsheet'
 
-#For Ace Text Editor
+# For Ace Text Editor
 gem 'ace-rails-ap'
+
+# Navigation Breadcrumbs
+gem "gretel"
