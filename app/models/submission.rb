@@ -58,10 +58,7 @@ class Submission < ActiveRecord::Base
 
   # Runs the code on a test case input
   def run_test_cases(directory, student)
-    correct = {}
     stream = {}
-    correct[:total] = 0
-    correct[:correct] = 0
     
     assignment.test_case.run_methods.each do |run|
       if student
@@ -111,9 +108,7 @@ class Submission < ActiveRecord::Base
           save.input_name = file.name
 
           # check if the test was correct
-          correct[:total] = correct[:total] + 1
           if difference.empty?
-            correct[:correct] = correct[:correct] + 1
             save.pass = true
           end
           save.save
@@ -121,7 +116,6 @@ class Submission < ActiveRecord::Base
       end
     end
     FileUtils.rm_rf(directory)
-    return correct
   end
 
   # Grade the submission 
@@ -136,6 +130,12 @@ class Submission < ActiveRecord::Base
     end
     FileUtils.rm_rf(directory)
     return gradeData
+  end
+
+  def remove_cached_runs
+    run_save.each do |rs|
+      rs.destroy
+    end
   end
 
   private

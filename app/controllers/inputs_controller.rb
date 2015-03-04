@@ -15,6 +15,10 @@ class InputsController < ApplicationController
     input.name.gsub! " ", "_"
 
     if input.save
+      submissions = run_method.test_case.assignment.submissions
+      submissions.each do |s|
+        s.remove_cached_runs
+      end
       redirect_to edit_run_method_url(run_method)
     else
       redirect :action => :new
@@ -37,6 +41,10 @@ class InputsController < ApplicationController
     #test_case = TestCase.find(@input.run_method.test_case_id)
 
     if @input.update_attributes(input_params)
+      submissions = @input.run_method.test_case.assignment.submissions
+      submissions.each do |s|
+        s.remove_cached_runs
+      end
       redirect_to test_case_url(@input.run_method.test_case_id)
     else
       render :action => :edit
@@ -47,6 +55,10 @@ class InputsController < ApplicationController
   def destroy
     input = Input.find(params[:id])
     input.destroy
+    submissions = input.run_method.test_case.assignment.submissions
+    submissions.each do |s|
+      s.remove_cached_runs
+    end
     redirect_to :back
   end
 

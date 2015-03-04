@@ -29,7 +29,10 @@
   <div class="grade-display">
     <center>
     <p class="grade">Output Grade</p>
-    <p class="grade-value"><%= @correct[:correct].to_s + " out of " + @correct[:total].to_s %></p>
+    <% correct = {} %>
+    <% correct[:correct] = @submission.run_save.select {|s| s.pass}.count %>
+    <% correct[:total] = @submission.run_save.count %>
+    <p class="grade-value"><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></p>
     </center>
     <br>
   </div>
