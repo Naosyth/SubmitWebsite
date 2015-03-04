@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150302200246) do
+ActiveRecord::Schema.define(version: 20150304022416) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -118,16 +118,6 @@ ActiveRecord::Schema.define(version: 20150302200246) do
 
   add_index "run_saves", ["submission_id"], name: "index_run_saves_on_submission_id", using: :btree
 
-  create_table "save_runs", force: true do |t|
-    t.text     "difference"
-    t.boolean  "pass"
-    t.text     "output"
-    t.string   "input_name"
-    t.integer  "submission_id"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
   create_table "submissions", force: true do |t|
     t.float    "grade",         limit: 24
     t.text     "note"
@@ -135,6 +125,7 @@ ActiveRecord::Schema.define(version: 20150302200246) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.boolean  "submit",                   default: false
   end
 
   add_index "submissions", ["assignment_id"], name: "index_submissions_on_assignment_id", using: :btree

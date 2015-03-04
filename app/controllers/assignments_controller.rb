@@ -111,6 +111,21 @@ class AssignmentsController < ApplicationController
     send_data blob.string, :filename => @assignment.name + "_grades.xls", :type => "application/xls"
   end
 
+  # Unsubmit all the submitted assignments
+  def unsubmit_all_assignments
+    @assignment = Assignment.find(params[:id])
+    @course = @assignment.course
+    @submissions = @assignment.submissions
+    @test_case = @assignment.test_case 
+    @grade_all = false
+    @submissions.each do |submission|
+      submission.submit = false
+      submission.save
+      submission.remove_cached_runs
+    end
+    redirect_to manage_assignment_url(@assignment)
+  end
+
   # Creates the form to modify an assignment
   def edit
     @assignment = Assignment.find(params[:id])

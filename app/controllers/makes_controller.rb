@@ -12,6 +12,10 @@ class MakesController < ApplicationController
     make = Make.create(make_params)
 
     if make.save 
+      submissions = test_case.assignment.submissions
+      submissions.each do |s|
+        s.remove_cached_runs
+      end
       test_case.make = make
       redirect_to test_case_url(test_case)
     else
@@ -37,6 +41,10 @@ class MakesController < ApplicationController
   def destroy
     @make = Make.find(params[:id])
     @make.destroy
+    submissions = @make.test_case.assignment.submissions
+    submissions.each do |s|
+      s.remove_cached_runs
+    end
     redirect_to :back
   end
 
