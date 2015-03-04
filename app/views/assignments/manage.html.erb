@@ -72,7 +72,7 @@
     <% @submissions.each do |submission| %>
       <tr>
         <td><%= submission.user.name %></td>
-        <td><%= link_to 'View', edit_submission_url(submission) %></td>
+        <td><%= link_to 'View', submission_url(submission) %></td>
         <td>
           <% if submission.submit %>
             Submitted - <%= link_to "Unsubmit", unsubmit_assignment_path(submission), :method => :post, :data => { :confirm => 'Would you like to Un-Submit this assignment for the student?' } %>

@@ -90,8 +90,8 @@ class SubmissionsController < ApplicationController
     @submission.submit = false
     @submission.save
     @submission.remove_cached_runs
-    flash[:notice] = "Assignment Has Been Un-Submitted"
-    redirect_to manage_assignment_url(get_assignment)
+    flash[:notice] = "Assignment Has Been Unsubmitted"
+    redirect_to assignment_url(get_assignment)
   end
 
   private
