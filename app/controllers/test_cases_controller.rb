@@ -3,6 +3,8 @@ class TestCasesController < ApplicationController
   # Shows a test case
   def show
     @test_case = TestCase.find(params[:id])
+    @run_method = RunMethod.new
+    @run_methods = @test_case.run_methods
   end
 
   # Updates the test case

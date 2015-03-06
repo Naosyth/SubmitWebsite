@@ -85,7 +85,7 @@
         <th>Run Methods</th>
       </tr>
     </thead>
-    <tbody>
+    <tbody id="run_methods_list">
       <% @test_case.run_methods.each do |r| %>
         <tr>
           <td><%= link_to r.name, edit_run_method_url(r) %></td>
@@ -106,12 +106,10 @@
         <% end %>
       </li>
       <li>
-        <%= link_to new_run_method_url(@test_case) do %>
-          <div>
+          <div onclick="$('.modal-curtain').show();">
             <%= image_tag('icon_add.png', size: "64x64", alt: "Add Run Method", title: "Add Run Method") %><br>
             Add Run Method
           </div>
-        <% end %>
       </li>
     </ul>
   </div>
@@ -135,3 +133,13 @@
     <%= f.submit "Save" %>
   <% end %>
 </div>
+
+<div class="modal-curtain">
+  <div class="modal-popup">
+    <%= render :partial => "run_method_form", :locals => { :test_case => @test_case, :run_method => @run_method } %>
+  </div>
+</div>
+
+<script>
+  <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
+</script>
