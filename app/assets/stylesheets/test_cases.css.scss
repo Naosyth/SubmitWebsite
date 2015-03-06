@@ -34,9 +34,15 @@
         text-align: center;
       }
     }
+
   }
 
   li:hover {
     box-shadow: 1px 1px 3px #888;
   }
 }
+
+a[data-method='delete'] {
+      color: grey;
+      text-shadow: 1px 1px black;
+    }
