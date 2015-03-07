@@ -3,7 +3,7 @@ $("#form-error").html("");
 annots = [
   <% @comments.each do |c| %>
     <% comment = raw '{row: ' + (c.line - 1).to_s + ', text: "'%>
-    <% comment = comment + c.contents.gsub(/(?:\n\r?|\r\n?)/, '\n')%>
+    <% comment = comment + c.contents.gsub(/(?:\n\r?|\r\n?)/, '\n').html_safe %>
     <% comment = comment + raw( '", type: "error" , id:' + c.id.to_s + '}' )%>
     <%= comment %>
     <% if c != @comments.last %>
