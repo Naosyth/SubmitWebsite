@@ -60,7 +60,7 @@ class UploadDataController < ApplicationController
 
     source = @upload_data.source
     if source.class.name == "Submission"
-      redirect_to upload_datum_url(@upload_data) if @upload_data.submission.submit
+      redirect_to upload_datum_url(@upload_data) if @upload_data.submission.submitted
     end
   end
 
@@ -69,7 +69,7 @@ class UploadDataController < ApplicationController
     upload_data = UploadDatum.find(params[:id])
     if upload_data.update_attributes(upload_data_params)
       if source.class.name == "Submission"
-        redirect_to upload_datum_url(upload_data) if upload_data.submission.submit
+        redirect_to upload_datum_url(upload_data) if upload_data.submission.submitted
         source.remove_cached_runs
       end
       flash[:notice] = "File Updated"
@@ -83,7 +83,7 @@ class UploadDataController < ApplicationController
     @upload_data.destroy
     source = @upload_data.source
     if source.class.name == "Submission"
-      redirect_to upload_datum_url(@upload_data) if @upload_data.submission.submit
+      redirect_to upload_datum_url(@upload_data) if @upload_data.submission.submitted
       source.remove_cached_runs
     end
     flash[:notice] = "File successfully deleted"

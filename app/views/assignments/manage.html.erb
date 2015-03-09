@@ -67,26 +67,26 @@
       <th>Student Name</th>
       <th>View Submission</th>
       <th>Submitted</th>
-      <%= "<th>Output Grade</th>".html_safe if @grade_all %>
+      <th>Output Grade</th>
     </tr>
     <% @submissions.each do |submission| %>
       <tr>
         <td><%= submission.user.name %></td>
-        <td><%= link_to 'View', edit_submission_url(submission) %></td>
+        <td><%= link_to 'View', submission_url(submission) %></td>
         <td>
-          <% if submission.submit %>
+          <% if submission.submitted %>
             Submitted - <%= link_to "Unsubmit", unsubmit_assignment_path(submission), :method => :post, :data => { :confirm => 'Would you like to Un-Submit this assignment for the student?' } %>
           <% else %>
             Not Submitted
           <% end %>
         </td>
-        <% if @grade_all %>
-          <% submission_grade = submission.instructor_grade %>
-          <% if submission_grade[:compile] %>
-            <td><%= submission_grade[:correct][:correct].to_s + " out of " + submission_grade[:correct][:total].to_s %></td>
-          <% else %>
-            <td>Does Not Run</td>
-          <% end %>
+        <% correct = {} %>
+        <% correct[:correct] = submission.run_save.select {|s| s.pass}.count %>
+        <% correct[:total] = submission.run_save.count %>
+        <% if correct[:total] %>
+          <td><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></td>
+        <% else %>
+          <td>Does Not Run</td>
         <% end %>
       </tr>
     <% end %>

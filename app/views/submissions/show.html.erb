@@ -24,7 +24,7 @@
       <th>Updated At</th>
       <th>Uploaded At</th>
       <th>File Type</th>
-      <% if not @submission.submit %>
+      <% if not @submission.submitted %>
         <th>Edit</th>
         <th>Delete</th>
       <% end %>
@@ -36,7 +36,7 @@
         <td><span data-time><%= upload_data.updated_at.to_i %></span></td>
         <td><span data-time><%= upload_data.created_at.to_i %></span></td>
         <td><%= upload_data.file_type %></td>
-        <% if not @submission.submit %>
+        <% if not @submission.submitted %>
           <td><%= link_to 'Edit', edit_upload_datum_path(upload_data) %></td>
           <td><%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         <% end %>
@@ -44,7 +44,7 @@
     <% end %>
   </table>
 
-  <% if not @submission.submit %>
+  <% if not @submission.submitted %>
     <div class="file-uploader">
       <p>Upload File</p>
       <%= form_tag create_file_url("submission", @submission), method: :post, :multipart => true do %>
@@ -77,7 +77,7 @@
           </div>
         <% end %>
       </li>
-      <% if @submission.submit %>
+      <% if @submission.submitted %>
         <li>
           <%= link_to :action => :show do %>
             <div>

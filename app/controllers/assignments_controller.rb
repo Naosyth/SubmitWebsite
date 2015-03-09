@@ -56,9 +56,8 @@ class AssignmentsController < ApplicationController
     if current_user.has_local_role? :instructor, @course or current_user.has_role? :admin
       @submissions = @assignment.submissions
       @test_case = @assignment.test_case 
-      @grade_all = false
       render "assignments/manage"
-    elsif 
+    else
       @submission = @assignment.submissions.select { |submission| submission.user == current_user }.first
       redirect_to @submission
     end
@@ -69,8 +68,10 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.find(params[:id])
     @course = @assignment.course
     @submissions = @assignment.submissions
+    @submissions.each do |submission|
+      submission.instructor_grade
+    end
     @test_case = @assignment.test_case 
-    @grade_all = true
     render "assignments/manage"
   end
 
@@ -119,7 +120,7 @@ class AssignmentsController < ApplicationController
     @test_case = @assignment.test_case 
     @grade_all = false
     @submissions.each do |submission|
-      submission.submit = false
+      submission.submitted = false
       submission.save
       submission.remove_cached_runs
     end

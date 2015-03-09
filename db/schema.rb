@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150304022416) do
+ActiveRecord::Schema.define(version: 20150308221430) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -125,7 +125,7 @@ ActiveRecord::Schema.define(version: 20150304022416) do
     t.integer  "user_id"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "submit",                   default: false
+    t.boolean  "submitted",                default: false
   end
 
   add_index "submissions", ["assignment_id"], name: "index_submissions_on_assignment_id", using: :btree
