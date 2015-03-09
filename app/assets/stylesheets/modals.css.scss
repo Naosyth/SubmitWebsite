@@ -2,14 +2,15 @@
 
 .modal-popup {
   position: absolute;
-  top: 25%;
+  top: 100px;
   left: 25%;
   background-color: $color-modal-background;
   width: 50%;
-  height: 50%;
+  height: 500px;
   padding: 20px;
   border-radius: 10px;
   border: 5px solid $color-border-dark;
+  overflow-y: auto;
 
   h1 {
     text-align: center;
@@ -50,7 +51,6 @@
     font-size: $font-size-standard;
     padding: 5px;
     width: 100%;
-    min-height: 50%;
     resize: none;
   }
 
@@ -70,8 +70,8 @@
 .modal-curtain {
   width: 100vw;
   height: 100vh;
-  position: absolute;
-  top: -$topbar-height;
+  position: fixed;
+  top: 0;
   left: 0;
   background-color: $color-modal-curtain;
   z-index: 1000;

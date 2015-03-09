@@ -72,10 +72,12 @@
 }
 
 .comment-form {
-  height: 100%;
-
   form {
     width: 60%;
+
+    textarea {
+      height: 200px;
+    }
   }
 
   .comment-pool {
