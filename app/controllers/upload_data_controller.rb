@@ -67,11 +67,16 @@ class UploadDataController < ApplicationController
   # Updates an upload data
   def update
     upload_data = UploadDatum.find(params[:id])
+    source = upload_data.source
+    if source.class.name == "Submission"
+      redirect_to upload_datum_url(upload_data) and return if upload_data.submission.submitted
+    end
     if upload_data.update_attributes(upload_data_params)
       if source.class.name == "Submission"
         redirect_to upload_datum_url(upload_data) if upload_data.submission.submitted
         source.remove_cached_runs
       end
+      source.remove_cached_runs
       flash[:notice] = "File Updated"
       redirect_to upload_data.source
     end
