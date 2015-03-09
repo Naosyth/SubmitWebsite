@@ -1,7 +1,7 @@
 class SubmissionsController < ApplicationController
   before_filter :require_user
-  before_filter :require_owner, :only => [:show, :run_program]
-  before_filter :require_instructor_owner, :only => [:index]
+  before_filter :require_owner, :only => [:show, :run_program, :submit_submission]
+  before_filter :require_instructor_owner, :only => [:index, :unsubmit_submission]
 
   # Shows a submission
   def show
@@ -12,7 +12,7 @@ class SubmissionsController < ApplicationController
       @comp_message = @submission.compile(@directory) 
       if @comp_message[:compile]
         flash.now[:notice] = "Compiled"
-        @correct = @submission.run_test_cases(@directory, false)
+        @submission.run_test_cases(@directory, false)
       else
         flash.now[:notice] = "Not Compiled"
         flash.now[:comperr] = @comp_message[:comperr]
@@ -58,18 +58,40 @@ class SubmissionsController < ApplicationController
   def run_program
     @submission = Submission.find(params[:id])
     @assignment = @submission.assignment
-    @tempDirectory = @submission.create_directory
+    tempDirectory = @submission.create_directory
 
     # Compiles and runs the program
-    comp_message = @submission.compile(@tempDirectory)
+    comp_message = @submission.compile(tempDirectory)
     if comp_message[:compile]
       flash.now[:notice] = "Compiled"
-      @correct = @submission.run_test_cases(@tempDirectory, true)
+      @submission.run_test_cases(tempDirectory, true)
     else
       flash.now[:notice] = "Not Compiled"
       flash.now[:comperr] = comp_message[:comperr]
       redirect_to :back
     end
+  end
+
+  # Submit the assignment
+  def submit_submission
+    @submission = Submission.find(params[:id])
+    @assignment = @submission.assignment
+    @submission.submitted = true
+    @submission.save
+    @submission.remove_cached_runs
+    flash[:notice] = "Assignment Has Been Submitted"
+    redirect_to submission_url(@submission)
+  end
+
+  # Un-Submit the assignment
+  def unsubmit_submission
+    @submission = Submission.find(params[:id])
+    @assignment = @submission.assignment
+    @submission.submitted = false
+    @submission.save
+    @submission.remove_cached_runs
+    flash[:notice] = "Assignment Has Been Unsubmitted"
+    redirect_to assignment_url(get_assignment)
   end
 
   private
@@ -231,24 +253,19 @@ class SubmissionsController < ApplicationController
                   </html>'
 
       html_output = ''
-      studentDirectory = Rails.configuration.compile_directory + submission.user.name + '_' + submission.id.to_s + '/'
+
       submission.assignment.test_case.run_methods.each do |run|
         run.inputs.each do |input|
           html_output = html_output + '<tr><td id="name">' + input.name + '</td>'
           html_output = html_output + '<td id="description">' + input.description + '</td>'
-          if File.exist?(studentDirectory + input.name + "diff")
-            difference = File.read(studentDirectory + input.name + "diff")
-          else
-            difference = "Fail"
-          end
-          if not difference.empty?
+          save = submission.run_save.select {|s| s.input_name == input.name}.first
+          if not save.pass
             html_output = html_output + '<td id="grade"><font color="red">Fail</font></td></tr>'
           else
             html_output = html_output + '<td id="grade"><font color="green">Pass</font></td></tr>'
           end
         end
       end
-      FileUtils.rm_rf(studentDirectory)
 
       # Make the file for the grade of student
       if not Dir.exists?(tempDirectory) 
@@ -266,9 +283,6 @@ class SubmissionsController < ApplicationController
       # Add File to the student, and delete
       upload = submission.upload_data.new()
       data = File.read(tempDirectory + 'Grade')
-      f = File.open(Rails.configuration.compile_directory + 'pdf', "w")
-      f.write(data)
-      f.close()
       upload.make_file('Grade File', data, 'application/pdf')
       FileUtils.rm_rf(tempDirectory)
     end

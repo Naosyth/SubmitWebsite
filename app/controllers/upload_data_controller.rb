@@ -8,6 +8,7 @@ class UploadDataController < ApplicationController
   def create
     if (params[:type] == "submission")
       destination = Submission.find(params[:destination_id])
+      destination.remove_cached_runs
     elsif (params[:type] == "test_case")
       destination = TestCase.find(params[:destination_id])
     end
@@ -56,13 +57,26 @@ class UploadDataController < ApplicationController
                 (@upload_data.submission.user == current_user;)
     @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
     @comments = @upload_data.comments
-    render "upload_data/edit" and return
+
+    source = @upload_data.source
+    if source.class.name == "Submission"
+      redirect_to upload_datum_url(@upload_data) if @upload_data.submission.submitted
+    end
   end
 
   # Updates an upload data
   def update
     upload_data = UploadDatum.find(params[:id])
+    source = upload_data.source
+    if source.class.name == "Submission"
+      redirect_to upload_datum_url(upload_data) and return if upload_data.submission.submitted
+    end
     if upload_data.update_attributes(upload_data_params)
+      if source.class.name == "Submission"
+        redirect_to upload_datum_url(upload_data) if upload_data.submission.submitted
+        source.remove_cached_runs
+      end
+      source.remove_cached_runs
       flash[:notice] = "File Updated"
       redirect_to upload_data.source
     end
@@ -72,6 +86,11 @@ class UploadDataController < ApplicationController
   def destroy
     @upload_data = UploadDatum.find(params[:id])
     @upload_data.destroy
+    source = @upload_data.source
+    if source.class.name == "Submission"
+      redirect_to upload_datum_url(@upload_data) if @upload_data.submission.submitted
+      source.remove_cached_runs
+    end
     flash[:notice] = "File successfully deleted"
     redirect_to :back
   end

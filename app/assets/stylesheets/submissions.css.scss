@@ -54,6 +54,30 @@
   }
 }
 
+.grade-display {   
+  width: 500px;    
+  right: 0;    
+  left: 0;   
+  top: 300px;    
+  margin: 0 auto;    
+  background-color: $color-border-light;    
+  margin-bottom: 16px;   
+  margin-top: 16px;    
+  padding: 5px;    
+  color: $font-color-dark;   
+  text-align: left;    
+  
+  .grade, .note {
+    font-size: $font-size-medium;    
+    font-weight: bold;   
+    text-decoration: underline;    
+  }       
+}
+     
+.grade-value {
+  padding: 10px;   
+}
+
 .files-display {
   width: 75%;
   font-family: verdana;

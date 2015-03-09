@@ -46,6 +46,14 @@
           </div>
         <% end %>
       </li>
+      <li>
+        <%= link_to unsubmit_all_assignments_url(@assignment) do %>
+          <div>
+            <%= image_tag('icon_submit.png', size: "64x64", alt: "Unsubmit All Assignments", title: "Unsubmit All Assignments") %><br>
+            Unsubmit All Assignments
+          </div>
+        <% end %>
+      </li>
     </ul>
   </div>
 </div>
@@ -58,19 +66,27 @@
     <tr>
       <th>Student Name</th>
       <th>View Submission</th>
-      <%= "<th>Output Grade</th>".html_safe if @grade_all %>
+      <th>Submitted</th>
+      <th>Output Grade</th>
     </tr>
     <% @submissions.each do |submission| %>
       <tr>
         <td><%= submission.user.name %></td>
         <td><%= link_to 'View', submission_url(submission) %></td>
-        <% if @grade_all %>
-          <% submission_grade = submission.instructor_grade %>
-          <% if submission_grade[:compile] %>
-            <td><%= submission_grade[:correct][:correct].to_s + " out of " + submission_grade[:correct][:total].to_s %></td>
+        <td>
+          <% if submission.submitted %>
+            Submitted - <%= link_to "Unsubmit", unsubmit_assignment_path(submission), :method => :post, :data => { :confirm => 'Would you like to Un-Submit this assignment for the student?' } %>
           <% else %>
-            <td>Does Not Run</td>
+            Not Submitted
           <% end %>
+        </td>
+        <% correct = {} %>
+        <% correct[:correct] = submission.run_save.select {|s| s.pass}.count %>
+        <% correct[:total] = submission.run_save.count %>
+        <% if correct[:total] %>
+          <td><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></td>
+        <% else %>
+          <td>Does Not Run</td>
         <% end %>
       </tr>
     <% end %>

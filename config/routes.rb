@@ -26,11 +26,14 @@ Rails.application.routes.draw do
   post 'assignments/copy/:course_id/old_assignment/:old_assignment_id' => 'assignments#copy_create', :as => :copy_assignment
   get 'assignments/grade_all/:id' => 'assignments#grade_all', :as => :grade_all_assignment
   get 'assignments/all_grades/:id' => 'assignments#all_grades', :as => :view_all_grades_assignments
+  get 'assignments/unsubmit_all_assignmets/:id' => 'assignments#unsubmit_all_assignments', :as => :unsubmit_all_assignments
   post 'assignments/all_grades/:id' => 'assignments#download_grades'
   resources :assignments
 
   get 'submissions/compile/:id' => 'submissions#compile'
   get 'submissions/run_program/:id' => 'submissions#run_program'
+  post 'submissions/submit_submission/:id' => 'submissions#submit_submission', :as => :submit_assignment
+  post 'submissions/unsubmit_submission/:id' => 'submissions#unsubmit_submission', :as => :unsubmit_assignment
   resources :submissions
 
   post '/upload_data/:type/:destination_id' => 'upload_data#create', :as => :create_file

@@ -32,6 +32,14 @@ class Assignment < ActiveRecord::Base
     self.save
   end
 
+  def destroy
+    submissions.each do |s|
+      s.destroy
+    end
+    test_case.destroy
+    super
+  end
+
   private
   def due_date_after_start_date
     errors.add(:due_date, "can't be before start date") if due_date < start_date

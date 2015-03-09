@@ -56,9 +56,8 @@ class AssignmentsController < ApplicationController
     if current_user.has_local_role? :instructor, @course or current_user.has_role? :admin
       @submissions = @assignment.submissions
       @test_case = @assignment.test_case 
-      @grade_all = false
       render "assignments/manage"
-    elsif 
+    else
       @submission = @assignment.submissions.select { |submission| submission.user == current_user }.first
       redirect_to @submission
     end
@@ -69,8 +68,10 @@ class AssignmentsController < ApplicationController
     @assignment = Assignment.find(params[:id])
     @course = @assignment.course
     @submissions = @assignment.submissions
+    @submissions.each do |submission|
+      submission.instructor_grade
+    end
     @test_case = @assignment.test_case 
-    @grade_all = true
     render "assignments/manage"
   end
 
@@ -109,6 +110,21 @@ class AssignmentsController < ApplicationController
     blob = StringIO.new
     book.write blob
     send_data blob.string, :filename => @assignment.name + "_grades.xls", :type => "application/xls"
+  end
+
+  # Unsubmit all the submitted assignments
+  def unsubmit_all_assignments
+    @assignment = Assignment.find(params[:id])
+    @course = @assignment.course
+    @submissions = @assignment.submissions
+    @test_case = @assignment.test_case 
+    @grade_all = false
+    @submissions.each do |submission|
+      submission.submitted = false
+      submission.save
+      submission.remove_cached_runs
+    end
+    redirect_to manage_assignment_url(@assignment)
   end
 
   # Creates the form to modify an assignment

@@ -24,8 +24,10 @@
       <th>Updated At</th>
       <th>Uploaded At</th>
       <th>File Type</th>
-      <th>Edit</th>
-      <th>Delete</th>
+      <% if not @submission.submitted %>
+        <th>Edit</th>
+        <th>Delete</th>
+      <% end %>
     </tr>
 
     <% @submission.upload_data.each do |upload_data| %>
@@ -34,19 +36,23 @@
         <td><span data-time><%= upload_data.updated_at.to_i %></span></td>
         <td><span data-time><%= upload_data.created_at.to_i %></span></td>
         <td><%= upload_data.file_type %></td>
-        <td><%= link_to 'Edit', edit_upload_datum_path(upload_data) %></td>
-        <td><%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% if not @submission.submitted %>
+          <td><%= link_to 'Edit', edit_upload_datum_path(upload_data) %></td>
+          <td><%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+        <% end %>
       </tr>
     <% end %>
   </table>
 
-  <div class="file-uploader">
-    <p>Upload File</p>
-    <%= form_tag create_file_url("submission", @submission), method: :post, :multipart => true do %>
-      <%= file_field_tag 'upload_file' %><br>
-      <%= image_submit_tag "icon_upload.png", :title => "Upload File" %>
-    <% end %>
-  </div>
+  <% if not @submission.submitted %>
+    <div class="file-uploader">
+      <p>Upload File</p>
+      <%= form_tag create_file_url("submission", @submission), method: :post, :multipart => true do %>
+        <%= file_field_tag 'upload_file' %><br>
+        <%= image_submit_tag "icon_upload.png", :title => "Upload File" %>
+      <% end %>
+    </div>
+  <% end %>
 </div>
 
 <header>
@@ -71,6 +77,25 @@
           </div>
         <% end %>
       </li>
+      <% if @submission.submitted %>
+        <li>
+          <%= link_to :action => :show do %>
+            <div>
+              <%= image_tag('icon_submitted.png', size: "64x64", alt: "Assignment Submitted", title: "Assignment Submitted") %><br>
+              Assignment Submitted
+            </div>
+          <% end %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to submit_assignment_path(@submission), :method => :post, :data => { :confirm => 'Are you sure? Once assignment is submitted no more editing can occure.' } do %>
+            <div>
+              <%= image_tag('icon_submit.png', size: "64x64", alt: "Submit Assignment", title: "Submit Assignment") %><br>
+              Submit Assignment
+            </div>
+          <% end %>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>
