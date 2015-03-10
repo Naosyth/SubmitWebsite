@@ -26,13 +26,13 @@
     border-radius: 0px;
     border: 1px solid $color-border-light;
 
+    div {
+      padding: 10px;
+      text-align: center;
+    }
+
     a {
       color: $font-color-dark;
-
-      div {
-        padding: 10px;
-        text-align: center;
-      }
     }
 
   }
@@ -43,6 +43,10 @@
 }
 
 a[data-method='delete'] {
-      color: grey;
-      text-shadow: 1px 1px black;
-    }
+  color: grey;
+  text-shadow: 1px 1px black;
+  div {
+    color: $font-color-dark;
+    text-shadow: none;
+  }
+}
