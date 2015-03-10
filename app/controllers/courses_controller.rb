@@ -22,6 +22,7 @@ class CoursesController < ApplicationController
       if current_user.has_role? :instructor
         current_user.courses << @course
         current_user.add_role :instructor, @course
+        current_user.add_role :grader, @course
       end
 
       flash[:notice] = "Course created successfully."

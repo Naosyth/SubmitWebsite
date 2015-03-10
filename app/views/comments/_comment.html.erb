@@ -1,7 +1,7 @@
 <tr>
   <td><%= comment.line %></td>
   <td>
-    <a href="#" onclick="editor.focus(); editor.scrollToLine(<%= comment.line %>, true); editor.gotoLine(<%= comment.line + 1 %>, 10, true);">
+    <a href="#" onclick="editor.focus(); editor.scrollToLine(<%= comment.line %>, true); editor.gotoLine(<%= comment.line %>, 10, true);" title="<%= comment.contents %>">
       <%= truncate(comment.contents, length: 45) %>
     </a>
   </td>

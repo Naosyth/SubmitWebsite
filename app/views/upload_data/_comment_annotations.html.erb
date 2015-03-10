@@ -1,5 +1,5 @@
 <div class="comment-table">
-  <table>
+  <table id="file-comment-table">
     <thead>
       <tr>
         <th>Line</th>
@@ -13,10 +13,10 @@
 </div>
 
 <script>
-  <%= render(:file => 'comments/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
-
   $(document).on("page:change", function() {
-    $('#comment_table').tablesorter({
+    <%= render(:file => 'comments/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
+
+    $('#file-comment-table').tablesorter({
       sortList: [[0,0]],
       headers: {
         1: { sorter: false }

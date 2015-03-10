@@ -17,17 +17,19 @@
       </thead>
       <tbody>
         <% User::ROLES.each do |role| %>
-          <tr>
-            <td>
-              <%= f.check_box(:roles,
-                { :multiple => true,
-                  :checked => (@user.has_local_role? role, @course)
-                },
-                role, nil)
-              %>
-            </td>
-            <td><%= f.label role %></td>
-          </tr>
+          <% if role != "admin" %>
+            <tr>
+              <td>
+                <%= f.check_box(:roles,
+                  { :multiple => true,
+                    :checked => (@user.has_local_role? role, @course)
+                  },
+                  role, nil)
+                %>
+              </td>
+              <td><%= f.label role %></td>
+            </tr>
+          <% end %>
         <% end %>
       </tbody>
     </table>
