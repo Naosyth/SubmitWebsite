@@ -1,14 +1,8 @@
-<% breadcrumb :makes_new, @test_case %>
-<% content_for :title, "Create Makefile" %>
-
-<header>
-  <h1>Creat Makefile</h1>
-</header>
 <div class="content-group">
-  <%= form_for @make, url: new_make_url(@test_case), method: :post do |f| %>
+  <%= form_for @make, url: new_make_url(@test_case), method: :post, remote: true do |f| %>
     <%= f.label :name, "Makefile" %><br>
-    <%= f.text_area :data, :placeholder => 'Make Commands' %><br>
-    <%= f.submit "Create" %>
+    <%= f.text_area :data, :value => @test_case.make.data %><br>
+    <%= f.submit "Save", :onclick => "$('.modal-curtain').hide();" %>
   <% end %>
 </div>
 
@@ -30,7 +24,7 @@
       // put caret at right position again (add one for the tab)
       this.selectionStart = this.selectionEnd = start + 1;
 
-      // prevent the focus lose
+      // prevent the focus lost
       e.preventDefault();
     }
 });

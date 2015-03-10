@@ -8,9 +8,10 @@ class MakesController < ApplicationController
 
   # create the make
   def create
-    test_case = TestCase.find(params[:test_case_id])
+    @test_case = TestCase.find(params[:test_case_id])
     make = Make.create(make_params)
 
+<<<<<<< HEAD
     if make.save 
       submissions = test_case.assignment.submissions
       submissions.each do |s|
@@ -18,8 +19,13 @@ class MakesController < ApplicationController
       end
       test_case.make = make
       redirect_to test_case_url(test_case)
+=======
+    if @test_case.save 
+      @test_case.make = make
+      redirect_to :back
+>>>>>>> Ajaxed Makefile and Add Run Method
     else
-      render :action => :new
+      flash[:notice] = "Error Saving Makefile"
     end
   end
 

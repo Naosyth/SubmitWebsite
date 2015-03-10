@@ -1,4 +1,4 @@
 <tr>
-  <td><%= run_method.name %></td>
+  <td><%=link_to run_method.name, edit_run_method_url(run_method) %></td>
   <td><%= link_to 'X', run_method, method: :delete, remote: true, data: { confirm: "Are You Sure?" } %></td>
 </tr>

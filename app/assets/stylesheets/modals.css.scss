@@ -1,9 +1,9 @@
 @import "variables";
 
 .modal-popup {
-  position: absolute;
+<<<<<<< HEAD
+  position: fixed;
   top: 100px;
-  left: 25%;
   background-color: $color-modal-background;
   width: 50%;
   height: 500px;
@@ -77,9 +77,9 @@
 }
 
 .modal-curtain {
-  width: 100vw;
-  height: 100vh;
-  position: fixed;
+  width: 100%;
+  height: 100%;
+  position: absolute;
   top: 0;
   left: 0;
   background-color: $color-modal-curtain;

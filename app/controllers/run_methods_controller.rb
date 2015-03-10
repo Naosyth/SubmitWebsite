@@ -2,14 +2,12 @@ class RunMethodsController < ApplicationController
 
   # create new
   def new
-    flash[:notice] = "Post successfully new"
     @run_method = RunMethod.new
     @test_case = TestCase.find(params[:test_case_id])
   end
 
   # create
   def create
-    flash[:notice] = "Post successfully created"
     @test_case = TestCase.find(params[:test_case_id])
     run_method = @test_case.run_methods.new(run_method_params)
     @run_methods = @test_case.run_methods
