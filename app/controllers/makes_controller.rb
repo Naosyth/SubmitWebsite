@@ -11,21 +11,17 @@ class MakesController < ApplicationController
     @test_case = TestCase.find(params[:test_case_id])
     make = Make.create(make_params)
 
-<<<<<<< HEAD
     if make.save 
       submissions = test_case.assignment.submissions
       submissions.each do |s|
         s.remove_cached_runs
       end
-      test_case.make = make
-      redirect_to test_case_url(test_case)
-=======
-    if @test_case.save 
-      @test_case.make = make
-      redirect_to :back
->>>>>>> Ajaxed Makefile and Add Run Method
-    else
-      flash[:notice] = "Error Saving Makefile"
+      if @test_case.save 
+        @test_case.make = make
+        redirect_to :back
+      else
+        flash[:notice] = "Error Saving Makefile"
+      end
     end
   end
 

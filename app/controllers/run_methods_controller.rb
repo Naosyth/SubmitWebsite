@@ -59,18 +59,13 @@ class RunMethodsController < ApplicationController
     test_case = TestCase.find(run_method.test_case_id)
     @run_methods = test_case.run_methods
     run_method.destroy
-<<<<<<< HEAD
     submissions = run_method.test_case.assignment.submissions
     submissions.each do |s|
       s.remove_cached_runs
     end
-    redirect_to test_case_url(test_case)
-=======
-    
     respond_to do |format|
       format.js { render :action => "refresh" }
     end
->>>>>>> Add Run Method has been Ajax-ified. As well as slight styling changes to testCases
   end
 
   private
