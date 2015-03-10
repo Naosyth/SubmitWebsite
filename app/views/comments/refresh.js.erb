@@ -1,4 +1,5 @@
 $('#comment-list').html("<%= j (render @file_comments) %>");
+$('#file-comment-table').trigger("update");
 
 annots = [
   <% @file_comments.each do |c| %>

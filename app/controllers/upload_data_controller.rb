@@ -34,6 +34,7 @@ class UploadDataController < ApplicationController
   # Shows an upload data
   def show
     @upload_datum = UploadDatum.find(params[:id])
+    @new_comment = Comment.new
     source = @upload_datum.source
     course = @upload_datum.source.assignment.course
 
@@ -53,7 +54,6 @@ class UploadDataController < ApplicationController
       send_data @upload_datum.contents, type: 'application/pdf', filename: @upload_datum.name, disposition: 'inline' and return
     elsif file_type.include? "text" or file_type.include? "application"
       if current_user.has_local_role? :grader, course
-        @new_comment = Comment.new
         render "upload_data/edit_grader" and return
       elsif current_user.has_local_role? :student, course
         render "upload_data/edit_student" and return
