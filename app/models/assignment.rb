@@ -40,6 +40,21 @@ class Assignment < ActiveRecord::Base
     super
   end
 
+  def get_all_comments
+    comments = Hash.new
+    submissions.each do |s| 
+      s.upload_data.each do |u|
+        u.comments.each do |c|
+          if comments[c.contents] == nil
+            comments[c.contents] = 0
+          end
+          comments[c.contents] += 1
+        end
+      end 
+    end
+    return comments
+  end
+
   private
   def due_date_after_start_date
     errors.add(:due_date, "can't be before start date") if due_date < start_date

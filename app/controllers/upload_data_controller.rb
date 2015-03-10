@@ -3,6 +3,7 @@ class UploadDataController < ApplicationController
   before_filter :require_data_owner, :only => [:reupload, :edit, :upload_data, :destroy]
   before_filter :require_destination_owner, :only => [:create]
   before_filter :require_instructor_owner, :only => [:show]
+  before_filter :require_not_submitted, :only => [:update]
 
   # Creates a new upload data
   def create
@@ -32,35 +33,34 @@ class UploadDataController < ApplicationController
 
   # Shows an upload data
   def show
-    @upload_data = UploadDatum.find(params[:id])
-    @can_edit = true
-    @comment = Comment.new
-    @comments = @upload_data.comments
-    @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
-    if @upload_data.file_type == 'application/pdf'
-      send_data @upload_data.contents, type: 'application/pdf', filename: @upload_data.name, disposition: 'inline'
-    elsif @upload_data.file_type.include? "text"
-      render "upload_data/edit" and return
-    elsif @upload_data.file_type.include? "application"
-      render :action => :show and return
-    else
-      flash[:notice] = "Cannot Display that file type."
-      redirect_to :back and return
+    @upload_datum = UploadDatum.find(params[:id])
+    source = @upload_datum.source
+    course = @upload_datum.source.assignment.course
+
+    if source.class.name == "TestCase"
+      @can_edit = true
+      render "upload_data/edit_no_comments" and return
     end
-  end
 
-  # Edits an existing upload data
-  def edit
-    @upload_data = UploadDatum.find(params[:id])
-    @comment = Comment.new
-    @can_edit = (current_user.has_local_role? :instructor, @upload_data.source.assignment.course) ||
-                (@upload_data.submission.user == current_user;)
-    @all_comments = get_all_comments(@upload_data.source.assignment).sort_by {|_key, value| value }.reverse
-    @comments = @upload_data.comments
+    submission = @upload_datum.submission
+    file_type = @upload_datum.file_type
+    @can_edit = (submission.user == current_user and not submission.submitted)
+    @can_comment = current_user.has_local_role? :grader, course
+    @all_comments = get_all_comments(submission.assignment).sort_by { |_key, value| value }.reverse
+    @file_comments = @upload_datum.comments
 
-    source = @upload_data.source
-    if source.class.name == "Submission"
-      redirect_to upload_datum_url(@upload_data) if @upload_data.submission.submitted
+    if file_type == 'application/pdf'
+      send_data @upload_datum.contents, type: 'application/pdf', filename: @upload_datum.name, disposition: 'inline' and return
+    elsif file_type.include? "text" or file_type.include? "application"
+      if current_user.has_local_role? :grader, course
+        @new_comment = Comment.new
+        render "upload_data/edit_grader" and return
+      elsif current_user.has_local_role? :student, course
+        render "upload_data/edit_student" and return
+      end
+    else
+      flash[:notice] = "Cannot display that file type."
+      redirect_to :back and return
     end
   end
 
@@ -68,17 +68,19 @@ class UploadDataController < ApplicationController
   def update
     upload_data = UploadDatum.find(params[:id])
     source = upload_data.source
-    if source.class.name == "Submission"
-      redirect_to upload_datum_url(upload_data) and return if upload_data.submission.submitted
-    end
+
     if upload_data.update_attributes(upload_data_params)
-      if source.class.name == "Submission"
-        redirect_to upload_datum_url(upload_data) if upload_data.submission.submitted
-        source.remove_cached_runs
+      respond_to do |format|
+        format.js { render :action => "refresh" }
       end
-      source.remove_cached_runs
-      flash[:notice] = "File Updated"
-      redirect_to upload_data.source
+
+      if source.class.name == "Submission"
+        source.remove_cached_runs
+      else
+        source.assignment.submissions.each do |s|
+          s.remove_cached_runs
+        end
+      end
     end
   end
 
@@ -136,8 +138,21 @@ class UploadDataController < ApplicationController
 
     upload_data = UploadDatum.find(params[:id])
     course = upload_data.source.assignment.course
-    if not(current_user.has_role? :instructor, course) && current_user != upload_data.submission.user
-      flash[:notice] = "That action is only available to the instructor or file owner"
+    if upload_data.source.class.name == "TestCase" and not (current_user.has_role? :grader, course)
+      flash[:notice] = "Only graders and instructors may edit test cases"
+      redirect_to dashboard_url
+    elsif upload_data.source.class.name == "Submission" and (not (current_user.has_role? :grader, course) and current_user != upload_data.submission.user)
+      flash[:notice] = "That action is only available to graders or the file owner"
+      redirect_to dashboard_url
+    end
+  end
+
+  def require_not_submitted
+    upload_data = UploadDatum.find(params[:id])
+    return if upload_data.source.class.name == "TestCase"
+
+    if upload_data.source.submitted
+      flash[:notice] = "You may not edit files after submitting your assignment"
       redirect_to dashboard_url
     end
   end

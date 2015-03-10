@@ -3,9 +3,13 @@ class CommentsController < ApplicationController
   def create
     @upload_datum = UploadDatum.find(params[:upload_id])
     @comment = @upload_datum.comments.new(comment_params)
-    @comments = @upload_datum.comments
+    @file_comments = @upload_datum.comments
+    @all_comments = @upload_datum.submission.assignment.get_all_comments.sort_by { |_key, value| value }.reverse
 
     if @comment.save
+      @file_comments = @upload_datum.comments
+      @all_comments = @upload_datum.submission.assignment.get_all_comments.sort_by { |_key, value| value }.reverse
+
       respond_to do |format|
         format.js { render :action => "refresh" }
       end
@@ -22,8 +26,9 @@ class CommentsController < ApplicationController
 
   def destroy
     @comment = Comment.find(params[:id])
-    @comments = @comment.upload_datum.comments
     @comment.destroy
+    @file_comments = @comment.upload_datum.comments
+    @all_comments = @comment.upload_datum.submission.assignment.get_all_comments.sort_by { |_key, value| value }.reverse
 
     respond_to do |format|
       format.js { render :action => "refresh" }

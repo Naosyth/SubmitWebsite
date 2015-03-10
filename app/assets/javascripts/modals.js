@@ -6,4 +6,6 @@ $(document).on("page:change", function() {
   $(".modal-popup").click(function(event){
     event.stopPropagation();
   });
+
+  $(".modal-popup").append("<span class='modal-close' onClick='$(\".modal-curtain\").hide()'>X</span>");
 });

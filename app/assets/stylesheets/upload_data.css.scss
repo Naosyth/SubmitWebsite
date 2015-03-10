@@ -5,17 +5,28 @@
   height: 100%;
   width: 100%;
 
+  .editor {
+    width: 100%;
+    position: relative;
+    height: 800px;
+  }
+
+  .editor-save-status {
+    width: 100px;
+    height: 40px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    line-height: 40px;
+    text-align: right;
+    padding-right: 10px;
+  }
+
   .editor-left-col {
     display: table-cell;
     width: 70%;
     height: 100%;
     padding-right: 5px;
-
-    .editor {
-      width: 100%;
-      position: relative;
-      height: 800px;
-    }
   }
 
   .editor-right-col {
