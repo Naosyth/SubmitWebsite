@@ -6,11 +6,14 @@
   <h2><%= @assignment.name %></h2>
 </header>
 <div class="content-group">
-  <%= @assignment.name %><br>
-  <%= @assignment.description %><br>
-  <%= "Total Points: " + @assignment.total_grade.to_s %><br>
-  Start: <span data-time><%= @assignment.start_date.to_i %></span><br>
-  Due: <span data-time><%= @assignment.due_date.to_i %></span><br>
+  <div class="center-wrapper">
+    <p class="description"><%= @assignment.description.gsub(/\n/, '<br>').html_safe %></p>
+    <div class="assignment-info-wrapper">
+      <p class="assignment-info">Total Points: <%= @assignment.total_grade.to_s %></p>
+      <p class="assignment-info">Start Date: <span data-time><%= @assignment.start_date.to_i %></span></p>
+      <p class="assignment-info">Due Date: <span data-time><%= @assignment.due_date.to_i %></span></p>
+    </div>
+  </div>
 </div>
 
 <header>
