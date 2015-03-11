@@ -4,22 +4,24 @@
   <table class="output-diff">
     <thead>
       <tr>
-        <td>Your Output</td>
-        <td>Expected Output</td>
-        <td>Difference</td>
+        <th>Input Data</th>
+        <th>Your Output</th>
+        <th>Expected Output</th>
+        <th>Difference</th>
       </tr>
     </thead>
     <tbody>      
       <% @submission.run_save.each do |rs| %>
         <tr>
-        <% input = run.inputs.select {|i| i.name == rs.input_name}.first %>
-        <td><%= simple_format(rs.output, {}, wrapper_tag: "span") %></td>
-        <td><%= simple_format(input.output, {}, wrapper_tag: "span") %></td>
-        <% if not rs.pass %>
-          <td><%= simple_format(rs.difference, {}, wrapper_tag: "span") %></td>
-        <% else %>
-          <td>All Good</td>
-        <% end %>
+          <% input = run.inputs.select { |i| i.name == rs.input_name }.first %>
+          <td><%= simple_format(input.data.gsub(/(?:\n\r?|\r\n?)/, '<br>'), {}, wrapper_tag: "span") %></td>
+          <td><%= simple_format(rs.output.gsub(/(?:\n\r?|\r\n?)/, '<br>'), {}, wrapper_tag: "span") %></td>
+          <td><%= simple_format(input.output.gsub(/(?:\n\r?|\r\n?)/, '<br>'), {}, wrapper_tag: "span") %></td>
+          <% if not rs.pass %>
+            <td><%= simple_format(rs.difference, {}, wrapper_tag: "span") %></td>
+          <% else %>
+            <td>No Difference</td>
+          <% end %>
         </tr>
       <% end %>
     </tbody>
