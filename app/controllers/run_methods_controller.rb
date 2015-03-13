@@ -13,9 +13,6 @@ class RunMethodsController < ApplicationController
 
     if run_method.save 
       submissions = run_method.test_case.assignment.submissions
-      submissions.each do |s|
-        s.remove_cached_runs
-      end
       redirect_to test_case_url(test_case)
     else
       render :action => :new
@@ -39,29 +36,22 @@ class RunMethodsController < ApplicationController
 
     if @run_method.update_attributes(run_method_params)
       submissions = @run_method.test_case.assignment.submissions
-      submissions.each do |s|
-        s.remove_cached_runs
-      end
       redirect_to test_case_url(test_case)
     else
       render :action => :edit
     end
   end
 
-  # DELETE
+  # delete
   def destroy
     run_method = RunMethod.find(params[:id])
     test_case = TestCase.find(run_method.test_case_id)
     run_method.destroy
     submissions = run_method.test_case.assignment.submissions
-    submissions.each do |s|
-      s.remove_cached_runs
-    end
     redirect_to test_case_url(test_case)
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
     def run_method_params
       params.require(:run_method).permit(:name, :run_command, :description)
     end

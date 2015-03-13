@@ -77,9 +77,7 @@ class UploadDataController < ApplicationController
       if source.class.name == "Submission"
         source.remove_cached_runs
       else
-        source.assignment.submissions.each do |s|
-          s.remove_cached_runs
-        end
+        source.assignment.remove_saved_runs
       end
     end
   end

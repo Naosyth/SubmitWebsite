@@ -7,12 +7,12 @@ class SubmissionsController < ApplicationController
   def show
     @submission = Submission.find(params[:id])
 
-    if current_user.has_local_role? :instructor, get_course or current_user.has_role? :admin
+    if current_user.has_local_role? :grader, get_course
       @directory = @submission.create_directory 
       @comp_message = @submission.compile(@directory) 
       if @comp_message[:compile]
         flash.now[:notice] = "Compiled"
-        @submission.run_test_cases(@directory, false)
+        @submission.run_test_cases(false)
       else
         flash.now[:notice] = "Not Compiled"
         flash.now[:comperr] = @comp_message[:comperr]
@@ -58,13 +58,13 @@ class SubmissionsController < ApplicationController
   def run_program
     @submission = Submission.find(params[:id])
     @assignment = @submission.assignment
-    tempDirectory = @submission.create_directory
+    directory = @submission.create_directory
 
     # Compiles and runs the program
     comp_message = @submission.compile(tempDirectory)
     if comp_message[:compile]
       flash.now[:notice] = "Compiled"
-      @submission.run_test_cases(tempDirectory, true)
+      @submission.run_test_cases(true)
     else
       flash.now[:notice] = "Not Compiled"
       flash.now[:comperr] = comp_message[:comperr]
@@ -258,7 +258,7 @@ class SubmissionsController < ApplicationController
         run.inputs.each do |input|
           html_output = html_output + '<tr><td id="name">' + input.name + '</td>'
           html_output = html_output + '<td id="description">' + input.description + '</td>'
-          save = submission.run_save.select {|s| s.input_name == input.name}.first
+          save = submission.run_saves.select {|s| s.input_name == input.name}.first
           if not save.pass
             html_output = html_output + '<td id="grade"><font color="red">Fail</font></td></tr>'
           else

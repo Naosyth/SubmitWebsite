@@ -81,8 +81,8 @@
           <% end %>
         </td>
         <% correct = {} %>
-        <% correct[:correct] = submission.run_save.select {|s| s.pass}.count %>
-        <% correct[:total] = submission.run_save.count %>
+        <% correct[:correct] = submission.run_saves.select { |s| s.pass }.count %>
+        <% correct[:total] = submission.run_saves.count %>
         <% if correct[:total] %>
           <td><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></td>
         <% else %>

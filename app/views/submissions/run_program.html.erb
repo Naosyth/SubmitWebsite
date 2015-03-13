@@ -7,8 +7,8 @@
 </header>
 <div class="content-group">
   <% correct = {} %>
-  <% correct[:correct] = @submission.run_save.select {|s| s.pass}.count %>
-  <% correct[:total] = @submission.run_save.count %>
+  <% correct[:correct] = @submission.run_saves.select {|s| s.pass}.count %>
+  <% correct[:total] = @submission.run_saves.count %>
   <%= correct[:correct].to_s + " out of " + correct[:total].to_s %> test cases succeeded<br>
   <% @submission.assignment.test_case.run_methods.each do |run| %>
     <%= raw "<a href=#" + run.id.to_s + ">" + run.name + "</a>" %>

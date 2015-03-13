@@ -11,9 +11,6 @@ class TestCasesController < ApplicationController
 
     if test_case.update_attributes(test_case_params)
       submissions = test_case.assignment.submissions
-      submissions.each do |s|
-        s.remove_cached_runs
-      end
       flash[:notice] = "Test Case updated!"
     end
     redirect_to :back
@@ -28,9 +25,6 @@ class TestCasesController < ApplicationController
     end
 
     submissions = test_case.assignment.submissions
-    submissions.each do |s|
-      s.remove_cached_runs
-    end
 
     # Adds in the test case files
     test_case.create_directory(tempDirectory)
