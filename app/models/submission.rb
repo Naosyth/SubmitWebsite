@@ -61,19 +61,12 @@ class Submission < ActiveRecord::Base
     stream = {}
     directory = create_directory
     
+    remove_saved_runs
+
     assignment.test_case.run_methods.each do |run|
-      if hidden
-        inputs = run.inputs.select { |i| i.student_visible } 
-      else
-        inputs = run.inputs
-      end
-
-      inputs.each do |input|
-        # Check if there needs to be a new run
-        return if not run_saves.select { |s| s.input_name == input.name }.first.blank?
-
+      run.inputs.each do |input|
         # Make output file
-        input_file = directory + input.name
+        input_file = directory + input.name.tr(" ", "_")
         f = File.open(input_file, "w")
         f.write(input.data)
         f.close
@@ -81,7 +74,7 @@ class Submission < ActiveRecord::Base
         stdin, stdout, stderr = Open3.popen3(shell)
         stream[:stdout] = stdout.read
         stream[:stderr] = stderr.read 
-        save = run_saves.new
+        save = run_saves.new(input: input)
 
         # Check if the process errored
         f = File.open(input_file, "w")
@@ -90,23 +83,21 @@ class Submission < ActiveRecord::Base
           stream[:stderr] += "\nProcess Exceeded Max CPU Time of: " + assignment.test_case.cpu_time.to_s + " seconds." if stream[:stderr].include? "Kill" or stream[:stderr].include? "Cputime"
           f.write(stream[:stderr])
           f.close
-          difference = "ERROR"
+          save.difference = "ERROR"
           save.output = stream[:stderr]
         else 
           f.write(stream[:stdout])
           f.close
           save.output = stream[:stdout]
-          difference = Diffy::Diff.new(stream[:stdout], input.output, :include_plus_and_minus_in_html => true, :allow_empty_diff => true).to_s(:text)
+          save.difference = Diffy::Diff.new(stream[:stdout], input.output, :include_plus_and_minus_in_html => true, :allow_empty_diff => true).to_s()
         end
 
-        save.difference = difference
-        save.input_name = input.name
-        save.pass = difference.empty?
-
+        save.pass = save.difference.blank?
+        save.difference = "No Difference" if save.difference.blank?
         save.save
       end
     end
-    
+
     FileUtils.rm_rf(directory)
   end
 
@@ -127,6 +118,11 @@ class Submission < ActiveRecord::Base
     run_saves.each do |rs|
       rs.destroy
     end
+  end
+
+  def visible_run_saves(current_user)
+    return run_saves.select { |run_save| run_save.input.student_visible } if not (current_user.has_local_role? :grader, assignment.course)
+    return run_saves
   end
 
   private

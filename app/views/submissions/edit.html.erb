@@ -2,7 +2,8 @@
 <% content_for :title, get_assignment.name + " Submission" %>
 
 <header>
-  <h1>Submission by <%= @submission.user.name %></h1>
+  <h1><%= @submission.assignment.name %></h1>
+  <h2><%= @submission.user.name %></h2>
 </header>
 
 <div class="content-group">
@@ -17,7 +18,7 @@
 </div>
 
 <header>
-  <h1>Submitted Files</h1>
+  <h1>Files</h1>
 </header>
 <div class="content-group">
   <% @submission.upload_data.each do |file| %>

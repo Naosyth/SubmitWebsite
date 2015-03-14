@@ -1,30 +1,20 @@
-<% @submission.assignment.test_case.run_methods.each do |run| %>
-<%= raw "<div class='run-diff' id=" + run.id.to_s + ">" %>
-  <p><%= run.name %></p>
-  <table class="output-diff">
-    <thead>
-      <tr>
-        <th>Input Data</th>
-        <th>Your Output</th>
-        <th>Expected Output</th>
-        <th>Difference</th>
-      </tr>
-    </thead>
-    <tbody>      
-      <% @submission.run_saves.each do |rs| %>
-        <% input = run.inputs.select { |i| i.name == rs.input_name }.first %>
-        <tr>
-          <td><%= simple_format(input.data.gsub(/(?:\n\r?|\r\n?)/, '<br>'), {}, wrapper_tag: "span") %></td>
-          <td><%= simple_format(rs.output.gsub(/(?:\n\r?|\r\n?)/, '<br>'), {}, wrapper_tag: "span") %></td>
-          <td><%= simple_format(input.output.gsub(/(?:\n\r?|\r\n?)/, '<br>'), {}, wrapper_tag: "span") %></td>
-          <% if not rs.pass %>
-            <td><%= simple_format(rs.difference, {}, wrapper_tag: "span") %></td>
-          <% else %>
-            <td>No Difference</td>
-          <% end %>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+<div class="run-case-list">
+  <% @submission.assignment.test_case.run_methods.each do |run_method| %>
+    <a href="#run_method_<%= run_method.id %>"><%= run_method.name %></a><br>
+    <% @submission.visible_run_saves(current_user).select { |run_save| run_save.input.run_method == run_method }.each do |run_save| %>
+      <a href="#run_input_<%= run_save.id %>"><%= run_save.input.name %></a><%= run_save.pass %><br>
+    <% end %>
+  <% end %>
 </div>
+
+<% @submission.assignment.test_case.run_methods.each do |run_method| %>
+  <div class="run-diff" id="run_method_<%= run_method.id %>">
+    <h1><%= run_method.name %></h1>
+    <h2><%= run_method.description %></h2>
+    <h2><%= run_method.run_command %></h2>
+
+    <% @submission.visible_run_saves(current_user).select { |run_save| run_save.input.run_method == run_method }.each do |run_save| %>
+      <%= render run_save %>
+    <% end %>
+  </div>
 <% end %>

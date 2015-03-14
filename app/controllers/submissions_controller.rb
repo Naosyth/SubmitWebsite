@@ -254,7 +254,7 @@ class SubmissionsController < ApplicationController
         run.inputs.each do |input|
           html_output = html_output + '<tr><td id="name">' + input.name + '</td>'
           html_output = html_output + '<td id="description">' + input.description + '</td>'
-          save = submission.run_saves.select {|s| s.input_name == input.name}.first
+          save = submission.run_saves.select { |s| s.input_id == input.id }.first
           if not save.pass
             html_output = html_output + '<td id="grade"><font color="red">Fail</font></td></tr>'
           else

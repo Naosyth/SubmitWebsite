@@ -36,7 +36,7 @@ class TestCase < ActiveRecord::Base
         file.add("No_Inputs", "This is auto-generated for a program with no given inputs.", nil, "", true)
       end
       run.inputs.each do |file|
-        output = path + file.name
+        output = path + file.name.tr(" ", "_")
         f = File.open(output, "w" )
         f.write(file.data)
         f.close
