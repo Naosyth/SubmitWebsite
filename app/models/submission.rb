@@ -5,7 +5,6 @@ class Submission < ActiveRecord::Base
   has_many :run_saves
 
   after_create :set_note_empty
-  after_save :remove_saved_runs
 
   # This should be moved to the model
   def set_note_empty
@@ -68,13 +67,10 @@ class Submission < ActiveRecord::Base
       else
         inputs = run.inputs
       end
+
       inputs.each do |input|
         # Check if there needs to be a new run
-        saved = run_saves.select { |s| s.input_name == input.name }.first
-
-        if not saved.nil?
-          return
-        end
+        return if not run_saves.select { |s| s.input_name == input.name }.first.blank?
 
         # Make output file
         input_file = directory + input.name
@@ -85,7 +81,7 @@ class Submission < ActiveRecord::Base
         stdin, stdout, stderr = Open3.popen3(shell)
         stream[:stdout] = stdout.read
         stream[:stderr] = stderr.read 
-        save = RunSave.new
+        save = run_saves.new
 
         # Check if the process errored
         f = File.open(input_file, "w")
@@ -110,6 +106,7 @@ class Submission < ActiveRecord::Base
         save.save
       end
     end
+    
     FileUtils.rm_rf(directory)
   end
 

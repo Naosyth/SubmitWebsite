@@ -75,7 +75,7 @@
         <td><%= link_to 'View', submission_url(submission) %></td>
         <td>
           <% if submission.submitted %>
-            Submitted - <%= link_to "Unsubmit", unsubmit_assignment_path(submission), :method => :post, :data => { :confirm => 'Would you like to Un-Submit this assignment for the student?' } %>
+            Submitted - <%= link_to "Unsubmit", unsubmit_submission_path(submission), :method => :post, :data => { :confirm => 'Would you like to Un-Submit this assignment for the student?' } %>
           <% else %>
             Not Submitted
           <% end %>

@@ -1,25 +1,16 @@
 class SubmissionsController < ApplicationController
   before_filter :require_user
-  before_filter :require_owner, :only => [:show, :run_program, :submit_submission]
+  before_filter :require_owner, :only => [:show, :run, :submit_submission]
   before_filter :require_instructor_owner, :only => [:index, :unsubmit_submission]
 
   # Shows a submission
   def show
     @submission = Submission.find(params[:id])
+    @assignment = @submission.assignment
 
     if current_user.has_local_role? :grader, get_course
-      @directory = @submission.create_directory 
-      @comp_message = @submission.compile(@directory) 
-      if @comp_message[:compile]
-        flash.now[:notice] = "Compiled"
-        @submission.run_test_cases(false)
-      else
-        flash.now[:notice] = "Not Compiled"
-        flash.now[:comperr] = @comp_message[:comperr]
-      end
       render :action => :edit and return
     else
-      @assignment = @submission.assignment
       render and return
     end
   end
@@ -38,37 +29,42 @@ class SubmissionsController < ApplicationController
   # Compiles but does not run a user's submission
   def compile
     submission = Submission.find(params[:id])
-    tempDirectory = submission.create_directory
-    comp_message = submission.compile(tempDirectory)
+    directory = submission.create_directory
 
     # Check if program compiled
+    comp_message = submission.compile(directory)
     if comp_message[:compile]
-      flash[:notice] = "Compiled"
+      respond_to do |format|
+        format.js { render :action => "compile" }
+      end
     else
-      flash[:notice] = "Not Compiled"
-      flash[:comperr] = comp_message[:comperr]
+      respond_to do |format|
+        format.js { render :action => "compile_error" }
+      end
     end
 
     # Cleans up the files
-    FileUtils.rm_rf(tempDirectory)
-    redirect_to :back
+    FileUtils.rm_rf(directory)
   end
 
   # Compiles, runs the code, and creates the output files
-  def run_program
+  def run
     @submission = Submission.find(params[:id])
-    @assignment = @submission.assignment
+    assignment = @submission.assignment
     directory = @submission.create_directory
 
     # Compiles and runs the program
-    comp_message = @submission.compile(tempDirectory)
+    comp_message = @submission.compile(directory)
     if comp_message[:compile]
-      flash.now[:notice] = "Compiled"
       @submission.run_test_cases(true)
+      respond_to do |format|
+        format.js { render :action => "run" }
+      end
     else
-      flash.now[:notice] = "Not Compiled"
-      flash.now[:comperr] = comp_message[:comperr]
-      redirect_to :back
+      #flash.now[:comperr] = comp_message[:comperr]
+      respond_to do |format|
+        format.js { render :action => "compile_error" }
+      end
     end
   end
 
@@ -78,7 +74,7 @@ class SubmissionsController < ApplicationController
     @assignment = @submission.assignment
     @submission.submitted = true
     @submission.save
-    @submission.remove_cached_runs
+    @submission.remove_saved_runs
     flash[:notice] = "Assignment Has Been Submitted"
     redirect_to submission_url(@submission)
   end
@@ -89,7 +85,7 @@ class SubmissionsController < ApplicationController
     @assignment = @submission.assignment
     @submission.submitted = false
     @submission.save
-    @submission.remove_cached_runs
+    @submission.remove_saved_runs
     flash[:notice] = "Assignment Has Been Unsubmitted"
     redirect_to assignment_url(get_assignment)
   end

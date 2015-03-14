@@ -57,23 +57,23 @@
 </div>
 
 <header>
-  <h1>Test Program</h1>
+  <h1>Submission Actions</h1>
 </header>
 <div class="content-group">
   <div class="submission-actions">
     <ul>
       <li>
-        <%= link_to :method => :get, :action => :compile do %>
+        <%= link_to compile_submission_url(@submission), :remote => true do %>
           <div>
-            <%= image_tag('icon_users_dark.png', size: "64x64", alt: "Test Compile", title: "Test Compile") %><br>
+            <%= image_tag('icon_test.png', size: "64x64", alt: "Test Compile", title: "Test Compile") %><br>
             Test Compile
           </div>
         <% end %>
       </li>
       <li>
-        <%= link_to :method => :get, :action => :run_program do %>
+        <%= link_to run_submission_url(@submission), :remote => true do %>
           <div>
-            <%= image_tag('icon_users_dark.png', size: "64x64", alt: "Run Tests", title: "Run Tests") %><br>
+            <%= image_tag('icon_test.png', size: "64x64", alt: "Run Tests", title: "Run Tests") %><br>
             Run Tests
           </div>
         <% end %>
@@ -89,7 +89,7 @@
         </li>
       <% else %>
         <li>
-          <%= link_to submit_assignment_path(@submission), :method => :post, :data => { :confirm => 'Are you sure? Once assignment is submitted no more editing can occure.' } do %>
+          <%= link_to submit_submission_path(@submission), :method => :post, :data => { :confirm => 'Are you sure? Once assignment is submitted no more editing can occure.' } do %>
             <div>
               <%= image_tag('icon_submit.png', size: "64x64", alt: "Submit Assignment", title: "Submit Assignment") %><br>
               Submit Assignment
@@ -99,4 +99,21 @@
       <% end %>
     </ul>
   </div>
+</div>
+
+<header>
+  <h1>Program Output</h1>
+</header>
+<div class="content-group">
+  <div class="grade-display">
+    <center>
+    <p class="grade">Output Grade</p>
+    <% correct = {} %>
+    <% correct[:correct] = @submission.run_saves.select {|s| s.pass}.count %>
+    <% correct[:total] = @submission.run_saves.count %>
+    <p class="grade-value"><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></p>
+    </center>
+    <br>
+  </div>
+  <%= render :partial => 'output_comparison', :locals => { :@submission => @submission, :@tempDirectory => @directory } %>
 </div>

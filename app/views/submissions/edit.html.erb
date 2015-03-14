@@ -25,7 +25,24 @@
   <% end %>
 </div>
 
-<% if @comp_message[:compile] %>
+<header>
+  <h1>Submission Actions</h1>
+</header>
+<div class="content-group">
+  <div class="submission-actions">
+    <ul>
+      <li>
+        <%= link_to run_submission_url(@submission), :remote => true do %>
+          <div>
+            <%= image_tag('icon_test.png', size: "64x64", alt: "Run Submission", title: "Run Submission") %><br>
+            Run Submission
+          </div>
+        <% end %>
+      </li>
+    </ul>
+  </div>
+</div>
+
 <header>
   <h1>Program Output</h1>
 </header>
@@ -40,10 +57,5 @@
     </center>
     <br>
   </div>
-  <%= render :partial => 'output_comparison', :locals => {:@submission => @submission, :@tempDirectory => @directory} %>
+  <%= render :partial => 'output_comparison', :locals => { :@submission => @submission, :@tempDirectory => @directory } %>
 </div>
-<% else %>
-  <header>
-    <h1>The program does not run.</h1>
-  </header>
-<% end %>
