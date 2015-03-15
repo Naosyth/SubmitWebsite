@@ -1,7 +1,7 @@
 class SubmissionsController < ApplicationController
   before_filter :require_user
-  before_filter :require_owner, :only => [:show, :run, :submit_submission]
-  before_filter :require_instructor_owner, :only => [:index, :unsubmit_submission]
+  before_filter :require_owner, :only => [:show, :run, :submit]
+  before_filter :require_instructor_owner, :only => [:index, :unsubmit]
 
   # Shows a submission
   def show
@@ -39,7 +39,7 @@ class SubmissionsController < ApplicationController
       end
     else
       respond_to do |format|
-        format.js { render :action => "compile_error" }
+        format.js { render :action => "compile_error", :locals => { :message => comp_message[:comperr] } }
       end
     end
 
@@ -63,13 +63,13 @@ class SubmissionsController < ApplicationController
     else
       #flash.now[:comperr] = comp_message[:comperr]
       respond_to do |format|
-        format.js { render :action => "compile_error" }
+        format.js { render :action => "compile_error", :locals => { :message => comp_message[:comperr] } }
       end
     end
   end
 
   # Submit the assignment
-  def submit_submission
+  def submit
     @submission = Submission.find(params[:id])
     @assignment = @submission.assignment
     @submission.submitted = true
@@ -80,14 +80,14 @@ class SubmissionsController < ApplicationController
   end
 
   # Un-Submit the assignment
-  def unsubmit_submission
+  def unsubmit
     @submission = Submission.find(params[:id])
     @assignment = @submission.assignment
     @submission.submitted = false
     @submission.save
     @submission.remove_saved_runs
     flash[:notice] = "Assignment Has Been Unsubmitted"
-    redirect_to assignment_url(get_assignment)
+    redirect_to submission_url(@submission)
   end
 
   private

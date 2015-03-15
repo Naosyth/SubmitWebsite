@@ -40,23 +40,29 @@
           </div>
         <% end %>
       </li>
+      <% if @submission.submitted %>
+        <li>
+          <%= link_to unsubmit_submission_path(@submission), :method => :post do %>
+            <div>
+              <%= image_tag('icon_submit.png', size: "64x64", alt: "Unusbmit Submission", title: "Unusbmit Submission") %><br>
+              Unsubmit Submission
+            </div>
+          <% end %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to submit_submission_path(@submission), :method => :post do %>
+            <div>
+              <%= image_tag('icon_submitted.png', size: "64x64", alt: "Submit Submission", title: "Submit Submission") %><br>
+              Submit Submission
+            </div>
+          <% end %>
+        </li>
+      <% end %>
     </ul>
   </div>
 </div>
 
-<header>
-  <h1>Program Output</h1>
-</header>
-<div class="content-group">
-  <div class="grade-display">
-    <center>
-    <p class="grade">Output Grade</p>
-    <% correct = {} %>
-    <% correct[:correct] = @submission.run_saves.select {|s| s.pass}.count %>
-    <% correct[:total] = @submission.run_saves.count %>
-    <p class="grade-value"><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></p>
-    </center>
-    <br>
-  </div>
-  <%= render :partial => 'output_comparison', :locals => { :@submission => @submission, :@tempDirectory => @directory } %>
+<div class="program-output-holder">
+  <%= render :partial => 'output_comparison', :locals => { :submission => @submission } %>
 </div>

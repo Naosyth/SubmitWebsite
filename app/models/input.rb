@@ -15,6 +15,5 @@ class Input < ActiveRecord::Base
   	self.description ||= "No Description Set"
   	self.data ||= "0"
   	self.output ||= "Outputs not generated"
-  	self.student_visible ||= false
   end
 end

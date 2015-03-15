@@ -1,6 +1,8 @@
 <% breadcrumb :submission, @submission %>
 <% content_for :title, @assignment.name + " Submission" %>
 
+<%= render :partial => 'compiler_output' %>
+
 <header>
   <h1>Manage Your Submission</h1>
   <h2><%= @assignment.name %></h2>
@@ -20,7 +22,6 @@
   <h1>Files</h1>
 </header>
 <div class="content-group manage-submission">
-  <%= render :partial => "grade_form", :locals => { :submission => @submission } %>
   <table class="files-display">
     <tr>
       <th>File Name</th>
@@ -89,7 +90,7 @@
         </li>
       <% else %>
         <li>
-          <%= link_to submit_submission_path(@submission), :method => :post, :data => { :confirm => 'Are you sure? Once assignment is submitted no more editing can occure.' } do %>
+          <%= link_to submit_submission_path(@submission), :method => :post, :data => { :confirm => 'Are you sure? Once the assignment is submitted you may not edit your files.' } do %>
             <div>
               <%= image_tag('icon_submit.png', size: "64x64", alt: "Submit Assignment", title: "Submit Assignment") %><br>
               Submit Assignment
@@ -101,19 +102,6 @@
   </div>
 </div>
 
-<header>
-  <h1>Program Output</h1>
-</header>
-<div class="content-group">
-  <div class="grade-display">
-    <center>
-    <p class="grade">Output Grade</p>
-    <% correct = {} %>
-    <% correct[:correct] = @submission.run_saves.select {|s| s.pass}.count %>
-    <% correct[:total] = @submission.run_saves.count %>
-    <p class="grade-value"><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></p>
-    </center>
-    <br>
-  </div>
-  <%= render :partial => 'output_comparison', :locals => { :@submission => @submission, :@tempDirectory => @directory } %>
+<div class="program-output-holder">
+  <%= render :partial => 'output_comparison', :locals => { :submission => @submission } %>
 </div>

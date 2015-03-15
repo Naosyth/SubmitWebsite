@@ -32,8 +32,8 @@ Rails.application.routes.draw do
 
   get 'submissions/compile/:id' => 'submissions#compile', :as => :compile_submission
   get 'submissions/run_program/:id' => 'submissions#run', :as => :run_submission
-  post 'submissions/submit_submission/:id' => 'submissions#submit_submission', :as => :submit_submission
-  post 'submissions/unsubmit_submission/:id' => 'submissions#unsubmit_submission', :as => :unsubmit_submission
+  post 'submissions/submit_submission/:id' => 'submissions#submit', :as => :submit_submission
+  post 'submissions/unsubmit_submission/:id' => 'submissions#unsubmit', :as => :unsubmit_submission
   resources :submissions
 
   post '/upload_data/:type/:destination_id' => 'upload_data#create', :as => :create_file

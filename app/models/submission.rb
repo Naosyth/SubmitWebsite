@@ -1,8 +1,8 @@
 class Submission < ActiveRecord::Base
   belongs_to :assignment
   belongs_to :user
-  has_many :upload_data
-  has_many :run_saves
+  has_many :upload_data, dependent: :destroy
+  has_many :run_saves, dependent: :destroy
 
   after_create :set_note_empty
 
@@ -60,7 +60,7 @@ class Submission < ActiveRecord::Base
   def run_test_cases(hidden)
     stream = {}
     directory = create_directory
-    
+
     remove_saved_runs
 
     assignment.test_case.run_methods.each do |run|
@@ -121,8 +121,8 @@ class Submission < ActiveRecord::Base
   end
 
   def visible_run_saves(current_user)
-    return run_saves.select { |run_save| run_save.input.student_visible } if not (current_user.has_local_role? :grader, assignment.course)
-    return run_saves
+    return run_saves(0).select { |run_save| run_save.input.student_visible } if not (current_user.has_local_role? :grader, assignment.course)
+    return run_saves(0)
   end
 
   private

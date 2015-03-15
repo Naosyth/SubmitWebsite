@@ -41,11 +41,72 @@
   }
 }
 
+.grade-display {
+  color: $font-color-dark;
+  padding: 10px;
+  background-color: $color-submission-output-background;
+  border: 1px solid $color-submission-output-border;
+  margin-bottom: 25px;
+
+  h1 {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+}
+
+.run-method-list {
+  color: $font-color-dark;
+  padding: 10px;
+  background-color: $color-submission-output-background;
+  border: 1px solid $color-submission-output-border;
+  margin-bottom: 25px;
+
+  h1 {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+  }
+
+  .test-case {
+    border: 1px solid $color-border-light;
+    padding: 5px;
+  }
+
+  .test-case:not(:first-child) {
+    margin-top: 25px;
+  }
+
+  .run-method {
+    text-align: center;
+    margin-bottom: 5px;
+  }
+
+  .run-input-list {
+    .run-input-fail, .run-input-pass {
+      border: 1px solid $color-border-dark;
+      padding: 5px;
+      display: inline-block;
+    }
+
+    .run-input-fail {
+      background-color: #f00;
+    }
+
+    .run-input-pass {
+      background-color: #0f0;
+    }
+  }
+}
+
 .run-diff {
   color: $font-color-dark;
   padding: 10px;
   background-color: $color-submission-output-background;
   border: 1px solid $color-submission-output-border;
+  margin-bottom: 25px;
 
   h1 {
     font-size: 20px;
@@ -57,13 +118,15 @@
   h2 {
     font-size: 15px;
     text-align: center;
+    font-weight: normal;
     margin: 0;
   }
 }
 
-.submission-output {
+.run-save-pass, .run-save-fail {
   width: 100%;
   margin-top: 25px;
+  position: relative;
 
   thead {
     text-align: center;
@@ -82,6 +145,8 @@
   tbody {
     th {
       padding: 8px 16px;
+      border: 1px solid $color-border-light;
+      border-bottom: none;
     }
 
     tr {
@@ -90,6 +155,21 @@
 
     td {
       background-color: #fff;
+      border: 1px solid $color-border-light;
+      border-top: none;
     }
   }
+
+  .return-to-top {
+    position: absolute;
+    right: 10px;
+
+    a {
+      font-size: $font-size-small;
+    }
+  }
+}
+
+.run-save-fail {
+  border-color: #f00;
 }
