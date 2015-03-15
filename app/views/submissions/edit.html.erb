@@ -1,6 +1,8 @@
 <% breadcrumb :submission, @submission %>
 <% content_for :title, get_assignment.name + " Submission" %>
 
+<%= render :partial => 'compiler_output' %>
+
 <header>
   <h1><%= @submission.assignment.name %></h1>
   <h2><%= @submission.user.name %></h2>
@@ -21,9 +23,27 @@
   <h1>Files</h1>
 </header>
 <div class="content-group">
-  <% @submission.upload_data.each do |file| %>
-    <%= link_to file.name, upload_datum_path(file), target: "_new" %><br>
-  <% end %>
+  <table class="files-display">
+    <thead>
+      <tr>
+        <th>File Name</th>
+        <th>Updated At</th>
+        <th>Uploaded At</th>
+        <th>File Type</th>
+      </tr>
+    </thead>
+
+    <tbody>
+      <% @submission.upload_data.each do |upload_data| %>
+        <tr>
+          <td><%= link_to upload_data.name, upload_datum_path(upload_data), target: "_new" %></td>
+          <td><span data-time><%= upload_data.updated_at.to_i %></span></td>
+          <td><span data-time><%= upload_data.created_at.to_i %></span></td>
+          <td><%= upload_data.file_type %></td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
 </div>
 
 <header>
