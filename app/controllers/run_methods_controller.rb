@@ -12,7 +12,6 @@ class RunMethodsController < ApplicationController
     run_method = test_case.run_methods.new(run_method_params)
 
     if run_method.save 
-      submissions = run_method.test_case.assignment.submissions
       redirect_to test_case_url(test_case)
     else
       render :action => :new
@@ -35,7 +34,6 @@ class RunMethodsController < ApplicationController
     test_case = TestCase.find(@run_method.test_case_id)
 
     if @run_method.update_attributes(run_method_params)
-      submissions = @run_method.test_case.assignment.submissions
       redirect_to test_case_url(test_case)
     else
       render :action => :edit
@@ -47,7 +45,6 @@ class RunMethodsController < ApplicationController
     run_method = RunMethod.find(params[:id])
     test_case = TestCase.find(run_method.test_case_id)
     run_method.destroy
-    submissions = run_method.test_case.assignment.submissions
     redirect_to test_case_url(test_case)
   end
 

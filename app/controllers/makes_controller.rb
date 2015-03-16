@@ -11,8 +11,7 @@ class MakesController < ApplicationController
     test_case = TestCase.find(params[:test_case_id])
     make = Make.create(make_params)
 
-    if make.save 
-      submissions = test_case.assignment.submissions
+    if make.save
       test_case.make = make
       redirect_to test_case_url(test_case)
     else
@@ -20,7 +19,7 @@ class MakesController < ApplicationController
     end
   end
 
-  # GET /makes/1.json
+  # shows a make
   def show
     @make = Make.find(params[:id])
   end
@@ -31,19 +30,16 @@ class MakesController < ApplicationController
 
   # update
   def update
-
   end
 
-  # DELETE 
+  # delete
   def destroy
     @make = Make.find(params[:id])
     @make.destroy
-    submissions = @make.test_case.assignment.submissions
     redirect_to :back
   end
 
   private
-    # Never trust parameters from the scary internet, only allow the white list through.
     def make_params
       params.require(:make).permit(:name, :test_case, :data)
     end

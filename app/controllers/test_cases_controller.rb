@@ -10,7 +10,6 @@ class TestCasesController < ApplicationController
     test_case = TestCase.find(params[:id])
 
     if test_case.update_attributes(test_case_params)
-      submissions = test_case.assignment.submissions
       flash[:notice] = "Test Case updated!"
     end
     redirect_to :back
@@ -23,8 +22,6 @@ class TestCasesController < ApplicationController
     if not Dir.exists?(tempDirectory) 
       Dir.mkdir(tempDirectory)
     end
-
-    submissions = test_case.assignment.submissions
 
     # Adds in the test case files
     test_case.create_directory(tempDirectory)

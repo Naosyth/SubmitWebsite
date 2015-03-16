@@ -33,7 +33,6 @@ class InputsController < ApplicationController
     @input = Input.find(params[:id])
 
     if @input.update_attributes(input_params)
-      submissions = @input.run_method.test_case.assignment.submissions
       redirect_to test_case_url(@input.run_method.test_case_id)
     else
       render :action => :edit
@@ -44,7 +43,6 @@ class InputsController < ApplicationController
   def destroy
     input = Input.find(params[:id])
     input.destroy
-    submissions = input.run_method.test_case.assignment.submissions
     redirect_to :back
   end
 
