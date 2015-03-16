@@ -11,7 +11,8 @@
   <div class="column-wrapper">
     <div class="left-column">
       <div class="subgroup manage-submission">
-        <p class="description"><%= @assignment.description.gsub(/\n/, '<br>').html_safe %></p>
+        <h1>Assignment Details</h1>
+        <p class="assignment-description"><%= @assignment.description.gsub(/\n/, '<br>').html_safe %></p>
         <div class="assignment-info-wrapper">
           <p class="assignment-info">Total Points: <%= @assignment.total_grade.to_s %></p>
           <p class="assignment-info">Start Date: <span data-time><%= @assignment.start_date.to_i %></span></p>
