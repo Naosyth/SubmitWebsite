@@ -90,11 +90,33 @@ html, body.application {
   padding: 16px;
   margin-bottom: 32px;
   box-shadow: 2px 2px 3px #aaa;
+  color: $font-color-dark;
 
   h2 {
     color: $font-color-dark;
     text-align: center;
     margin-bottom: 16px;
+  }
+}
+
+.subgroup {
+  background-color: $color-group-background;
+  border: 1px solid $color-group-border;
+  padding: 10px;
+
+  h1 {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    margin-bottom: 5px;
+    border-bottom: 1px dotted #ddd;
+  }
+
+  h2 {
+    font-size: 15px;
+    text-align: center;
+    font-weight: normal;
+    margin: 0;
   }
 }
 
@@ -148,9 +170,6 @@ html, body.application {
     background-color: $color-form-white;
     border: 1px solid $color-border-light;
   }
-
-  a {
-  }
 }
 
 .breadcrumbs {
@@ -158,4 +177,27 @@ html, body.application {
   top: -3px;
 
   font-size: 11px;
+}
+
+.column-wrapper:after { 
+   content: " ";
+   display: block; 
+   height: 0; 
+   clear: both;
+}
+
+.left-column {
+  float: left;
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  padding-right: 5px;
+}
+
+.right-column {
+  float: right;
+  display: inline-block;
+  width: 50%;
+  box-sizing: border-box;
+  padding-left: 5px;
 }

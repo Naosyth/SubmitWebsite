@@ -5,7 +5,7 @@
   <h3><%= passed %> Tests Out Of <%= total %> Passed</h3>
 </header>
 <div class="content-group">
-  <div class="run-method-list" id="run-method-list">
+  <div class="subgroup" id="run-method-list">
     <h1>Quick Links</h1>
     <% submission.assignment.test_case.run_methods.each do |run_method| %>
       <div class="test-case">
@@ -20,7 +20,7 @@
   </div>
 
   <% submission.assignment.test_case.run_methods.each do |run_method| %>
-    <div class="run-diff" id="run_method_<%= run_method.id %>">
+    <div class="subgroup" id="run_method_<%= run_method.id %>">
       <h1><%= run_method.name %></h1>
       <h2><%= run_method.description %></h2>
       <h2><%= run_method.run_command %></h2>

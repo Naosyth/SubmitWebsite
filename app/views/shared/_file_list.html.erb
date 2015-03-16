@@ -1,0 +1,18 @@
+<table class="files-display">
+  <thead>
+    <tr>
+      <th>File Name</th>
+      <th>Uploaded At</th>
+      <th>Updated At</th>
+    </tr>
+  </thead>
+  <tbody>
+    <% submission.upload_data.each do |upload_data| %>
+      <tr>
+        <td><%= link_to upload_data.name, upload_datum_path(upload_data), target: "_new" %></td>
+        <td><span data-time><%= upload_data.created_at.to_i %></span></td>
+        <td><span data-time><%= upload_data.updated_at.to_i %></span></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>

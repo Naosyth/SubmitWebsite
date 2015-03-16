@@ -1,7 +1,42 @@
 @import "variables";
 
 .manage-submission {
-  text-align: center;
+  height: 250px;
+  overflow: auto;
+}
+
+.edit_submission {
+  textarea {
+    background-color: $color-form-white;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-standard;
+    width: 100%;
+    height: 125px;
+    resize: none;
+    margin-bottom: 10px;  
+  }
+
+  input[type=number] {
+    background-color: $color-form-white;
+    border: 1px solid $color-border-light;
+    font-size: $font-size-standard;
+    padding: 5px;
+    width: 50px;
+    cursor: pointer;
+  }
+
+  input[type=submit] {
+    background-color: $color-form-white;
+    border-radius: 0px;
+    border: 1px solid $color-border-light;
+    display: block;
+    font-size: $font-size-standard;
+    margin: 16px auto 0 auto;
+    padding: 5px;
+    width: 250px;
+    cursor: pointer;
+  }
 }
 
 .submission-actions {
@@ -44,8 +79,8 @@
 .grade-display {
   color: $font-color-dark;
   padding: 10px;
-  background-color: $color-submission-output-background;
-  border: 1px solid $color-submission-output-border;
+  background-color: $color-group-background;
+  border: 1px solid $color-group-border;
   margin-bottom: 25px;
 
   h1 {
@@ -56,35 +91,17 @@
   }
 }
 
-.run-method-list {
-  color: $font-color-dark;
-  padding: 10px;
-  background-color: $color-submission-output-background;
-  border: 1px solid $color-submission-output-border;
-  margin-bottom: 25px;
-
-  h1 {
-    font-size: 20px;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  .test-case {
-    border: 1px solid $color-border-light;
-    padding: 5px;
-  }
-
-  .test-case:not(:first-child) {
-    margin-top: 25px;
-  }
-
+.test-case {
+  margin: 10px;
+  
   .run-method {
     text-align: center;
     margin-bottom: 5px;
   }
 
   .run-input-list {
+    text-align: center;
+
     .run-input-fail, .run-input-pass {
       border: 1px solid $color-border-dark;
       padding: 5px;
@@ -92,34 +109,12 @@
     }
 
     .run-input-fail {
-      background-color: #f00;
+      border-color: #f00;
     }
 
     .run-input-pass {
-      background-color: #0f0;
+      border-color: #0f0;
     }
-  }
-}
-
-.run-diff {
-  color: $font-color-dark;
-  padding: 10px;
-  background-color: $color-submission-output-background;
-  border: 1px solid $color-submission-output-border;
-  margin-bottom: 25px;
-
-  h1 {
-    font-size: 20px;
-    text-align: center;
-    font-weight: bold;
-    margin-bottom: 5px;
-  }
-
-  h2 {
-    font-size: 15px;
-    text-align: center;
-    font-weight: normal;
-    margin: 0;
   }
 }
 
