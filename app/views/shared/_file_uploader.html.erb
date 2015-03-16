@@ -1,0 +1,9 @@
+<div class="file-uploader">
+  <p>Upload File</p>
+  <%= form_tag create_file_url("submission", target), method: :post, :multipart => true do %>
+    <%= file_field_tag 'upload_file' %><br>
+    <%= submit_tag "Upload", :title => "Upload File" %>
+  <% end %>
+</div>
+
+

@@ -25,13 +25,7 @@
         <%= render "shared/file_list", :submission => @submission %>
 
         <% if not @submission.submitted %>
-          <div class="file-uploader">
-            <p>Upload File</p>
-            <%= form_tag create_file_url("submission", @submission), method: :post, :multipart => true do %>
-              <%= file_field_tag 'upload_file' %><br>
-              <%= image_submit_tag "icon_upload.png", :title => "Upload File" %>
-            <% end %>
-          </div>
+          <%= render "shared/file_uploader", :target => @submission %>
         <% end %>
       </div>
     </div>

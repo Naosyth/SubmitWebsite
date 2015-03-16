@@ -13,6 +13,7 @@
         <th>Updated At</th>
         <th>Uploaded At</th>
         <th>File Type</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -22,7 +23,6 @@
           <td><%= upload_data.updated_at %></td>
           <td><%= upload_data.created_at %></td>
           <td><%= upload_data.file_type %></td>
-          <td><%= link_to 'Edit', edit_upload_datum_path(upload_data) %></td>
           <td><%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
         </tr>
       <% end %>
@@ -30,13 +30,7 @@
   </table>
   <br>
 
-  <div class="file-uploader">
-    <p>Upload File</p>
-    <%= form_tag create_file_url("test_case", @test_case), method: :post, :multipart => true do %>
-  	  <%= file_field_tag 'upload_file' %><br>
-  	  <%= image_submit_tag "icon_upload.png", :title => "Upload File" %>
-    <% end %>
-  </div>
+  <%= render "shared/file_uploader", :target => @test_case %>
 </div>
 
 <header>
