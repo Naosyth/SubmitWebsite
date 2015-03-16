@@ -9,12 +9,13 @@ class MakesController < ApplicationController
   # create the make
   def create
     test_case = TestCase.find(params[:test_case_id])
-    make = Make.create(make_params)
+    test_case.make = Make.new
+    test_case.make.build(make_params, test_case)
 
-    if make.save
-      test_case.make = make
+    if test_case.make.save
       redirect_to test_case_url(test_case)
     else
+      test_case.make = nil
       render :action => :new
     end
   end
@@ -34,13 +35,13 @@ class MakesController < ApplicationController
 
   # delete
   def destroy
-    @make = Make.find(params[:id])
-    @make.destroy
+    make = Make.find(params[:id])
+    make.destroy
     redirect_to :back
   end
 
   private
     def make_params
-      params.require(:make).permit(:name, :test_case, :data)
+      params.require(:make).permit(:name, :data)
     end
 end
