@@ -1,49 +1,75 @@
 <% breadcrumb :submission, @submission %>
 <% content_for :title, get_assignment.name + " Submission" %>
 
-<header>
-  <h1>Submission by <%= @submission.user.name %></h1>
-</header>
-
-<div class="content-group">
-  <%= render "shared/error_messages", :target => @submission %>
-  <%= form_for @submission, url: submission_url(@submission), method: :patch do |f| %>
-    <%= f.text_area :note, :placeholder => 'Grader Notes', :size => "41.5x10" %><br>
-    <%= f.label :student_grade, "Student Total Grade " %>
-    <%= f.number_field :grade, :step => 0.1 %>
-    <%= f.label :out_of, " out of " + @submission.assignment.total_grade.to_s %><br>
-    <%= f.submit "Save" %>
-  <% end %>
-</div>
+<%= render :partial => 'compiler_output' %>
 
 <header>
-  <h1>Submitted Files</h1>
+  <h1><%= @submission.assignment.name %></h1>
+  <h2><%= @submission.user.name %></h2>
 </header>
 <div class="content-group">
-  <% @submission.upload_data.each do |file| %>
-    <%= link_to file.name, upload_datum_path(file), target: "_new" %><br>
-  <% end %>
-</div>
-
-<% if @comp_message[:compile] %>
-<header>
-  <h1>Program Output</h1>
-</header>
-<div class="content-group">
-  <div class="grade-display">
-    <center>
-    <p class="grade">Output Grade</p>
-    <% correct = {} %>
-    <% correct[:correct] = @submission.run_save.select {|s| s.pass}.count %>
-    <% correct[:total] = @submission.run_save.count %>
-    <p class="grade-value"><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></p>
-    </center>
-    <br>
+  <div class="column-wrapper">
+    <div class="left-column">
+      <div class="subgroup manage-submission">
+        <h1>Edit Submission</h1>
+        <%= render "shared/error_messages", :target => @submission %>
+        <%= form_for @submission, url: submission_url(@submission), method: :patch do |f| %>
+          <%= f.text_area :note, :placeholder => 'Grader Notes' %>
+          <center>
+            <%= f.label :student_grade, "Grade: " %>
+            <%= f.number_field :grade, :step => 0.1 %>
+            <%= f.label :out_of, " out of " + @submission.assignment.total_grade.to_s %><br>
+          </center>
+          <%= f.submit "Save" %>
+        <% end %>
+      </div>
+    </div>
+    <div class="right-column">
+      <div class="subgroup manage-submission">
+        <h1>Files</h1>
+        <%= render "shared/file_list", :submission => @submission %>
+      </div>
+    </div>
   </div>
-  <%= render :partial => 'output_comparison', :locals => {:@submission => @submission, :@tempDirectory => @directory} %>
 </div>
-<% else %>
-  <header>
-    <h1>The program does not run.</h1>
-  </header>
-<% end %>
+
+<header>
+  <h1>Submission Actions</h1>
+</header>
+<div class="content-group">
+  <div class="submission-actions">
+    <ul>
+      <li>
+        <%= link_to run_submission_url(@submission), :remote => true do %>
+          <div>
+            <%= image_tag('icon_test.png', size: "64x64", alt: "Run Submission", title: "Run Submission") %><br>
+            Run Submission
+          </div>
+        <% end %>
+      </li>
+      <% if @submission.submitted %>
+        <li>
+          <%= link_to unsubmit_submission_path(@submission), :method => :post do %>
+            <div>
+              <%= image_tag('icon_submit.png', size: "64x64", alt: "Unusbmit Submission", title: "Unusbmit Submission") %><br>
+              Unsubmit Submission
+            </div>
+          <% end %>
+        </li>
+      <% else %>
+        <li>
+          <%= link_to submit_submission_path(@submission), :method => :post do %>
+            <div>
+              <%= image_tag('icon_submitted.png', size: "64x64", alt: "Submit Submission", title: "Submit Submission") %><br>
+              Submit Submission
+            </div>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+</div>
+
+<div class="program-output-holder">
+  <%= render :partial => 'output_comparison', :locals => { :submission => @submission } %>
+</div>

@@ -75,14 +75,14 @@
         <td><%= link_to 'View', submission_url(submission) %></td>
         <td>
           <% if submission.submitted %>
-            Submitted - <%= link_to "Unsubmit", unsubmit_assignment_path(submission), :method => :post, :data => { :confirm => 'Would you like to Un-Submit this assignment for the student?' } %>
+            Submitted - <%= link_to "Unsubmit", unsubmit_submission_path(submission), :method => :post, :data => { :confirm => 'Would you like to unsubmit this assignment for the student?' } %>
           <% else %>
             Not Submitted
           <% end %>
         </td>
         <% correct = {} %>
-        <% correct[:correct] = submission.run_save.select {|s| s.pass}.count %>
-        <% correct[:total] = submission.run_save.count %>
+        <% correct[:correct] = submission.run_saves.select { |s| s.pass }.count %>
+        <% correct[:total] = submission.run_saves.count %>
         <% if correct[:total] %>
           <td><%= correct[:correct].to_s + " out of " + correct[:total].to_s %></td>
         <% else %>

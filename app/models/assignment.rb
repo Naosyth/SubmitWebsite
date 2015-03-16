@@ -55,6 +55,12 @@ class Assignment < ActiveRecord::Base
     return comments
   end
 
+  def remove_saved_runs
+    submissions.each do |s|
+      s.remove_saved_runs
+    end
+  end
+
   private
   def due_date_after_start_date
     errors.add(:due_date, "can't be before start date") if due_date < start_date

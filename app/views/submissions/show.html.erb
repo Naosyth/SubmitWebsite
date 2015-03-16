@@ -1,79 +1,56 @@
 <% breadcrumb :submission, @submission %>
 <% content_for :title, @assignment.name + " Submission" %>
 
+<%= render :partial => 'compiler_output' %>
+
 <header>
   <h1>Manage Your Submission</h1>
   <h2><%= @assignment.name %></h2>
 </header>
 <div class="content-group">
-  <div class="center-wrapper">
-    <p class="description"><%= @assignment.description.gsub(/\n/, '<br>').html_safe %></p>
-    <div class="assignment-info-wrapper">
-      <p class="assignment-info">Total Points: <%= @assignment.total_grade.to_s %></p>
-      <p class="assignment-info">Start Date: <span data-time><%= @assignment.start_date.to_i %></span></p>
-      <p class="assignment-info">Due Date: <span data-time><%= @assignment.due_date.to_i %></span></p>
+  <div class="column-wrapper">
+    <div class="left-column">
+      <div class="subgroup manage-submission">
+        <h1>Assignment Details</h1>
+        <p class="assignment-description"><%= @assignment.description.gsub(/\n/, '<br>').html_safe %></p>
+        <div class="assignment-info-wrapper">
+          <p class="assignment-info">Total Points: <%= @assignment.total_grade.to_s %></p>
+          <p class="assignment-info">Start Date: <span data-time><%= @assignment.start_date.to_i %></span></p>
+          <p class="assignment-info">Due Date: <span data-time><%= @assignment.due_date.to_i %></span></p>
+        </div>
+      </div>
+    </div>
+    <div class="right-column">
+      <div class="subgroup manage-submission">
+        <h1>Files</h1>
+        <%= render "shared/file_list", :submission => @submission %>
+
+        <% if not @submission.submitted %>
+          <%= render "shared/file_uploader", :target => @submission %>
+        <% end %>
+      </div>
     </div>
   </div>
 </div>
 
 <header>
-  <h1>Files</h1>
-</header>
-<div class="content-group manage-submission">
-  <%= render :partial => "grade_form", :locals => { :submission => @submission } %>
-  <table class="files-display">
-    <tr>
-      <th>File Name</th>
-      <th>Updated At</th>
-      <th>Uploaded At</th>
-      <th>File Type</th>
-      <% if not @submission.submitted %>
-        <th>Delete</th>
-      <% end %>
-    </tr>
-
-    <% @submission.upload_data.each do |upload_data| %>
-      <tr>
-      	<td><%= link_to upload_data.name, upload_datum_path(upload_data) %></td>
-        <td><span data-time><%= upload_data.updated_at.to_i %></span></td>
-        <td><span data-time><%= upload_data.created_at.to_i %></span></td>
-        <td><%= upload_data.file_type %></td>
-        <% if not @submission.submitted %>
-          <td><%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        <% end %>
-      </tr>
-    <% end %>
-  </table>
-
-  <% if not @submission.submitted %>
-    <div class="file-uploader">
-      <p>Upload File</p>
-      <%= form_tag create_file_url("submission", @submission), method: :post, :multipart => true do %>
-        <%= file_field_tag 'upload_file' %><br>
-        <%= image_submit_tag "icon_upload.png", :title => "Upload File" %>
-      <% end %>
-    </div>
-  <% end %>
-</div>
-
-<header>
-  <h1>Test Program</h1>
+  <h1>Submission Actions</h1>
 </header>
 <div class="content-group">
   <div class="submission-actions">
     <ul>
       <li>
-        <%= link_to :method => :get, :action => :compile do %>
+        <%= link_to compile_submission_url(@submission), :remote => true do %>
           <div>
-            <%= image_tag('icon_users_dark.png', size: "64x64", alt: "Test Compile", title: "Test Compile") %><br>
+            <%= image_tag('icon_test.png', size: "64x64", alt: "Test Compile", title: "Test Compile") %><br>
             Test Compile
           </div>
         <% end %>
       </li>
       <li>
-        <%= link_to :method => :get, :action => :run_program do %>
+        <%= link_to run_submission_url(@submission), :remote => true do %>
           <div>
-            <%= image_tag('icon_users_dark.png', size: "64x64", alt: "Run Tests", title: "Run Tests") %><br>
+            <%= image_tag('icon_test.png', size: "64x64", alt: "Run Tests", title: "Run Tests") %><br>
             Run Tests
           </div>
         <% end %>
@@ -89,7 +66,7 @@
         </li>
       <% else %>
         <li>
-          <%= link_to submit_assignment_path(@submission), :method => :post, :data => { :confirm => 'Are you sure? Once assignment is submitted no more editing can occure.' } do %>
+          <%= link_to submit_submission_path(@submission), :method => :post, :data => { :confirm => 'Are you sure? Once the assignment is submitted you may not edit your files.' } do %>
             <div>
               <%= image_tag('icon_submit.png', size: "64x64", alt: "Submit Assignment", title: "Submit Assignment") %><br>
               Submit Assignment
@@ -99,4 +76,8 @@
       <% end %>
     </ul>
   </div>
+</div>
+
+<div class="program-output-holder">
+  <%= render :partial => 'output_comparison', :locals => { :submission => @submission } %>
 </div>

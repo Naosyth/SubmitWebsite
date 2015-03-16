@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150308221430) do
+ActiveRecord::Schema.define(version: 20150314054756) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -67,7 +67,7 @@ ActiveRecord::Schema.define(version: 20150308221430) do
     t.string   "name"
     t.text     "description"
     t.text     "data"
-    t.text     "output"
+    t.binary   "output"
     t.boolean  "student_visible"
     t.integer  "run_method_id"
     t.datetime "created_at"
@@ -108,12 +108,12 @@ ActiveRecord::Schema.define(version: 20150308221430) do
 
   create_table "run_saves", force: true do |t|
     t.integer  "submission_id"
-    t.text     "difference"
+    t.binary   "difference"
     t.boolean  "pass"
-    t.text     "output"
-    t.string   "input_name"
+    t.binary   "output"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "input_id"
   end
 
   add_index "run_saves", ["submission_id"], name: "index_run_saves_on_submission_id", using: :btree

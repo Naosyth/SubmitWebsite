@@ -30,10 +30,10 @@ Rails.application.routes.draw do
   post 'assignments/all_grades/:id' => 'assignments#download_grades'
   resources :assignments
 
-  get 'submissions/compile/:id' => 'submissions#compile'
-  get 'submissions/run_program/:id' => 'submissions#run_program'
-  post 'submissions/submit_submission/:id' => 'submissions#submit_submission', :as => :submit_assignment
-  post 'submissions/unsubmit_submission/:id' => 'submissions#unsubmit_submission', :as => :unsubmit_assignment
+  get 'submissions/compile/:id' => 'submissions#compile', :as => :compile_submission
+  get 'submissions/run_program/:id' => 'submissions#run', :as => :run_submission
+  post 'submissions/submit_submission/:id' => 'submissions#submit', :as => :submit_submission
+  post 'submissions/unsubmit_submission/:id' => 'submissions#unsubmit', :as => :unsubmit_submission
   resources :submissions
 
   post '/upload_data/:type/:destination_id' => 'upload_data#create', :as => :create_file

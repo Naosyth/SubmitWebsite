@@ -9,7 +9,7 @@ class UploadDataController < ApplicationController
   def create
     if (params[:type] == "submission")
       destination = Submission.find(params[:destination_id])
-      destination.remove_cached_runs
+      destination.remove_saved_runs
     elsif (params[:type] == "test_case")
       destination = TestCase.find(params[:destination_id])
     end
@@ -75,11 +75,9 @@ class UploadDataController < ApplicationController
       end
 
       if source.class.name == "Submission"
-        source.remove_cached_runs
+        source.remove_saved_runs
       else
-        source.assignment.submissions.each do |s|
-          s.remove_cached_runs
-        end
+        source.assignment.remove_saved_runs
       end
     end
   end
@@ -91,7 +89,7 @@ class UploadDataController < ApplicationController
     source = @upload_data.source
     if source.class.name == "Submission"
       redirect_to upload_datum_url(@upload_data) if @upload_data.submission.submitted
-      source.remove_cached_runs
+      source.remove_saved_runs
     end
     flash[:notice] = "File successfully deleted"
     redirect_to :back
