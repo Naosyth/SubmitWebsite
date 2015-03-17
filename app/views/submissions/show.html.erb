@@ -23,7 +23,7 @@
     <div class="right-column">
       <div class="subgroup manage-submission">
         <h1>Files</h1>
-        <%= render "shared/file_list", :submission => @submission %>
+        <%= render partial: "shared/file_list", :locals => { :submission => @submission, :deletable => @submission.submitted == false } %>
 
         <% if not @submission.submitted %>
           <%= render "shared/file_uploader", :target => @submission %>
