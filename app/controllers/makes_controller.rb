@@ -13,11 +13,12 @@ class MakesController < ApplicationController
     test_case.make.build(make_params, test_case)
 
     if test_case.make.save
-      redirect_to test_case_url(test_case)
+      flash[:notice] = "Makefile Created"
     else
+      flash[:notice] = "Failed To Create Makefile"
       test_case.make = nil
-      render :action => :new
     end
+    redirect_to :back
   end
 
   # shows a make
@@ -31,6 +32,14 @@ class MakesController < ApplicationController
 
   # update
   def update
+    @make = Make.find(params[:id])
+
+    if @make.update_attributes(make_params)
+      flash[:notice] = "Makefile Updated"
+    else
+      flash[:notice] = "Failed To Update Makefile"
+    end
+    redirect_to :back
   end
 
   # delete

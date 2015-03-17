@@ -36,26 +36,33 @@
 <header>
   <h1>Makefile Management</h1>
 </header>
+
 <div class="content-group">
   <div class="testcase-actions">
     <ul>
       <% if @test_case.make.nil? %>
-      <li>
-        <%= link_to new_make_url(@test_case) do %>
-          <div>
-            <%= image_tag('icon_add.png', size: "64x64", alt: "Create Makefile", title: "Create Makefile") %><br>
-            Create Makefile
+        <div class="modal-curtain">
+          <div class="modal-popup">
+            <%= render :file => "makes/_makefile_form.html.erb", :locals => { :test_case => @test_case } %>
           </div>
-        <% end %>
+        </div>
+      <li>
+        <div class="link-free">
+          <%= image_tag('icon_add.png', id: "create-make", size: "64x64", alt: "Create Makefile", title: "Create Makefile") %><br>
+          Create Makefile
+        </div>
       </li>
       <% else %>
-      <li>
-        <%= link_to make_url(@test_case.make) do %>
-          <div>
-            <%= image_tag('icon_edit.png', size: "64x64", alt: "Edit Makefile", title: "Edit Makefile") %><br>
-            Edit Makefile
+        <div class="modal-curtain">
+          <div class="modal-popup">
+            <%= render :file => "makes/_edit_makefile_form.html.erb", :locals => { :test_case => @test_case } %>
           </div>
-        <% end %>
+        </div>
+      <li>
+        <div class="link-free">
+          <%= image_tag('icon_edit.png', id: "create-make", size: "64x64", alt: "Edit Makefile", title: "Edit Makefile") %><br>
+          Edit Makefile
+        </div>
       </li>
       <li>
         <%= link_to make_url(@test_case.make), method: :delete, data: { confirm: 'Are you sure?' } do %>
@@ -129,3 +136,9 @@
     <%= f.submit "Save" %>
   <% end %>
 </div>
+
+<script>
+  $("#create-make").click(function(){
+    $(".modal-curtain").show();
+  });
+</script>
