@@ -42,8 +42,8 @@
       <li>
         <%= link_to run_submission_url(@submission), :remote => true do %>
           <div>
-            <%= image_tag('icon_test.png', size: "64x64", alt: "Run Submission", title: "Run Submission") %><br>
-            Run Submission
+            <%= image_tag('icon_test.png', id: "run", size: "64x64", alt: "Run Submission", title: "Run Submission") %><br>
+            <span id="run-title">Run Tests</span>
           </div>
         <% end %>
       </li>
@@ -73,3 +73,15 @@
 <div class="program-output-holder">
   <%= render :partial => 'output_comparison', :locals => { :submission => @submission } %>
 </div>
+
+<script>
+  $("#run").click(function() {
+    $(this).attr("src", '/assets/loading_spinner.gif');
+    changeTitle();
+  });
+
+  function changeTitle(){
+    var element = document.getElementById("run-title")
+    element.innerHTML = "Running..."
+  }
+</script>
