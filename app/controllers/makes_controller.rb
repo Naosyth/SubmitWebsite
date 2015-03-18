@@ -9,14 +9,16 @@ class MakesController < ApplicationController
   # create the make
   def create
     test_case = TestCase.find(params[:test_case_id])
-    make = Make.create(make_params)
+    test_case.make = Make.new
+    test_case.make.build(make_params, test_case)
 
-    if make.save
-      test_case.make = make
-      redirect_to test_case_url(test_case)
+    if test_case.make.save
+      flash[:notice] = "Makefile Created"
     else
-      render :action => :new
+      flash[:notice] = "Failed To Create Makefile"
+      test_case.make = nil
     end
+    redirect_to :back
   end
 
   # shows a make
@@ -30,17 +32,25 @@ class MakesController < ApplicationController
 
   # update
   def update
+    @make = Make.find(params[:id])
+
+    if @make.update_attributes(make_params)
+      flash[:notice] = "Makefile Updated"
+    else
+      flash[:notice] = "Failed To Update Makefile"
+    end
+    redirect_to :back
   end
 
   # delete
   def destroy
-    @make = Make.find(params[:id])
-    @make.destroy
+    make = Make.find(params[:id])
+    make.destroy
     redirect_to :back
   end
 
   private
     def make_params
-      params.require(:make).permit(:name, :test_case, :data)
+      params.require(:make).permit(:name, :data)
     end
 end

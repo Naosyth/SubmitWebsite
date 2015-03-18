@@ -132,8 +132,6 @@ class SubmissionsController < ApplicationController
     # This is for PDF creation
     def make_pdf
       submission = Submission.find(params[:id])
-      tempDirectory = Rails.configuration.compile_directory + current_user.name + '_' + current_user.id.to_s + '/'
-      fileDirectory = tempDirectory + 'file.html'
 
       # File html data
       html_top = '<html>
@@ -263,23 +261,14 @@ class SubmissionsController < ApplicationController
         end
       end
 
-      # Make the file for the grade of student
-      if not Dir.exists?(tempDirectory) 
-        Dir.mkdir(tempDirectory)
-      end
-      f = File.open(fileDirectory, "w" )
-      f.write(html_top + html_name + html_title + html_center1 + html_grade + html_center2 + html_note + html_center3 + html_output + html_end)
-      f.close
-
       # Load the html to convert to PDF
-      html = File.read(fileDirectory)
+      #html = File.read(fileDirectory)
+      html = html_top + html_name + html_title + html_center1 + html_grade + html_center2 + html_note + html_center3 + html_output + html_end
       kit = PDFKit.new(html, :page_size => 'Letter')
-      kit.to_file(tempDirectory + 'Grade')
+      data = kit.to_pdf
 
       # Add File to the student, and delete
       upload = submission.upload_data.new()
-      data = File.read(tempDirectory + 'Grade')
       upload.make_file('Grade File', data, 'application/pdf')
-      FileUtils.rm_rf(tempDirectory)
     end
 end
