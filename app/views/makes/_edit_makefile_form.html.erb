@@ -1,0 +1,36 @@
+
+<header>
+  <h1>Edit Makefile</h1>
+</header>
+<div class="content-group">
+  <%= form_for @test_case.make, url: make_url(@test_case.make), method: :patch do |f| %>
+    <%= f.text_field :name, :disabled => true %><br>
+    <%= f.text_area :data, :placeholder => 'Make Commands' %><br>
+    <%= f.submit "Update" %>
+  <% end %>
+</div>
+
+<script type="text/javascript">
+  $("textarea").keydown(function(e) {
+    if(e.keyCode === 9) { // tab was pressed
+        // get caret position/selection
+        var start = this.selectionStart;
+        var end = this.selectionEnd;
+
+        var $this = $(this);
+        var value = $this.val();
+
+        // set textarea value to: text before caret + tab + text after caret
+        $this.val(value.substring(0, start)
+                    + "\t"
+                    + value.substring(end));
+
+        // put caret at right position again (add one for the tab)
+        this.selectionStart = this.selectionEnd = start + 1;
+
+        // prevent the focus lose
+        e.preventDefault();
+    }
+});
+</script>
+
