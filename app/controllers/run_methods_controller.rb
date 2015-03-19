@@ -54,12 +54,6 @@ class RunMethodsController < ApplicationController
     respond_to do |format|
       format.js { render :action => "refresh" }
     end
-<<<<<<< HEAD
-=======
-    respond_to do |format|
-      format.js { render :action => "refresh" }
-    end
->>>>>>> 508b90c7982f2cbcf69549dd158cd8cd3afdc448
   end
 
   private
