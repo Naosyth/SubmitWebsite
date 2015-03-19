@@ -115,15 +115,22 @@
 <% else %>
 <div id="edit-make-modal" class="modal-curtain">
   <div class="modal-popup">
+<<<<<<< HEAD
     <%= render :partial => "make_edit_form", :locals => { :test_case => @test_case } %>
+=======
+    <%= render :partial => "edit_form", :locals => { :test_case => @test_case, :make => @make } %>
+>>>>>>> 508b90c7982f2cbcf69549dd158cd8cd3afdc448
   </div>
 </div>
 <% end %>
 
 <script>
   <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
+<<<<<<< HEAD
 
   $(document).on("page:change", function() {
     <%= render(:file => 'makes/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
   });
+=======
+>>>>>>> 508b90c7982f2cbcf69549dd158cd8cd3afdc448
 </script>
