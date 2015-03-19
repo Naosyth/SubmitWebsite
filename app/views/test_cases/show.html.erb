@@ -52,11 +52,6 @@
       </tr>
     </thead>
     <tbody id="run_methods_list">
-      <% @test_case.run_methods.each do |r| %>
-        <tr>
-          <td><%= link_to r.name, edit_run_method_url(r) %></td>
-        </tr>
-      <% end %>
     </tbody>
   </table>
   <br>
@@ -122,8 +117,5 @@
 
 <script>
   <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
-
-  $(document).on("page:change", function() {
-    <%= render(:file => 'makes/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
-  });
+  <%= render(:file => 'makes/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
 </script>
