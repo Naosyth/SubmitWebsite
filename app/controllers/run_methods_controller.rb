@@ -16,7 +16,6 @@ class RunMethodsController < ApplicationController
       respond_to do |format|
         format.js { render :action => "refresh" }
       end
-      redirect_to test_case_url(test_case)
     else
       respond_to do |format|
         format.js { render :action => "error" }

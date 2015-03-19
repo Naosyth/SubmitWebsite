@@ -18,7 +18,9 @@ class MakesController < ApplicationController
       flash[:notice] = "Failed To Create Makefile"
       test_case.make = nil
     end
-    redirect_to :back
+    respond_to do |format|
+      format.js { render :action => "refresh", :locals => { :@test_case => test_case } }
+    end
   end
 
   # shows a make
@@ -45,8 +47,11 @@ class MakesController < ApplicationController
   # delete
   def destroy
     make = Make.find(params[:id])
+    test_case = TestCase.find(make.test_case_id)
     make.destroy
-    redirect_to :back
+    respond_to do |format|
+      format.js { render :action => "refresh", :locals => { :@test_case => test_case } }
+    end
   end
 
   private

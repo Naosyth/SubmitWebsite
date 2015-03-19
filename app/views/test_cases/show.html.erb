@@ -37,31 +37,7 @@
   <h1>Makefile Management</h1>
 </header>
 <div class="content-group">
-  <div class="testcase-actions">
-    <ul>
-      <% if @test_case.make.nil? %>
-      <li>
-          <div onclick="$('#new-make-modal').show();" >
-            <%= image_tag('icon_add.png', size: "64x64", alt: "Create Makefile", title: "Create Makefile") %><br>
-            Create Makefile
-          </div>
-      </li>
-      <% else %>
-      <li>
-          <div onclick="$('#edit-make-modal').show();">
-            <%= image_tag('icon_edit.png', size: "64x64", alt: "Edit Makefile", title: "Edit Makefile") %><br>
-            Edit Makefile
-          </div>
-      </li>
-      <li>
-        <%= link_to make_url(@test_case.make), method: :delete, data: { confirm: 'Are you sure?' } do %>
-          <div>
-            <%= image_tag('icon_delete.png', size: "64x64", alt: "Delete Makefile", title: "Delete Makefile") %><br>
-            Delete Makefile
-          </div>
-        <% end %>
-      </li>
-      <% end %>
+  <div class="makefile-actions">
   </div>
 </div>
 
@@ -139,11 +115,15 @@
 <% else %>
 <div id="edit-make-modal" class="modal-curtain">
   <div class="modal-popup">
-    <%= render :partial => "edit_form", :locals => { :test_case => @test_case, :make => @make } %>
+    <%= render :partial => "make_edit_form", :locals => { :test_case => @test_case } %>
   </div>
 </div>
 <% end %>
 
 <script>
   <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
+
+  $(document).on("page:change", function() {
+    <%= render(:file => 'makes/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
+  });
 </script>
