@@ -33,6 +33,24 @@
   </div>
 </div>
 
+<% if @submission.submitted %>
+  <header>
+    <h1>Submitted</h1>
+  </header>
+  <div class="content-group">
+    <div class="submitted" >
+      <p class="date">Submitted At: <span data-time><%= @submission.submit_time.to_i %></span></p>
+      <p>
+      <% if @submission.submit_time < @submission.assignment.due_date %>
+        <span class="submission-ontime">On Time</span>
+      <% else %>
+        <span class="submission-late">Late</span>
+      <% end %>
+      </p>
+    </div>
+  </div>
+<% end %>
+
 <header>
   <h1>Submission Actions</h1>
 </header>

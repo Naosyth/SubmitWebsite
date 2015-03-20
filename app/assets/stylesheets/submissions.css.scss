@@ -99,6 +99,29 @@ p.assignment-description {
   }
 }
 
+.submitted {
+  margin: 10px;
+  text-align: center;
+  
+  .date {
+    margin-bottom: 5px;
+  }
+
+  .submission-late, .submission-ontime {
+    border: 1px solid $color-border-dark;
+    padding: 5px;
+    display: inline-block;
+  }
+
+  .submission-late {
+    border-color: #f00;
+  }
+
+  .submission-ontime {
+    border-color: #0f0;
+  }
+}
+
 .test-case {
   margin: 10px;
   

@@ -73,6 +73,7 @@ class SubmissionsController < ApplicationController
     @submission = Submission.find(params[:id])
     @assignment = @submission.assignment
     @submission.submitted = true
+    @submission.submit_time = Time.now().utc
     @submission.save
     @submission.remove_saved_runs
     flash[:notice] = "Assignment Has Been Submitted"

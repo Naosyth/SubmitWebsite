@@ -15,7 +15,9 @@ class TestCasesController < ApplicationController
     if test_case.update_attributes(test_case_params)
       flash[:notice] = "Test Case updated!"
     end
-    redirect_to :back
+    respond_to do |format|
+      format.js { render :action => "refresh_variables" }
+    end
   end
 
   # Create the output files
@@ -40,7 +42,10 @@ class TestCasesController < ApplicationController
     end
 
     FileUtils.rm_rf(tempDirectory)
-    redirect_to :back
+
+    respond_to do |format|
+      format.js { render :action => "refresh_output" }
+    end
   end
   
   private
