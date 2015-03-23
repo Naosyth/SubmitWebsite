@@ -15,7 +15,8 @@
 //= require turbolinks
 //= require jquery.datetimepicker
 //= require jquery.tablesorter
-//= require_tree .
+//= require dropzone.js
 //= require ace/ace
 //= require ace/theme-twilight
 //= require ace/mode-c_cpp.js
+//= require_tree .
