@@ -38,6 +38,20 @@
 </header>
 <div class="content-group">
   <div class="makefile-actions">
+    <ul>
+      <li id="new-make">
+        <div onclick="$('#new-make-modal').show();" >
+        <%= image_tag("icon_add.png", size: "64x64", alt: "Create Makefile", title: "Create Makefile") %><br>
+        Create Makefile
+        </div>
+      </li>
+      <li id="edit-make">
+      <div onclick="$('#edit-make-modal').show();">
+      </div>
+      </li>
+      <li id="delete-make">
+      </li>
+    </ul> 
   </div>
 </div>
 
@@ -100,20 +114,16 @@
     <%= render :partial => "run_method_form", :locals => { :test_case => @test_case, :run_method => @run_method } %>
   </div>
 </div>
-
-<% if @test_case.make.nil? %>
 <div id="new-make-modal" class="modal-curtain">
   <div class="modal-popup">
     <%= render :partial => "make_form", :locals => { :test_case => @test_case, :make => @make } %>
   </div>
 </div>
-<% else %>
 <div id="edit-make-modal" class="modal-curtain">
   <div class="modal-popup">
     <%= render :partial => "make_edit_form", :locals => { :test_case => @test_case } %>
   </div>
 </div>
-<% end %>
 
 <script>
   <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>

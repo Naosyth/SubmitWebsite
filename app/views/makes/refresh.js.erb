@@ -1,32 +1,11 @@
-    
-var html_make_contents = ""
-
 <% if @test_case.make.nil? %>
-  
-  html_make_contents = '<ul>' +
-  '<li>' +
-    '<div onclick="$(\'#new-make-modal\').show();" >' +
-      '<%= j image_tag("icon_add.png", size: "64x64", alt: "Create Makefile", title: "Create Makefile") %><br>' +
-      'Create Makefile' +
-    '</div>' +
-  '</li>' +
-  '</ul>'
-
+  $("#new-make").show()
+  $("#edit-make").hide()
+  $("#delete-make").hide()
 <% else %>
-  
-  html_make_contents = '<ul>' +
-  '<li>' +
-      '<div onclick="$(\'#edit-make-modal\').show();">' +
-        '<%= j image_tag("icon_edit.png", size: "64x64", alt: "Edit Makefile", title: "Edit Makefile") %><br>' +
-        'Edit Makefile' +
-      '</div>' +
-  '</li>' +
-  '<li>' +
-    '<%= j link_to(simple_format("<div>"+image_tag("icon_delete.png", size: "64x64", alt: "Delete Makefile", title: "Delete Makefile")+"<br>Delete Makefile</div>"), make_url(@test_case.make), method: :delete, :remote => true, data: { confirm: "Are you sure?" }) %>' +
-  '</li>' +
-  '</ul>'
-
+  $("#new-make").hide()
+  $("edit-make").html( "<%= image_tag(\"icon_edit.png\", size: \"64x64\", alt: \"Edit Makefile\", title: \"Edit Makefile\") %>" + "<br> Edit Makefile")
+  $("#edit-make").show()
+  $("#delete-make").html(  '<%= j link_to(simple_format("<div>"+image_tag("icon_delete.png", size: "64x64", alt: "Delete Makefile", title: "Delete Makefile")+"<br>Delete Makefile</div>"), make_url(@test_case.make), method: :delete, :remote => true, data: { confirm: "Are you sure?" }) %>')
+  $("#delete-make").show()
 <% end %>
-
-console.log(html_make_contents)
-$(".makefile-actions").html(html_make_contents)
