@@ -147,30 +147,6 @@ html, body.application {
   text-align: center;
 }
 
-.file-uploader {
-  width: 250px;
-  margin: 0 auto;
-  margin-top: 10px;
-  padding: 10px;
-  border: 1px solid $color-border-light;
-  z-index: 0;
-
-  p {
-    font-size: 25px;
-    padding-bottom: 10px;
-    display: inline-block;
-  }
-
-  input[type="image"] {
-    margin-top: 10px;
-    width: 64px;
-    height: 64px;
-    display: inline-block;
-    background-color: $color-form-white;
-    border: 1px solid $color-border-light;
-  }
-}
-
 .breadcrumbs {
   position: relative;
   top: -3px;
