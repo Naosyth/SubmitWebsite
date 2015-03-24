@@ -102,22 +102,11 @@
   </div>
 </div>
 
-<div id="edit-run-method-modal" class="modal-curtain">
+<div id="run-methods">
 </div>
 
-<% if @test_case.make.nil? %>
-<div id="new-make-modal" class="modal-curtain">
-  <div class="modal-popup">
-    <%= render :file => "makes/_make_form", :locals => { :test_case => @test_case, :make => @make } %>
-  </div>
+<div id="make-modal">
 </div>
-<% else %>
-<div id="edit-make-modal" class="modal-curtain">
-  <div class="modal-popup">
-    <%= render :file => "makes/_make_edit_form", :locals => { :test_case => @test_case } %>
-  </div>
-</div>
-<% end %>
 
 <script>
   <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>

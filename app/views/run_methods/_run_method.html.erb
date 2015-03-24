@@ -6,10 +6,14 @@
 <script>
   $("#<%= j run_method.name %>").css('cursor', 'pointer');
   $("#<%= j run_method.name %>").click(function(){
-    var load_form = '<div class="modal-popup">' +
+
+    var load_form = '<div id="edit-run-method-modal" class="modal-curtain">' +
+    '<div class="modal-popup">' +
       '<%= j(render(:file => "run_methods/_run_method_edit_form", :locals => { :run_method => run_method })) %>' +
+    '</div>' +
     '</div>'
-    $("#edit-run-method-modal").html(load_form)
+
+    $("#run-methods").html(load_form)
     $("input[id='run_method_name']").val("<%= j (run_method.name) %>");
     $("input[id='run_method_run_command']").val("<%= j (run_method.run_command) %>");
     $("input[id='run_method_description']").val("<%= j (run_method.description) %>");

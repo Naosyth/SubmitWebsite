@@ -1,8 +1,8 @@
     
 var html_make_contents = ""
+var make_modal = ''
 
 <% if @test_case.make.nil? %>
-  
   html_make_contents = '<ul>' +
   '<li>' +
     '<div onclick="$(\'#new-make-modal\').show();" >' +
@@ -11,6 +11,13 @@ var html_make_contents = ""
     '</div>' +
   '</li>' +
   '</ul>'
+
+  <% @make = Make.new %>
+  make_modal = '<div id="new-make-modal" class="modal-curtain">' +
+  '<div class="modal-popup">' +
+    '<%= j render :file => "makes/_make_form", :locals => { :test_case => @test_case, :make => @make } %>' +
+  '</div>' +
+  '</div>'
 
 <% else %>
   
@@ -26,6 +33,13 @@ var html_make_contents = ""
   '</li>' +
   '</ul>'
 
+  make_modal = '<div id="edit-make-modal" class="modal-curtain">' +
+  '<div class="modal-popup">' +
+    '<%= j render :file => "makes/_make_edit_form", :locals => { :test_case => @test_case } %>' +
+  '</div>' +
+  '</div>'
+
 <% end %>
 
 $(".makefile-actions").html(html_make_contents)
+$("#make-modal").html(make_modal)
