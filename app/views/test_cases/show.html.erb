@@ -72,11 +72,24 @@
     <%= render :file => "run_methods/_run_method_form", :locals => { :test_case => @test_case, :run_method => @run_method } %>
   </div>
 </div>
+<<<<<<< HEAD
 
 <div id="edit-run-method-modal" class="modal-curtain">
   <div id="run-methods" class="modal-popup">
   </div>
 </div>
+=======
+<div id="new-make-modal" class="modal-curtain">
+  <div class="modal-popup">
+    <%= render :partial => "make_form", :locals => { :test_case => @test_case, :make => @make } %>
+  </div>
+</div>
+<div id="edit-make-modal" class="modal-curtain">
+  <div class="modal-popup">
+    <%= render :partial => "make_edit_form", :locals => { :test_case => @test_case } %>
+  </div>
+</div>
+>>>>>>> Make file revisions
 
 <script>
   <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
