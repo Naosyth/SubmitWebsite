@@ -6,6 +6,7 @@
       <span class="editor-save-status"></span>
     <% end %>
   </div>
+  <%= link_to 'Download File', download_file_url(@upload_datum) ,method: :post %>
   <div id="editor" class="editor"><%= @upload_datum.contents %></div>
 
 <script>
