@@ -87,7 +87,7 @@ class UsersController < ApplicationController
 
     if @user.update_attributes(user_params)
       flash[:notice] = "Account updated!"
-      redirect_to :back
+      redirect_to :users
     end
   end
 
