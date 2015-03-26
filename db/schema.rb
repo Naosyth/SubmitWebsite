@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20150320045153) do
+ActiveRecord::Schema.define(version: 20150326044733) do
 
   create_table "assignments", force: true do |t|
     t.boolean  "lock"
@@ -75,14 +75,6 @@ ActiveRecord::Schema.define(version: 20150320045153) do
   end
 
   add_index "inputs", ["run_method_id"], name: "index_inputs_on_run_method_id", using: :btree
-
-  create_table "makes", force: true do |t|
-    t.string   "name",         default: "Makefile"
-    t.integer  "test_case_id"
-    t.text     "data"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
 
   create_table "roles", force: true do |t|
     t.string   "name"
@@ -150,6 +142,7 @@ ActiveRecord::Schema.define(version: 20150320045153) do
     t.integer  "submission_id"
     t.integer  "test_case_id"
     t.string   "file_type"
+    t.boolean  "shared"
   end
 
   add_index "upload_data", ["submission_id"], name: "index_upload_data_on_submission_id", using: :btree

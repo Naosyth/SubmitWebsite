@@ -4,17 +4,19 @@ class UploadDatum < ActiveRecord::Base
   has_many :comments
 
   validates :name, presence: true
-  validate :ensure_unique_name
+  validate :name_is_available
+  
+  before_save :overwrite_existing_file
 
-  def create_file(file_data)
+  def create_file_from_data(file_data)
   	self.name = file_data.original_filename
   	self.contents = file_data.read
   	self.file_type = file_data.content_type
   end
 
-  def make_file(name, file_data, type)
+  def create_file(name, contents, type)
     self.name = name
-    self.contents = file_data
+    self.contents = contents
     self.file_type = type
     self.save
   end
@@ -25,9 +27,16 @@ class UploadDatum < ActiveRecord::Base
   end
 
   private
-  def ensure_unique_name
+  def overwrite_existing_file
     source.upload_data.each do |file|
       file.destroy if file.name == name and file != self
+    end
+  end
+
+  def name_is_available
+    return unless not submission.nil?
+    submission.assignment.test_case.upload_data.select { |u| u.shared }.each do |upload_datum|
+      errors.add(:name, "is the name of a shared file") if upload_datum.name == name
     end
   end
 end

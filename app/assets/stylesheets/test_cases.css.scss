@@ -9,10 +9,10 @@
   text-align: center;
 
   :after {
+    clear: both;
     content: '';
     display: block; 
     height: 0; 
-    clear: both;
   }
 
   ul {
@@ -21,8 +21,8 @@
 
   li {
     background-color: $color-form-white;
-    border-radius: 0;
     border: 1px solid $color-border-light;
+    border-radius: 0;
     clear: right;
     float: left;
     margin: 0 10px;

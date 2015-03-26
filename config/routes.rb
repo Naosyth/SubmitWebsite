@@ -42,10 +42,6 @@ Rails.application.routes.draw do
   get 'test_cases/create_output/:id' => 'test_cases#create_output'
   resources :test_cases
 
-  get '/makes/new/:test_case_id' => 'makes#new', :as => :new_make
-  post '/makes/new/:test_case_id' => 'makes#create'
-  resources :makes
-
   get '/inputs/new/:run_method_id' => 'inputs#new', :as => :new_input
   post '/inputs/new/:run_method_id' => 'inputs#create'
   resources :inputs

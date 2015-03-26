@@ -16,22 +16,19 @@ h1,
 h2,
 h3,
 table,
-div.sidebar,
-div.content-group,
-div.flash-messages,
+.sidebar,
+.content-group,
+.flash-messages,
 a,
 label,
-div.breadcrumbs {
+.breadcrumbs {
   font-family: 'Ubuntu', sans-serif;
 }
 
 a {
+  color: $color-blue;
   outline: 0;
   text-decoration: none;
-}
-
-a:visited {
-  color: $color-blue;
 }
 
 html,
