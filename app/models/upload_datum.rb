@@ -5,7 +5,7 @@ class UploadDatum < ActiveRecord::Base
 
   validates :name, presence: true
   validate :name_is_available
-
+  
   before_save :overwrite_existing_file
 
   def create_file_from_data(file_data)
