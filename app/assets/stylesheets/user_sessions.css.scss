@@ -1,9 +1,9 @@
-@import "variables";
+@import 'variables';
 
-body.authentication {
-  background-image: image-url("unr.png");
-  background-size: 100% 100%;
+.authentication {
+  background-image: image-url('unr.png');
   background-repeat: no-repeat;
+  background-size: 100% 100%;
   height: 100%;
 }
 
@@ -20,8 +20,9 @@ body.authentication {
     text-align: center;
   }
 
-  input[type=email], input[type=password] {
-    border-radius: 0px;
+  [type=email],
+  [type=password] {
+    border-radius: 0;
     border: 1px solid $color-border-light;
     display: block;
     font-size: $font-size-medium;
@@ -30,17 +31,17 @@ body.authentication {
     width: 250px;
   }
 
-  input[type=checkbox] {
+  [type=checkbox] {
     display: block;
     margin: 0 auto;
   }
 
-  input[type=submit] {
-    border-radius: 0px;
+  [type=submit] {
+    border-radius: 0;
     border: 1px solid $color-border-light;
     display: block;
     font-size: $font-size-standard;
-    margin: 16px auto 0 auto;
+    margin: 16px auto 0;
     padding: 5px;
     width: 250px;
   }

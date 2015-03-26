@@ -1,77 +1,78 @@
-@import "variables";
+@import 'variables';
 
 .topbar {
   background-color: $color-topbar-background;
+  box-shadow: 3px 3px 3px $color-action-shadow;
   height: $topbar-height;
-  width: 100%;
-  position: fixed;
-  z-index: 200;
   margin-bottom: 20px;
-  box-shadow: 3px 3px 3px #888;
+  position: fixed;
+  width: 100%;
+  z-index: 200;
 
   .user-info {
     float: right;
     position: absolute;
-    top: 0;
     right: 20px;
+    top: 0;
     width: auto;
 
     .expand {
+      background-color: $color-topbar-secondary;
+      box-shadow: 0 3px 4px $color-group-shadow;
       height: 5px;
       position: relative;
-      width: 100%;
-      background-color: $color-topbar-secondary;
       right: 0;
-      box-shadow: 0px 3px 4px #aaa;
+      width: 100%;
 
       div {
-        position: relative;
-        top: -4px;
-        height: 5px;
-        width: 100%;
-        color: #fff;
-        text-align: center;
-        line-height: 0px;
+        color: $color-white;
         font-size: 15px;
+        height: 5px;
+        line-height: 0;
+        position: relative;
+        text-align: center;
+        top: -4px;
+        width: 100%;
       }
     }
 
     p {
-      height: 100%;
       background-color: $color-topbar-secondary;
-      font-size: $font-size-medium;
-      color: $font-color-light;
       border: 1px solid $color-topbar-secondary;
+      color: $font-color-light;
+      font-size: $font-size-medium;
+      height: 100%;
       padding: 20px;
-      padding-top: 2px;
       padding-bottom: 3px;
+      padding-top: 2px;
     }
 
     .actions {
-      display: none;
       background-color: $color-topbar-secondary;
+      border-bottom: 5px solid $color-topbar-background;
       border-left: 5px solid $color-topbar-background;
       border-right: 5px solid $color-topbar-background;
-      border-bottom: 5px solid $color-topbar-background;
-      position: absolute;
-      top: 30px;
-      right: -5px;
-      z-index: -100;
-      width: 250px;
+      display: none;
       height: auto;
+      position: absolute;
+      right: -5px;
+      top: 30px;
+      width: 250px;
+      z-index: -100;
     }
 
     li {
       padding: 10px;
+
       a {
-        font-size: $font-size-medium;
         color: $font-color-light;
+        font-size: $font-size-medium;
       }
 
       img {
         height: $font-size-medium;
-        width: $font-size-medium;
         padding-right: 15px;
+        width: $font-size-medium;
       }
     }
 
@@ -81,10 +82,12 @@
   }
 
   .user-info:hover {
-    background-color: #f00;
+    background-color: $color-red;
+
     .actions {
       display: inline;
     }
+    
     .expand {
       display: none;
     }

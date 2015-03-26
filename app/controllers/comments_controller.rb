@@ -26,10 +26,6 @@ class CommentsController < ApplicationController
     end
   end
 
-  # Shows a comment
-  def show
-  end
-
   def destroy
     @new_comment = Comment.find(params[:id])
     @new_comment.destroy
