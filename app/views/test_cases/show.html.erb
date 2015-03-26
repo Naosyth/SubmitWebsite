@@ -37,35 +37,7 @@
   <h1>Makefile Management</h1>
 </header>
 <div class="content-group">
-  <div class="testcase-actions">
-    <ul>
-      <% if @test_case.make.nil? %>
-      <li>
-        <%= link_to new_make_url(@test_case) do %>
-          <div>
-            <%= image_tag('icon_add.png', size: "64x64", alt: "Create Makefile", title: "Create Makefile") %><br>
-            Create Makefile
-          </div>
-        <% end %>
-      </li>
-      <% else %>
-      <li>
-        <%= link_to make_url(@test_case.make) do %>
-          <div>
-            <%= image_tag('icon_edit.png', size: "64x64", alt: "Edit Makefile", title: "Edit Makefile") %><br>
-            Edit Makefile
-          </div>
-        <% end %>
-      </li>
-      <li>
-        <%= link_to make_url(@test_case.make), method: :delete, data: { confirm: 'Are you sure?' } do %>
-          <div>
-            <%= image_tag('icon_delete.png', size: "64x64", alt: "Delete Makefile", title: "Delete Makefile") %><br>
-            Delete Makefile
-          </div>
-        <% end %>
-      </li>
-      <% end %>
+  <div class="makefile-actions">
   </div>
 </div>
 
@@ -77,14 +49,10 @@
     <thead>
       <tr>
         <th>Run Methods</th>
+        <th>Delete</th>
       </tr>
     </thead>
-    <tbody>
-      <% @test_case.run_methods.each do |r| %>
-        <tr>
-          <td><%= link_to r.name, edit_run_method_url(r) %></td>
-        </tr>
-      <% end %>
+    <tbody id="run_methods_list">
     </tbody>
   </table>
   <br>
@@ -92,20 +60,18 @@
   <div class="testcase-actions">
     <ul>
       <li>
-        <%= link_to :method => :get, :action => :create_output do %>
+        <%= link_to :method => :get, :action => :create_output, :remote => true do %>
           <div>
-            <%= image_tag('icon_output.png', size: "64x64", alt: "Create Outputs", title: "Create Outputs") %><br>
-            Create Outputs
+            <%= image_tag('icon_output.png', :id => "run-outputs", size: "64x64", alt: "Create Outputs", title: "Create Outputs") %><br>
+            <span id="run-title">Create Outputs</span>
           </div>
         <% end %>
       </li>
       <li>
-        <%= link_to new_run_method_url(@test_case) do %>
-          <div>
+          <div onclick="$('#run-method-modal').show();">
             <%= image_tag('icon_add.png', size: "64x64", alt: "Add Run Method", title: "Add Run Method") %><br>
             Add Run Method
           </div>
-        <% end %>
       </li>
     </ul>
   </div>
@@ -115,7 +81,7 @@
   <h1>Assignment Run Variables</h1>
 </header>
 <div class="content-group">
-  <%= form_for @test_case, url: test_case_url(@test_case), method: :patch do |f| %>
+  <%= form_for @test_case, url: test_case_url(@test_case), method: :patch, remote: :true do |f| %>
     <table>
       <tr>
         <td><%= f.label "CPU Max Run Time" %></td>
@@ -126,12 +92,43 @@
         <td><%= f.number_field :core_size, :step => 1 %></td>
       </tr>
     </table>
-    <%= f.submit "Save" %>
+    <%= f.submit "Save", :onclick => '$("#test_case_variable").val("Saving...")', id: "test_case_variable" %>
   <% end %>
 </div>
 
+<div id="run-method-modal" class="modal-curtain">
+  <div class="modal-popup">
+    <%= render :file => "run_methods/_run_method_form", :locals => { :test_case => @test_case, :run_method => @run_method } %>
+  </div>
+</div>
+
+<div id="edit-run-method-modal" class="modal-curtain">
+  <div id="run-methods" class="modal-popup">
+  </div>
+</div>
+
+<div id="make-modal">
+</div>
+
 <script>
-  $("#create-make").click(function(){
-    $(".modal-curtain").show();
+  <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
+  <%= render(:file => 'makes/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
+
+  $("#test_case_cpu_time").change(function(){
+    $("#test_case_variable").val("Save")
   });
+
+  $("#test_case_core_size").change(function(){
+    $("#test_case_variable").val("Save")
+  });
+
+  $("#run-outputs").click(function() {
+    $(this).attr("src", '/assets/loading_spinner.gif');
+    changeTitle();
+  });
+
+  function changeTitle(){
+    var element = document.getElementById("run-title")
+    element.innerHTML = "Running..."
+  }
 </script>

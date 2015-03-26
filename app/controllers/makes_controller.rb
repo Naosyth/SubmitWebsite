@@ -1,11 +1,5 @@
 class MakesController < ApplicationController
   
-  # create new
-  def new
-    @make = Make.new
-    @test_case = TestCase.find(params[:test_case_id])
-  end
-
   # create the make
   def create
     test_case = TestCase.find(params[:test_case_id])
@@ -13,21 +7,14 @@ class MakesController < ApplicationController
     test_case.make.build(make_params, test_case)
 
     if test_case.make.save
-      flash[:notice] = "Makefile Created"
+      flash.now[:notice] = "Makefile Created"
     else
-      flash[:notice] = "Failed To Create Makefile"
+      flash.now[:notice] = "Failed To Create Makefile"
       test_case.make = nil
     end
-    redirect_to :back
-  end
-
-  # shows a make
-  def show
-    @make = Make.find(params[:id])
-  end
-
-  # edit
-  def edit
+    respond_to do |format|
+      format.js { render :action => "refresh", :locals => { :@test_case => test_case } }
+    end
   end
 
   # update
@@ -35,9 +22,9 @@ class MakesController < ApplicationController
     @make = Make.find(params[:id])
 
     if @make.update_attributes(make_params)
-      flash[:notice] = "Makefile Updated"
+      flash.now[:notice] = "Makefile Updated"
     else
-      flash[:notice] = "Failed To Update Makefile"
+      flash.now[:notice] = "Failed To Update Makefile"
     end
     redirect_to :back
   end
@@ -45,8 +32,12 @@ class MakesController < ApplicationController
   # delete
   def destroy
     make = Make.find(params[:id])
+    test_case = TestCase.find(make.test_case_id)
     make.destroy
-    redirect_to :back
+    flash.now[:notice] = "Makefile Removed"
+    respond_to do |format|
+      format.js { render :action => "refresh", :locals => { :@test_case => test_case } }
+    end
   end
 
   private

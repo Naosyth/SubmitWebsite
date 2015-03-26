@@ -8,13 +8,18 @@ class RunMethodsController < ApplicationController
 
   # create
   def create
-    test_case = TestCase.find(params[:test_case_id])
-    run_method = test_case.run_methods.new(run_method_params)
-
+    @test_case = TestCase.find(params[:test_case_id])
+    run_method = @test_case.run_methods.new(run_method_params)
+    @run_methods = @test_case.run_methods
+    
     if run_method.save 
-      redirect_to test_case_url(test_case)
+      respond_to do |format|
+        format.js { render :action => "refresh" }
+      end
     else
-      render :action => :new
+      respond_to do |format|
+        format.js { render :action => "error" }
+      end
     end
   end
 
@@ -44,8 +49,11 @@ class RunMethodsController < ApplicationController
   def destroy
     run_method = RunMethod.find(params[:id])
     test_case = TestCase.find(run_method.test_case_id)
+    @run_methods = test_case.run_methods
     run_method.destroy
-    redirect_to test_case_url(test_case)
+    respond_to do |format|
+      format.js { render :action => "refresh" }
+    end
   end
 
   private
