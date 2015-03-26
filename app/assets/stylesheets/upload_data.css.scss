@@ -1,4 +1,4 @@
-@import "variables";
+@import 'variables';
 
 .upload-data-wrapper {
   display: table;
@@ -6,28 +6,28 @@
   width: 100%;
 
   .editor {
-    width: 100%;
-    position: relative;
     height: 800px;
+    position: relative;
+    width: 100%;
   }
 
   .editor-save-status {
-    width: 100px;
-    height: 40px;
-    position: absolute;
-    top: 0;
-    right: 0;
-    line-height: 40px;
-    text-align: right;
-    padding-right: 10px;
     font-family: 'Ubuntu', sans-serif;
+    height: 40px;
+    line-height: 40px;
+    padding-right: 10px;
+    position: absolute;
+    right: 0;
+    text-align: right;
+    top: 0;
+    width: 100px;
   }
 
   .editor-left-col {
     display: table-cell;
-    width: 70%;
     height: 100%;
     padding-right: 5px;
+    width: 70%;
   }
 
   .editor-right-col {
@@ -54,26 +54,26 @@
 
   .editor-form {
     background-color: $color-form-white;
-    border-radius: 0px;
+    border-radius: 0;
     border: 1px solid $color-border-light;
     position: relative;
 
-    input[type="text"] {
+    [type=text] {
       background-color: $color-form-white;
-      font-size: $font-size-medium;
-      outline: none;
       border: none;
-      padding: 5px;
-      width: 50%;
+      font-size: $font-size-medium;
       height: 28px;
+      left: 100px;
+      outline: none;
+      padding: 5px;
       position: absolute;
       top: 0;
-      left: 100px;
+      width: 50%;
     }
 
-    input[type=submit] {
+    [type=submit] {
       background-color: $color-form-white;
-      border-radius: 0px;
+      border-radius: 0;
       border: 1px solid $color-border-light;
       font-size: $font-size-standard;
       width: 100px;
@@ -93,29 +93,31 @@
   }
 
   .comment-pool {
-    width: 40%;
-    float: right;
-    padding: 0 15px;
     box-sizing: border-box;
-    min-height: 50%;
+    float: right;
     margin-top: 113px;
+    min-height: 50%;
+    padding: 0 15px;
+    width: 40%;
 
-    #comment-favorites, #comment-suggestions {
+    #comment-favorites,
+    #comment-suggestions {
       width: 100%;
     }
   }
 }
 
 #annotations {
-  position: absolute;
   left: 70%;
-  width: 25%;
+  position: absolute;
   top: 12%;
+  width: 25%;
 }
 
-.ace_gutter-cell.ace_breakpoint{ 
-    border-radius: 20px 0px 0px 20px; 
-    box-shadow: 0px 0px 1px 1px red inset; 
+.ace_gutter-cell
+.ace_breakpoint { 
+  border-radius: 20px 0 0 20px; 
+  box-shadow: 0 0 1px 1px $color-red inset; 
 } 
 
 

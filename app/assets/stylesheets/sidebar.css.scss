@@ -1,19 +1,19 @@
-@import "variables";
+@import 'variables';
 
 .sidebar {
-  margin-top: $topbar-height;
   background-color: $color-sidebar-background;
+  box-shadow: 3px 3px 3px $color-action-shadow;
   box-sizing: border-box;
   height: 100%;
+  margin-top: $topbar-height;
   position: fixed;
   text-align: center;
   width: $sidebar-width;
   z-index: 1000;
-  box-shadow: 3px 3px 3px #888;
 
   div {
     border-bottom: 1px solid $color-border-dark;
-    color: #fff;
+    color: $color-white;
     padding-bottom: 16px;
     padding-top: 16px;
     text-decoration: none;

@@ -1,18 +1,13 @@
 @import 'variables';
 
-.manage-test-case {
-  text-align: center;
-}
-
-.testcase-actions,
-.makefile-actions {
+.actions {
   text-align: center;
 
   :after {
+    clear: both;
     content: '';
     display: block; 
     height: 0; 
-    clear: both;
   }
 
   ul {
@@ -26,16 +21,15 @@
     clear: right;
     float: left;
     margin: 0 10px;
+  }
+
+  a {
+    color: $font-color-dark;
 
     div {
       padding: 10px;
       text-align: center;
     }
-
-    a {
-      color: $font-color-dark;
-    }
-
   }
 
   li:hover {

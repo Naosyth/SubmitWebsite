@@ -1,8 +1,9 @@
-@import "variables";
+@import 'variables';
 
-form.new_assignment, form.edit_assignment {
-  input[type="text"] {
-    border-radius: 0px;
+form.new_assignment
+form.edit_assignment {
+  [type='text'] {
+    border-radius: 0;
     border: 1px solid $color-border-light;
     display: block;
     font-size: $font-size-medium;
@@ -11,8 +12,8 @@ form.new_assignment, form.edit_assignment {
     width: 250px;
   }
 
-  input[type="number"] {
-    border-radius: 0px;
+  [type='number'] {
+    border-radius: 0;
     border: 1px solid $color-border-light;
     display: block;
     font-size: $font-size-medium;
@@ -23,7 +24,7 @@ form.new_assignment, form.edit_assignment {
 
   textarea {
     background-color: $color-form-white;
-    border-radius: 0px;
+    border-radius: 0;
     border: 1px solid $color-border-light;
     display: block;
     font-size: $font-size-standard;
@@ -35,7 +36,7 @@ form.new_assignment, form.edit_assignment {
 
   select {
     background-color: $color-form-white;
-    border-radius: 0px;
+    border-radius: 0;
     border: 1px solid $color-border-light;
     display: block;
     font-size: $font-size-standard;
@@ -44,74 +45,40 @@ form.new_assignment, form.edit_assignment {
     width: 250px;
   }
 
-  input[type=submit] {
+  [type='submit'] {
     background-color: $color-form-white;
-    border-radius: 0px;
+    border-radius: 0;
     border: 1px solid $color-border-light;
     display: block;
     font-size: $font-size-standard;
-    margin: 16px auto 0 auto;
+    margin: 16px auto 0;
     padding: 5px;
     width: 250px;
   }
 
   label {
-      color: $font-color-dark;
-      display: block;
-      font-size: $font-size-standard;
-      height: 100%;
-      line-height: 30px;
-      margin: 0 auto;
-      padding: 0 5px 0 5px;
-      text-align: center;
-    }
+    color: $font-color-dark;
+    display: block;
+    font-size: $font-size-standard;
+    height: 100%;
+    line-height: 30px;
+    margin: 0 auto;
+    padding: 0 5px;
+    text-align: center;
+  }
 
-    div.datetime-picker-container {
-      width: 308px;
-      margin: 0 auto;
-    }
+  div.datetime-picker-container {
+    width: 308px;
+    margin: 0 auto;
+  }
 }
 
 .assignment-info-wrapper {
-  max-width: 50%;
   margin: 0 auto;
+  max-width: 50%;
 }
 
 .assignment-info {
   margin: 10px;
   text-align: left;
-}
-
-.assignment-actions {
-  text-align: center;
-
-  :after {
-    content: "";
-    display: block; 
-    height: 0; 
-    clear: both;
-  }
-
-  ul {
-    display: inline-block;
-  }
-
-  li {
-    float: left;
-    clear: right;
-    margin: 0 10px;
-
-    a {
-      color: $font-color-dark;
-
-      div {
-        padding: 10px;
-        text-align: center;
-      }
-    }
-  }
-
-  li:hover {
-    box-shadow: 1px 1px 3px #888;
-  }
 }

@@ -1,5 +1,5 @@
 @import url(http://fonts.googleapis.com/css?family=Ubuntu:400,300);
-@import "variables";
+@import 'variables';
 
 * {
   margin: 0;
@@ -10,7 +10,18 @@ ul {
   list-style-type: none;
 }
 
-input, p, h1, h2, h3, table, div.sidebar, div.content-group, div.flash-messages, a, label, div.breadcrumbs {
+input,
+p,
+h1,
+h2,
+h3,
+table,
+div.sidebar,
+div.content-group,
+div.flash-messages,
+a,
+label,
+div.breadcrumbs {
   font-family: 'Ubuntu', sans-serif;
 }
 
@@ -20,31 +31,32 @@ a {
 }
 
 a:visited {
-  color: blue;
+  color: $color-blue;
 }
 
-html, body.application {
-  height: 100%;
+html,
+body.application {
   background-color: $color-background;
+  height: 100%;
 }
 
 .flash-messages {
-  position: fixed;
-  z-index: 10000;
-  top: $topbar-height + 35px;
-  left: $sidebar-width + 20px;
   background-color: $color-flash;
+  color: $font-color-dark;
+  left: $sidebar-width + 20px;
   margin-bottom: 16px;
   padding: 5px;
-  color: $font-color-dark;
+  position: fixed;
   text-align: center;
+  top: $topbar-height + 35px;
+  z-index: 10000;
 }
 
 .error-messages {
   background-color: $color-flash;
+  color: $font-color-error;
   margin-bottom: 16px;
   padding: 5px;
-  color: $font-color-error;
   text-align: center;
 }
 
@@ -57,16 +69,16 @@ html, body.application {
 .application-content {
   background-color: $color-background;
   box-sizing: border-box;
+  margin-top: $topbar-height;
   padding: 16px 16px 16px $sidebar-width+16px;
   position: absolute;
   width: 100%;
-  margin-top: $topbar-height;
 
   header {
     background-color: $color-header;
     border-bottom: 1px solid $color-border-light;
+    box-shadow: 2px 2px 3px $color-group-shadow;
     padding: 4px;
-    box-shadow: 2px 2px 3px #aaa;
 
     h1 {
       color: $font-color-dark;
@@ -87,15 +99,15 @@ html, body.application {
 
 .content-group {
   background-color: $color-foreground;
-  padding: 16px;
-  margin-bottom: 32px;
-  box-shadow: 2px 2px 3px #aaa;
+  box-shadow: 2px 2px 3px $color-group-shadow;
   color: $font-color-dark;
+  margin-bottom: 32px;
+  padding: 16px;
 
   h2 {
     color: $font-color-dark;
-    text-align: center;
     margin-bottom: 16px;
+    text-align: center;
   }
 }
 
@@ -105,41 +117,41 @@ html, body.application {
   padding: 10px;
 
   h1 {
+    border-bottom: 1px dotted $color-form-grey;
     font-size: 20px;
-    text-align: center;
     font-weight: bold;
     margin-bottom: 5px;
-    border-bottom: 1px dotted #ddd;
+    text-align: center;
   }
 
   h2 {
     font-size: 15px;
-    text-align: center;
     font-weight: normal;
     margin: 0;
+    text-align: center;
   }
 }
 
 .compile-messages {
-  z-index: 10000;
-  overflow: auto;
-  height: 300px;
-  right: 0;
-  left: 0;
-  top: 10%;
-  margin: 0 auto;
-  position: fixed;
   background-color: $color-compile;
-  width: 500px;
-  padding: 5px 10px;
-  color: $font-color-dark;
-  text-align: left;
   border-radius: 5px;
-  border: 1px solid #000;
+  border: 1px solid $color-black;
+  color: $font-color-dark;
+  height: 300px;
+  left: 0;
+  margin: 0 auto;
+  overflow: auto;
+  padding: 5px 10px;
+  position: fixed;
+  right: 0;
+  text-align: left;
+  top: 10%;
+  width: 500px;
+  z-index: 10000;
 
-  #compile-error-button {
-    position: absolute;
+  .compile-error-button {
     bottom: 10px;
+    position: absolute;
   }
 }
 
@@ -148,31 +160,30 @@ html, body.application {
 }
 
 .breadcrumbs {
+  font-size: 11px;
   position: relative;
   top: -3px;
-
-  font-size: 11px;
 }
 
 .column-wrapper:after { 
-   content: " ";
-   display: block; 
-   height: 0; 
-   clear: both;
+  clear: both;
+  content: '';
+  display: block;
+  height: 0;
 }
 
 .left-column {
-  float: left;
-  display: inline-block;
-  width: 50%;
   box-sizing: border-box;
+  display: inline-block;
+  float: left;
   padding-right: 5px;
+  width: 50%;
 }
 
 .right-column {
-  float: right;
-  display: inline-block;
-  width: 50%;
   box-sizing: border-box;
+  display: inline-block;
+  float: right;
   padding-left: 5px;
+  width: 50%;
 }

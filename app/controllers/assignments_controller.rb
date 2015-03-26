@@ -2,7 +2,7 @@ class AssignmentsController < ApplicationController
   include AssignmentsHelper
 
   before_filter :require_user
-  before_filter :require_instructor_owner, :only => [:new, :edit, :create, :copy, :destroy, :grade_all, :all_grades, :download_grades]
+  before_filter :require_instructor_owner, :only => [:new, :edit, :create, :copy, :destroy, :grade_all, :all_grades, :download_grades, :copy_create]
   before_filter :require_enrolled, :only => [:show]
 
   # Creates the form to make a new assignment
