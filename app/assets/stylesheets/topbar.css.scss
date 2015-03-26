@@ -47,7 +47,7 @@
       padding-top: 2px;
     }
 
-    .actions {
+    .account-actions {
       background-color: $color-topbar-secondary;
       border-bottom: 5px solid $color-topbar-background;
       border-left: 5px solid $color-topbar-background;
@@ -84,7 +84,7 @@
   .user-info:hover {
     background-color: $color-red;
 
-    .actions {
+    .account-actions {
       display: inline;
     }
     
