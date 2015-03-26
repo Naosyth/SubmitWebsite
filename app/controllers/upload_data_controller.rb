@@ -14,37 +14,37 @@ class UploadDataController < ApplicationController
       destination = TestCase.find(params[:destination_id])
     end
 
-    if params[:upload_file].blank? 
+    if params[:file].blank? 
       flash[:notice] = "No File Selected"
-      redirect_to destination and return
+      redirect_to :back and return
     end
 
-    upload_data = destination.upload_data.select { |upload| upload.name == params[:upload_file].original_filename }.first
+    upload_data = destination.upload_data.select { |upload| upload.name == params[:file].original_filename }.first
     upload_data = destination.upload_data.create if upload_data.nil?
-    upload_data.create_file(params[:upload_file])
+    upload_data.create_file(params[:file])
+    upload_data.save
 
-    if upload_data.save
-      flash[:notice] = "File Loaded"
-    else
-      flash[:notice] = "File Not Loaded"
+    respond_to do |format|
+      msg = { :status => "ok", :message => "Success!" }
+      format.json  { render :json => msg }
     end
-    redirect_to destination
   end
 
   # Shows an upload data
   def show
     @upload_datum = UploadDatum.find(params[:id])
-    @new_comment = Comment.new
     source = @upload_datum.source
     course = @upload_datum.source.assignment.course
+    file_type = @upload_datum.file_type
 
     if source.class.name == "TestCase"
       @can_edit = true
+      send_data @upload_datum.contents, type: 'application/pdf', filename: @upload_datum.name, disposition: 'inline' and return if file_type == 'application/pdf'
+      send_data @upload_datum.contents, type: @upload_datum.file_type, filename: @upload_datum.name, disposition: 'inline' and return if file_type.include? "image"
       render "upload_data/edit_no_comments" and return
     end
 
     submission = @upload_datum.submission
-    file_type = @upload_datum.file_type
     @can_edit = (submission.user == current_user and not submission.submitted)
     @can_comment = current_user.has_local_role? :grader, course
     @all_comments = get_all_comments(submission.assignment).sort_by { |_key, value| value }.reverse
@@ -52,8 +52,11 @@ class UploadDataController < ApplicationController
 
     if file_type == 'application/pdf'
       send_data @upload_datum.contents, type: 'application/pdf', filename: @upload_datum.name, disposition: 'inline' and return
+    elsif file_type.include? "image"
+      send_data @upload_datum.contents, type: @upload_datum.file_type, filename: @upload_datum.name, disposition: 'inline' and return
     elsif file_type.include? "text" or file_type.include? "application"
       if current_user.has_local_role? :grader, course
+        @new_comment = Comment.new
         render "upload_data/edit_grader" and return
       elsif current_user.has_local_role? :student, course
         render "upload_data/edit_student" and return

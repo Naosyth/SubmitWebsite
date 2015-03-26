@@ -37,13 +37,13 @@ Rails.application.configure do
 
   # Nolan home computer and lab computer
   # config.compile_directory = '/Users/nolanburfield/Documents/submitTest/tempDirectory/'
-  config.compile_directory = '/home/nolan/Documents/submitTest/tempDirectory/'
+  # config.compile_directory = '/home/nolan/Documents/submitTest/tempDirectory/'
 
   # Hardy Macbook
   # config.compile_directory = '/Users/hardythrower/Documents/submitTest/tempDirectory/'
 
   # Brandon home computer and lab computer
-  # config.compile_directory = '/home/brandon/Documents/submitTest/tempDirectory/'
+  config.compile_directory = '/home/brandon/Documents/submitTest/tempDirectory/'
   # config.compile_directory = '/home/bworl/Documents/submitTest/tempDirectory/'
 
   # Webserver

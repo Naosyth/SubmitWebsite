@@ -1,9 +1,8 @@
 <div class="file-uploader">
   <% type = target.class.name == "TestCase" ? "test_case" : "submission" %>
-  <p>Upload File</p>
-  <%= form_tag create_file_url(type, target), method: :post, :multipart => true do %>
-    <%= file_field_tag 'upload_file' %><br>
-    <%= submit_tag "Upload", :title => "Upload File" %>
+  <%= form_tag create_file_url(type, target), class: "dropzone", id: "dropzoneUploader", multipart: true do %>
+    <%= hidden_field_tag :authenticity_token, form_authenticity_token %>
+    <%= file_field_tag 'file', class: "file-selector" %>
   <% end %>
 </div>
 
