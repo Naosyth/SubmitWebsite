@@ -9,10 +9,10 @@
   text-align: center;
 
   :after {
+    clear: both;
     content: '';
     display: block; 
     height: 0; 
-    clear: both;
   }
 
   ul {

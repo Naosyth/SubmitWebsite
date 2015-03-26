@@ -1,6 +1,6 @@
 class UploadDataController < ApplicationController
   before_filter :require_user
-  before_filter :require_data_owner, :only => [:reupload, :edit, :upload_data, :destroy]
+  before_filter :require_data_owner, :only => [:destroy]
   before_filter :require_destination_owner, :only => [:create]
   before_filter :require_instructor_owner, :only => [:show]
   before_filter :require_not_submitted, :only => [:update]
@@ -21,7 +21,7 @@ class UploadDataController < ApplicationController
 
     upload_data = destination.upload_data.select { |upload| upload.name == params[:file].original_filename }.first
     upload_data = destination.upload_data.create if upload_data.nil?
-    upload_data.create_file(params[:file])
+    upload_data.create_file_from_data(params[:file])
     upload_data.save
 
     respond_to do |format|
@@ -38,7 +38,7 @@ class UploadDataController < ApplicationController
     file_type = @upload_datum.file_type
 
     if source.class.name == "TestCase"
-      @can_edit = true
+      @can_edit = current_user.has_local_role? :grader, course
       send_data @upload_datum.contents, type: 'application/pdf', filename: @upload_datum.name, disposition: 'inline' and return if file_type == 'application/pdf'
       send_data @upload_datum.contents, type: @upload_datum.file_type, filename: @upload_datum.name, disposition: 'inline' and return if file_type.include? "image"
       render "upload_data/edit_no_comments" and return
@@ -69,12 +69,13 @@ class UploadDataController < ApplicationController
 
   # Updates an upload data
   def update
-    upload_data = UploadDatum.find(params[:id])
-    source = upload_data.source
+    upload_datum = UploadDatum.find(params[:id])
+    source = upload_datum.source
 
-    if upload_data.update_attributes(upload_data_params)
+    if upload_datum.update_attributes(upload_data_params)
       respond_to do |format|
         format.js { render :action => "refresh" }
+        format.json { render :json => upload_datum }
       end
 
       if source.class.name == "Submission"
@@ -100,7 +101,7 @@ class UploadDataController < ApplicationController
 
   private
   def upload_data_params
-    params.require(:upload_datum).permit(:name, :contents, :file_type)
+    params.require(:upload_datum).permit(:name, :contents, :file_type, :shared)
   end
 
   def require_data_owner
@@ -108,7 +109,7 @@ class UploadDataController < ApplicationController
     source = upload_data.source
 
     if source.class.name == "TestCase"
-      if not current_user.has_local_role? :instructor, source.assignment.course
+      if not current_user.has_local_role? :grader, source.assignment.course
         flash[:notice] = "Only the course instructor may edit test cases"
         redirect_to dashboard_url
       end
@@ -139,9 +140,11 @@ class UploadDataController < ApplicationController
 
     upload_data = UploadDatum.find(params[:id])
     course = upload_data.source.assignment.course
-    if upload_data.source.class.name == "TestCase" and not (current_user.has_role? :grader, course)
-      flash[:notice] = "Only graders and instructors may edit test cases"
-      redirect_to dashboard_url
+    if upload_data.source.class.name == "TestCase"
+     if (not current_user.has_local_role? :grader, course) and !upload_data.shared
+        flash[:notice] = "Only graders and instructors may edit test cases"
+        redirect_to dashboard_url
+      end
     elsif upload_data.source.class.name == "Submission" and (not (current_user.has_role? :grader, course) and current_user != upload_data.submission.user)
       flash[:notice] = "That action is only available to graders or the file owner"
       redirect_to dashboard_url

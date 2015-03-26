@@ -21,23 +21,19 @@ class Submission < ActiveRecord::Base
     end
 
     # Adds in all the student files 
-    upload_data.each do |upload_data|
-      if upload_data.file_type != 'application/pdf'
-        output = tempDirectory + upload_data.name
-        f = File.open(output, "w" )
-        f.write(upload_data.contents)
-        f.close
-      end
-    end
-
-    # Adds in the makefile if exists
-    if not assignment.test_case.make.nil?
-      File.delete(tempDirectory + "makefile") if File.exists?(tempDirectory + "makefile")
-      output = tempDirectory + assignment.test_case.make.name
-      f = File.open(output, "w")
-      f.write(assignment.test_case.make.data)
+    upload_data.each do |upload_datum|
+      f = File.open(tempDirectory + upload_datum.name, "w")
+      f.write(upload_datum.contents.force_encoding("UTF-8"))
       f.close
     end
+
+    # Adds in all the shared test_case files
+    assignment.test_case.upload_data.select { |u| u.shared }.each do |upload_datum|
+      f = File.open(tempDirectory + upload_datum.name, "w")
+      f.write(upload_datum.contents.force_encoding("UTF-8"))
+      f.close
+    end
+
     return tempDirectory
   end
 
