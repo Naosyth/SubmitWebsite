@@ -270,6 +270,6 @@ class SubmissionsController < ApplicationController
 
       # Add File to the student, and delete
       upload = submission.upload_data.new()
-      upload.make_file('Grade File', data, 'application/pdf')
+      upload.create_file('Grade File', data, 'application/pdf')
     end
 end

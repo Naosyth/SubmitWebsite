@@ -6,39 +6,10 @@
   <h2>Test Case</h2>
 </header>
 <div class="content-group manage-test-case">
-  <table class="files-display">
-    <thead>
-      <tr>
-        <th>File Name</th>
-        <th>Updated At</th>
-        <th>Uploaded At</th>
-        <th>File Type</th>
-        <th>Delete</th>
-      </tr>
-    </thead>
-    <tbody>
-      <% @test_case.upload_data.each do |upload_data| %>
-        <tr>
-          <td><%= link_to upload_data.name, upload_datum_path(upload_data) %></td>
-          <td><%= upload_data.updated_at %></td>
-          <td><%= upload_data.created_at %></td>
-          <td><%= upload_data.file_type %></td>
-          <td><%= link_to 'Delete', upload_data, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
+  <%= render partial: "file_list", :locals => { :test_case => @test_case } %>
   <br>
 
   <%= render "shared/file_uploader", :target => @test_case %>
-</div>
-
-<header>
-  <h1>Makefile Management</h1>
-</header>
-<div class="content-group">
-  <div class="makefile-actions">
-  </div>
 </div>
 
 <header>
@@ -107,12 +78,8 @@
   </div>
 </div>
 
-<div id="make-modal">
-</div>
-
 <script>
   <%= render(:file => 'run_methods/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
-  <%= render(:file => 'makes/refresh.js.erb', :handlers => [:erb], :formats => [:js]) %>
 
   $("#test_case_cpu_time").change(function(){
     $("#test_case_variable").val("Save")

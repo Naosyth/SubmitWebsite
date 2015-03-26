@@ -165,7 +165,7 @@ class AssignmentsController < ApplicationController
   def copy_files
     @old_test.upload_data.each do |file|
       upload = @test.upload_data.new()
-      upload.make_file(file.name, file.contents, file.file_type)
+      upload.create_file(file.name, file.contents, file.file_type)
       upload.save
     end
   end

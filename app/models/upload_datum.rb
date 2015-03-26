@@ -6,15 +6,15 @@ class UploadDatum < ActiveRecord::Base
   validates :name, presence: true
   validate :ensure_unique_name
 
-  def create_file(file_data)
+  def create_file_from_data(file_data)
   	self.name = file_data.original_filename
   	self.contents = file_data.read
   	self.file_type = file_data.content_type
   end
 
-  def make_file(name, file_data, type)
+  def create_file(name, contents, type)
     self.name = name
-    self.contents = file_data
+    self.contents = contents
     self.file_type = type
     self.save
   end

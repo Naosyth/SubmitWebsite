@@ -1,7 +1,6 @@
 class TestCase < ActiveRecord::Base
   belongs_to :assignment
   has_many :upload_data
-  has_one :make
   has_many :run_methods
 
   def create_directory(path)
@@ -11,23 +10,13 @@ class TestCase < ActiveRecord::Base
       f.write(upload_data.contents)
       f.close
     end
-
-    # Add in make file if needed
-    if not make.nil?
-      output = path + make.name
-      f = File.open(output, "w")
-      f.write(make.data)
-      f.close
-    end
   end
 
   def compile_code(path)
     error_hold = ""
-    if not make.nil?
-      make = "make -C " + path
-      if not system(make)
-        return capture(:stderr) { system(make) }
-      end
+    make = "make -C " + path
+    if not system(make)
+      return capture(:stderr) { system(make) }
     end
     
     run_methods.each do |run|

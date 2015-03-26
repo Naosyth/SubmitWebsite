@@ -1,17 +1,18 @@
-@import "variables";
+@import 'variables';
 
 .manage-test-case {
   text-align: center;
 }
 
-.testcase-actions, .makefile-actions {
+.testcase-actions,
+.makefile-actions {
   text-align: center;
 
   :after {
-    content: "";
+    clear: both;
+    content: '';
     display: block; 
     height: 0; 
-    clear: both;
   }
 
   ul {
@@ -19,12 +20,11 @@
   }
 
   li {
-    float: left;
-    clear: right;
-    margin: 0 10px;
     background-color: $color-form-white;
-    border-radius: 0px;
     border: 1px solid $color-border-light;
+    clear: right;
+    float: left;
+    margin: 0 10px;
 
     div {
       padding: 10px;
@@ -39,14 +39,5 @@
 
   li:hover {
     box-shadow: 1px 1px 3px #888;
-  }
-}
-
-a[data-method='delete'] {
-  color: grey;
-  text-shadow: 1px 1px black;
-  div {
-    color: $font-color-dark;
-    text-shadow: none;
   }
 }

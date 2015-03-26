@@ -26,7 +26,7 @@
         <% if not @submission.submitted %>
           <%= render "shared/file_uploader", :target => @submission %>
         <% end %>
-        <%= render partial: "shared/file_list", :locals => { :submission => @submission, :deletable => @submission.submitted == false } %>
+        <%= render partial: "file_list", :locals => { :submission => @submission, :deletable => @submission.submitted == false } %>
       </div>
     </div>
   </div>
