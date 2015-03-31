@@ -60,6 +60,8 @@
 
     input[type="text"] {
       background-color: $color-form-white;
+      border-radius: 0px;
+      border: 1px solid $color-border-light;
       font-size: $font-size-medium;
       outline: none;
       border: none;
@@ -68,7 +70,17 @@
       height: 28px;
       position: absolute;
       top: 0;
-      left: 100px;
+      left: 190px;
+    }
+
+    a {
+      background-color: $color-form-white;
+      border-radius: 0px;
+      border: 1px solid $color-border-light;
+      font-size: $font-size-standard;
+      padding: 5px;
+      cursor: pointer;
+      color: buttontext;
     }
 
     input[type=submit] {
@@ -77,7 +89,7 @@
       border: 1px solid $color-border-light;
       font-size: $font-size-standard;
       width: 100px;
-      padding: 10px;
+      padding: 5px;
       cursor: pointer;
     }
   }
