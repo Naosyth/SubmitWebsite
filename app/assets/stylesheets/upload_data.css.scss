@@ -60,6 +60,8 @@
 
     [type=text] {
       background-color: $color-form-white;
+      border-radius: 0px;
+      border: 1px solid $color-border-light;
       font-size: $font-size-medium;
       height: 28px;
       left: 100px;
