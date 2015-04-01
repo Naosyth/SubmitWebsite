@@ -42,3 +42,17 @@
     box-shadow: 1px 1px 3px $color-action-shadow;
   }
 }
+
+#run_methods_list {
+  ul{
+    th{
+      text-align: center;
+    }
+  }
+  #name, #description, #data, #output {
+    #content{
+    color: $font-color-darkblue;
+    font-weight: bold;
+    }
+  }
+}

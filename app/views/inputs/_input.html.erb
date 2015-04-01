@@ -1,0 +1,46 @@
+
+<tr>
+  <td colspan="4">
+    <a class="toggle" id=<%= "input_" + input.id.to_s %> href="javascript:void(0);">
+      <%= input.name %>
+    </a>
+    <div class="inner">
+      <table>
+        <tbody>
+          <tr>
+            <td id="description">
+              <span id="content"> Description: </span> <%= input.description %> 
+            </td>
+          </tr>
+          <tr>
+            <td id="data">
+              <span id="content"> Input: </span> <%= input.data %> 
+            </td>
+          </tr>
+          <tr>
+            <td id="output">
+              <span id="content"> Output: </span> <%= input.output %> 
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </td>
+</tr>
+
+<script>
+  $("#<%= j 'input_' + input.id.to_s %>").next().hide()
+  $("#<%= j 'input_' + input.id.to_s %>").click(function(e) {
+  e.preventDefault();
+  var $this = $(this);
+  if ($this.next().hasClass('show')) {
+      $this.next().removeClass('show');
+      $this.next().slideUp(350);
+  } else {
+      $this.parent().parent().find('li .inner').removeClass('show');
+      $this.parent().parent().find('li .inner').slideUp(350);
+      $this.next().toggleClass('show');
+      $this.next().slideToggle(350);
+  }
+});
+</script>
