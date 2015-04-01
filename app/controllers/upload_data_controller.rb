@@ -132,8 +132,8 @@ class UploadDataController < ApplicationController
       end
     elsif (params[:type] == "test_case")
       destination = TestCase.find(params[:destination_id])
-      if current_user.has_local_role? :instructor, destination.assignment
-        flash[:notice] = "That action is only available to the course instructor"
+      if not current_user.has_local_role? :grader, destination.assignment
+        flash[:notice] = "That action is only available to the course grader"
         redirect_to dashboard_url
       end
     end

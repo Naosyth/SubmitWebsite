@@ -4,7 +4,8 @@ class CoursesController < ApplicationController
   before_filter :require_user
   before_filter :require_student, :only => [:enrolled]
   before_filter :require_enrolled, :only => [:show]
-  before_filter :require_instructor_owner, :only => [:edit, :edit_user, :users, :update, :update_user, :destroy]
+  before_filter :require_instructor_owner, :only => [:update_user, :destroy]
+  before_filter :require_grader, :only => [:edit, :edit_user, :users, :update]
   before_filter :require_instructor, :only => [:new, :create]
   
   # Creates the form for creating a new course.
@@ -44,7 +45,7 @@ class CoursesController < ApplicationController
       @assignments = @course.assignments
     end
 
-    render "courses/manage" if current_user.has_local_role? :instructor, @course
+    render "courses/manage" if current_user.has_local_role? :grader, @course
   end
 
   # Displays a list of all courses in the application.
@@ -122,7 +123,7 @@ class CoursesController < ApplicationController
 
     row = 4
     @course.users.each do |name|
-      if not name.has_local_role? :instructor, @course
+      if not name.has_local_role? :grader, @course
         sheet.row(row).push name.name, name.name
         row += 1
       end
@@ -164,15 +165,7 @@ class CoursesController < ApplicationController
   def update_user
     @course = Course.find(params[:id])
     @user = User.find(params[:user_id])
-
-    User::ROLES.each do |role|
-      if params[:user][:roles].include? role
-        @user.add_role role, @course
-      else
-        @user.remove_role role, @course
-      end
-    end
-
+    @user.update_course_roles(params[:user][:roles], @course)
     flash[:notice] = "User has been updated."
     redirect_to courses_users_url(@course)
   end
@@ -230,8 +223,18 @@ class CoursesController < ApplicationController
     return if current_user.has_role? :admin
 
     course = Course.find(params[:id])
-    if not current_user.has_role? :instructor, course
+    if not current_user.has_local_role? :instructor, course
       flash[:notice] = "That action is only available to the instructor of the course"
+      redirect_to dashboard_url
+    end
+  end
+
+  def require_grader
+    return if current_user.has_role? :admin
+
+    course = Course.find(params[:id])
+    if not current_user.has_local_role? :grader, course
+      flash[:notice] = "That action is only available to the grader of the course"
       redirect_to dashboard_url
     end
   end
