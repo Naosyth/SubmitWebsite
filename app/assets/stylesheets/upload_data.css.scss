@@ -64,21 +64,24 @@
       border: 1px solid $color-border-light;
       font-size: $font-size-medium;
       height: 28px;
-      left: 100px;
       outline: none;
-      padding: 5px;
       position: absolute;
+      color: $font-color-dark;
       top: 0;
-      left: 190px;
+      left: 31%;
+      width: 69%;
     }
 
     a {
+      display: inline-block;
       background-color: $color-form-white;
       border-radius: 0px;
       border: 1px solid $color-border-light;
       font-size: $font-size-standard;
-      padding: 5px;
+      padding: 5px 0px 5px;
       cursor: pointer;
+      width: 15%;
+      text-align: center;
       color: buttontext;
     }
 
@@ -87,8 +90,8 @@
       border-radius: 0;
       border: 1px solid $color-border-light;
       font-size: $font-size-standard;
-      width: 100px;
-      padding: 5px;
+      width: 15%;
+      padding: 5px 0px 5px;
       cursor: pointer;
     }
   }

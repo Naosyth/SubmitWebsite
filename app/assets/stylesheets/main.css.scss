@@ -39,15 +39,15 @@ body.application {
 
 .flash-messages {
   background-color: $color-flash-background;
-  color: $color-flash;
-  top: 25px;
-  left: 145px;
+  color: $font-color-darkblue;
+  top: $topbar-height - 5px;
+  left: $sidebar-width - 5px;
   min-width: 10%;
   margin-bottom: 16px;
   padding: 5px;
   position: fixed;
   text-align: center;
-  top: $topbar-height + 35px;
+
   z-index: 10000;
   border: solid 1px white;
   border-radius: 5px;
@@ -56,7 +56,7 @@ body.application {
 }
 
 .error-messages {
-  background-color: $color-flash;
+  background-color: $color-flash-background;
   color: $font-color-error;
   margin-bottom: 16px;
   padding: 5px;
