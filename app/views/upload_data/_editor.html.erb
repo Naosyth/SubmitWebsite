@@ -3,9 +3,11 @@
       <%= f.text_field :name, value: @upload_datum.name %>
       <%= f.text_area :contents, style: 'display:none', value: @upload_datum.contents %>
       <%= f.submit "Save", disabled: @can_edit == false, id: "save" %>
+      <%= link_to 'Download', download_file_url(@upload_datum) , method: :post %>
       <span class="editor-save-status"></span>
     <% end %>
   </div>
+
   <div id="editor" class="editor"><%= @upload_datum.contents %></div>
 
 <script>

@@ -2,7 +2,7 @@ class UploadDataController < ApplicationController
   before_filter :require_user
   before_filter :require_data_owner, :only => [:destroy]
   before_filter :require_destination_owner, :only => [:create]
-  before_filter :require_instructor_owner, :only => [:show]
+  before_filter :require_instructor_owner, :only => [:show, :download_file]
   before_filter :require_not_submitted, :only => [:update]
 
   # Creates a new upload data
@@ -96,7 +96,11 @@ class UploadDataController < ApplicationController
       source.remove_saved_runs
     end
     flash[:notice] = "File successfully deleted"
-    redirect_to :back
+  end
+
+  def download_file
+    @upload_data = UploadDatum.find(params[:id])
+    send_data @upload_data.contents, :type => @upload_data.file_type , :filename => @upload_data.name
   end
 
   private
@@ -175,4 +179,5 @@ class UploadDataController < ApplicationController
     end
     return comments
   end
+
 end
