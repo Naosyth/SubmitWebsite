@@ -22,12 +22,9 @@
       </div>
     </div>
   </td>
-  <td colspan="1">
-    <%= form_for input, url: input_url(input), method: :patch, :remote => true  do |f| %>
-            <%= f.check_box :student_visible,  :checked => input.student_visible , :onchange => "this.form.submit()" %>
-    <% end %>
+  <td><%= link_to raw("<input type='checkbox'" + (input.student_visible ? "checked" : "") + ">"), input_url(input, :input => { :student_visible => !input.student_visible }), method: :patch, remote: true, "data-type" => "json" %>
   </td>
-</tr>
+  </tr>
 
 <script>
   $("#<%= j 'input_' + input.id.to_s %>").next().hide()
@@ -43,5 +40,11 @@
       $this.next().toggleClass('show');
       $this.next().slideToggle(350);
   }
+});
+  $(document).on("page:change", function() {
+    $('a[data-type=json]').on('ajax:success', function(event, input, status, xhr) {
+        $(this).children(":first").prop("checked", input.student_visible);
+        $(this).attr("href", "/inputs/" + input.id + "?input%5Bstudent_visible%5D=" + !input.student_visible);
+    });
 });
 </script>

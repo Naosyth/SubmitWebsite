@@ -33,10 +33,16 @@ class InputsController < ApplicationController
     @input = Input.find(params[:id])
 
     if @input.update_attributes(input_params)
-      redirect_to test_case_url(@input.run_method.test_case_id)
+      respond_to do |format|
+        format.html {
+            redirect_to test_case_url(@input.run_method.test_case_id)
+   
+        }
+        format.json {render :json => @input }
+      end
     else
       render :action => :edit
-    end
+    end  
   end
 
   # delete 
