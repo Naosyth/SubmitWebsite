@@ -6,62 +6,51 @@
             <%= run_method.name %>
           </a>
           <ul class="inner">
-            <table>
-              <tbody>
+            <%= form_for run_method, url: run_method_url(run_method), method: :patch, remote: true do |f| %>
+              <table class="run-method-edit">
+                <tbody>
+                  <tr>
+                    <td><%= f.label "Name" %> <%= f.text_field :name, :value => run_method.name %></td>
+                    <td><%= f.label "Command" %> <%= f.text_field :run_command, :value => run_method.run_command %></td>
+                  </tr>
+                  <tr><td colspan="2"><%= f.label "Description" %> <%= f.text_area :description, :value => run_method.description %></td></tr>
+                  <tr><td colspan="2"><%= f.submit "Update" %></td></tr>
+                </tbody>
+              </table>
+            <% end %>
+            <table class="alternating-background">
+              <thead>
                 <tr>
-                  <td> 
-                    <div class="content-group">
-                      <%= form_for run_method, url: run_method_url(run_method), method: :patch, remote: true do |f| %>
-                      <table>
-                        <tr> <td>Name:</td><td><%= f.text_field :name, :value => run_method.name %></td>
-                        <td>Command:</td><td> <%= f.text_field :run_command, :value => run_method.run_command %></td></tr>
-                        <tr><td colspan="4">Description: <br> <%= f.text_area :description, :value => run_method.description %></td></tr>
-                        <tr><td colspan="4"><%= f.submit "Update" %></td></tr>
-                      </table>
-                      <% end %>
-                    </div>
-                  </td>
+                  <th>Name</th>
+                  <th>Visible</th>
                 </tr>
-                <tr>
-                  <th colspan="4"> Testcases </th>
-                </tr >
-                <tr>
-                  <td>
-                    <table >
-                      <tbody id="input_lists">
-                        <tr><th> Name </th><th> Visible </th></tr>
-                      <%= render run_method.inputs %>
-                    </tbody>
-                    </table>
-                 </td>
-                </tr>
-                
-          </tbody>
-        </table>
+              </thead>
+              <tbody id="input_lists">
+                <%= render run_method.inputs %>
+              </tbody>
+            </table>
           </ul>
         </li>
       </ul>
   </td> 
-  <td>
-      <%= link_to 'X', run_method, method: :delete, remote: true, data: { confirm: "Are You Sure?" } %>
+  <td style="vertical-align: top; text-align: center">
+    <%= link_to 'X', run_method, method: :delete, remote: true, data: { confirm: "Are You Sure?" } %>
   </td>
-</tr>
 
-
-<script>
+  <script>
     $("#<%= j 'run_method_' + run_method.id.to_s %>").next().hide()
     $("#<%= j 'run_method_' + run_method.id.to_s %>").click(function(e) {
-    e.preventDefault();
-    var $this = $(this);
-    if ($this.next().hasClass('show')) {
-        $this.next().removeClass('show');
-        $this.next().slideUp(350);
-    } else {
-        $this.parent().parent().find('li .inner').removeClass('show');
-        $this.parent().parent().find('li .inner').slideUp(350);
-        $this.next().toggleClass('show');
-        $this.next().slideToggle(350);
-    }
-  });
-
-</script>
+      e.preventDefault();
+      var $this = $(this);
+      if ($this.next().hasClass('show')) {
+          $this.next().removeClass('show');
+          $this.next().slideUp(350);
+      } else {
+          $this.parent().parent().find('li .inner').removeClass('show');
+          $this.parent().parent().find('li .inner').slideUp(350);
+          $this.next().toggleClass('show');
+          $this.next().slideToggle(350);
+      }
+    });
+  </script>
+</tr>

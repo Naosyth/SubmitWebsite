@@ -17,7 +17,7 @@
     <%= f.text_field :name %><br><br>
 
     <%= f.label :roles %><br>
-    <table>
+    <table class="alternating-background">
     <% User::ROLES.each do |role| %>
       <tr>
         <td><%= f.check_box(:roles,
