@@ -16,7 +16,7 @@
   <h1>Test Case Run Methods</h1>
 </header>
 <div class="content-group">
-  <table>
+  <table class="alternating-background">
     <thead>
       <tr>
         <th>Run Methods</th>
@@ -39,10 +39,12 @@
         <% end %>
       </li>
       <li>
-          <div onclick="$('#run-method-modal').show();">
+        <a href="javascript:$('#run-method-modal').show();">
+          <div>
             <%= image_tag('icon_add.png', size: "64x64", alt: "Add Run Method", title: "Add Run Method") %><br>
             Add Run Method
           </div>
+        </a>
       </li>
     </ul>
   </div>
@@ -53,7 +55,7 @@
 </header>
 <div class="content-group">
   <%= form_for @test_case, url: test_case_url(@test_case), method: :patch, remote: :true do |f| %>
-    <table>
+    <table class="alternating-background">
       <tr>
         <td><%= f.label "CPU Max Run Time" %></td>
         <td><%= f.number_field :cpu_time, :step => 1 %></td>
@@ -72,7 +74,6 @@
     <%= render :file => "run_methods/_run_method_form", :locals => { :test_case => @test_case, :run_method => @run_method } %>
   </div>
 </div>
-
 
 <div id="edit-run-method-modal" class="modal-curtain">
   <div id="run-methods" class="modal-popup">

@@ -1,6 +1,40 @@
 @import 'variables';
 
-#input_lists{
-  tr:nth-child(even) {background-color: rgb(233, 240, 247)}
-  tr:nth-child(odd) {background-color: $color-form-white}
+#input_lists {
+  tr:nth-child(even) { background-color: rgb(233, 240, 247) }
+  tr:nth-child(odd) { background-color: $color-form-white }
+}
+
+table.run-method-edit,
+table.run-input-edit {
+  border: 1px solid $color-border-light;
+  border-collapse: separate;
+  margin-bottom: 10px;
+
+  tbody tr {
+    background-color: $color-form-white !important;
+  }
+
+  label {
+    background-color: $color-form-grey;
+    line-height: 20px;
+    height: 20px;
+  }
+
+  [type="text"] {
+    box-sizing: border-box;
+    height: 25px;
+    font-size: 16px;
+  }
+
+  textarea {
+    box-sizing: border-box;
+    width: 100%;
+    margin-bottom: 10px;
+    height: auto;
+  }
+
+  [type="submit"] {
+    margin: 0 auto;
+  }
 }
