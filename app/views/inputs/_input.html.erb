@@ -1,30 +1,31 @@
 
 <tr>
-  <td colspan="4">
+  <td colspan="1">
     <a class="toggle" id=<%= "input_" + input.id.to_s %> href="javascript:void(0);">
-      <%= input.name %>
+      <%= input.name %> 
     </a>
     <div class="inner">
-      <table>
-        <tbody>
-          <tr>
-            <td id="description">
-              <span id="content"> Description: </span> <%= input.description %> 
-            </td>
-          </tr>
-          <tr>
-            <td id="data">
-              <span id="content"> Input: </span> <%= input.data %> 
-            </td>
-          </tr>
-          <tr>
-            <td id="output">
-              <span id="content"> Output: </span> <%= input.output %> 
-            </td>
-          </tr>
-        </tbody>
-      </table>
+        <%= form_for input, url: input_url(input), method: :patch, :remote => true do |f| %>
+          <table>
+            <tbody>
+                <tr>
+                  <td>Name: </td><td><%= f.text_field :name, :placeholder => 'Run Name' %></td>
+                  <td>Description:</td><td> <%= f.text_area :description, :placeholder => 'Input Description' %></td></tr>
+                <tr>
+                  <td colspan="4">Input<br><%= f.text_area :data, :placeholder => 'Add Input Text' %>
+                  Output<%= f.text_area :output, :readonly => true %></td>
+                </tr>
+                <tr><td colspan="4"><%= f.submit "Update" %></td></tr>
+            </tbody>
+          </table>
+        <% end %>
+      </div>
     </div>
+  </td>
+  <td colspan="1">
+    <%= form_for input, url: input_url(input), method: :patch, :remote => true  do |f| %>
+            <%= f.check_box :student_visible,  :checked => input.student_visible , :onchange => "this.form.submit()" %>
+    <% end %>
   </td>
 </tr>
 

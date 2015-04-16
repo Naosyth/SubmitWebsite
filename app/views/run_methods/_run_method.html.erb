@@ -9,25 +9,39 @@
             <table>
               <tbody>
                 <tr>
-                <th>Command</th>
-                  <td><%= run_method.run_command %></td>
-                <th>Description</th>
-                  <td><%= run_method.description %></td>
+                  <td> 
+                    <div class="content-group">
+                      <%= form_for run_method, url: run_method_url(run_method), method: :patch, remote: true do |f| %>
+                      <table>
+                        <tr> <td>Name:</td><td><%= f.text_field :name, :value => run_method.name %></td>
+                        <td>Command:</td><td> <%= f.text_field :run_command, :value => run_method.run_command %></td></tr>
+                        <tr><td colspan="4">Description: <br> <%= f.text_area :description, :value => run_method.description %></td></tr>
+                        <tr><td colspan="4"><%= f.submit "Update" %></td></tr>
+                      </table>
+                      <% end %>
+                    </div>
+                  </td>
                 </tr>
                 <tr>
                   <th colspan="4"> Testcases </th>
                 </tr >
-                <%= render run_method.inputs %>
+                <tr>
+                  <td>
+                    <table >
+                      <tbody id="input_lists">
+                        <tr><th> Name </th><th> Visible </th></tr>
+                      <%= render run_method.inputs %>
+                    </tbody>
+                    </table>
+                 </td>
+                </tr>
+                
           </tbody>
         </table>
           </ul>
         </li>
       </ul>
-  </td>
-  <td>
-    <a id="<%= j 'run_method_edit_' + run_method.id.to_s %>" href="#"> Edit </a>
-  </td>
-
+  </td> 
   <td>
       <%= link_to 'X', run_method, method: :delete, remote: true, data: { confirm: "Are You Sure?" } %>
   </td>
@@ -35,13 +49,6 @@
 
 
 <script>
-  $("#<%= j 'run_method_edit_' + run_method.id.to_s %>").click(function() {
-    $("#run-methods").html('<%= j(render(:file => "run_methods/_run_method_edit_form", :locals => { :run_method => run_method })) %>');
-    $("input[id='run_method_name']").val("<%= j (run_method.name) %>");
-    $("input[id='run_method_run_command']").val("<%= j (run_method.run_command) %>");
-    $("input[id='run_method_description']").val("<%= j (run_method.description) %>");
-    $('#edit-run-method-modal').show();
-  });
     $("#<%= j 'run_method_' + run_method.id.to_s %>").next().hide()
     $("#<%= j 'run_method_' + run_method.id.to_s %>").click(function(e) {
     e.preventDefault();
@@ -56,4 +63,5 @@
         $this.next().slideToggle(350);
     }
   });
+
 </script>

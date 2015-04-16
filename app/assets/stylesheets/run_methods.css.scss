@@ -1,3 +1,6 @@
-// Place all the styles related to the RunMethods controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: http://sass-lang.com/
+@import 'variables';
+
+#input_lists{
+  tr:nth-child(even) {background-color: rgb(233, 240, 247)}
+  tr:nth-child(odd) {background-color: $color-form-white}
+}
