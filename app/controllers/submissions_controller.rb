@@ -7,6 +7,7 @@ class SubmissionsController < ApplicationController
   def show
     @submission = Submission.find(params[:id])
     @assignment = @submission.assignment
+    @blank_file = UploadDatum.new
 
     if current_user.has_local_role? :grader, get_course
       render :action => :edit and return

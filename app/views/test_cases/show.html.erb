@@ -9,7 +9,7 @@
   <%= render partial: "file_list", :locals => { :test_case => @test_case } %>
   <br>
 
-  <%= render "shared/file_uploader", :target => @test_case %>
+  <%= render "shared/file_uploader", :target => @test_case, :blank_file => @blank_file %>
 </div>
 
 <header>

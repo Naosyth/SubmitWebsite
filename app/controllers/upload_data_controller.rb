@@ -23,10 +23,26 @@ class UploadDataController < ApplicationController
     upload_data = destination.upload_data.create if upload_data.nil?
     upload_data.create_file_from_data(params[:file])
     upload_data.save
-
+    
     respond_to do |format|
       msg = { :status => "ok", :message => "Success!" }
       format.json  { render :json => msg }
+    end
+  end
+
+  def create_blank
+    if (params[:type] == "submission")
+      destination = Submission.find(params[:destination_id])
+      destination.remove_saved_runs
+    elsif (params[:type] == "test_case")
+      destination = TestCase.find(params[:destination_id])
+    end
+
+    upload_data = destination.upload_data.new(upload_data_params)
+    if upload_data.save
+      redirect_to :back and return
+    else
+      redirect_to :back, :notice => "File failed to save" and return
     end
   end
 
@@ -96,6 +112,7 @@ class UploadDataController < ApplicationController
       source.remove_saved_runs
     end
     flash[:notice] = "File successfully deleted"
+    redirect_to :back and return
   end
 
   def download_file

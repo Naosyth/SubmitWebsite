@@ -5,6 +5,7 @@ class UploadDatum < ActiveRecord::Base
 
   validates :name, presence: true
   validate :name_is_available
+  validate :name_is_unique
   
   before_save :overwrite_existing_file
 
@@ -28,15 +29,21 @@ class UploadDatum < ActiveRecord::Base
 
   private
   def overwrite_existing_file
+    return if contents.nil?
+
     source.upload_data.each do |file|
       file.destroy if file.name == name and file != self
     end
   end
 
   def name_is_available
-    return unless not submission.nil?
+    return if submission.nil?
     submission.assignment.test_case.upload_data.select { |u| u.shared }.each do |upload_datum|
       errors.add(:name, "is the name of a shared file") if upload_datum.name == name
     end
+  end
+
+  def name_is_unique
+    errors.add(:name, "is already taken as a file name") unless source.upload_data.select { |u| u.name == name }.blank?
   end
 end

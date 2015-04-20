@@ -60,7 +60,7 @@
 
     [type=text] {
       background-color: $color-form-white;
-      border-radius: 0px;
+      border-radius: 0;
       border: 1px solid $color-border-light;
       font-size: $font-size-medium;
       height: 28px;
@@ -75,10 +75,10 @@
     a {
       display: inline-block;
       background-color: $color-form-white;
-      border-radius: 0px;
+      border-radius: 0;
       border: 1px solid $color-border-light;
       font-size: $font-size-standard;
-      padding: 5px 0px 5px;
+      padding: 5px 0;
       cursor: pointer;
       width: 15%;
       text-align: center;
@@ -91,7 +91,7 @@
       border: 1px solid $color-border-light;
       font-size: $font-size-standard;
       width: 15%;
-      padding: 5px 0px 5px;
+      padding: 5px 0;
       cursor: pointer;
     }
   }
@@ -134,4 +134,20 @@
   box-shadow: 0 0 1px 1px $color-red inset; 
 } 
 
+.file-uploader {
+  position: relative;
 
+  .drag-drop {
+    width: -moz-calc(100% - 84px);
+    width: -webkit-calc(100% - 84px);
+    width: calc(100% - 84px);
+  }
+
+  .create-new-file {
+    cursor: pointer;
+    position: absolute;
+    right: 10px;
+    top: 0;
+    width: 64px;
+  }
+}
