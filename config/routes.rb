@@ -37,6 +37,7 @@ Rails.application.routes.draw do
   resources :submissions
 
   post '/upload_data/:type/:destination_id' => 'upload_data#create', :as => :create_file
+  post '/upload_data/blank/:type/:destination_id' => 'upload_data#create_blank', :as => :create_blank_file
   post '/upload_data/:id/' => 'upload_data#download_file', :as => :download_file
   resources :upload_data
 

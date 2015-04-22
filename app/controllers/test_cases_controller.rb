@@ -5,6 +5,7 @@ class TestCasesController < ApplicationController
     @test_case = TestCase.find(params[:id])
     @run_method = RunMethod.new
     @run_methods = @test_case.run_methods
+    @blank_file = UploadDatum.new
   end
 
   # Updates the test case

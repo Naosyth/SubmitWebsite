@@ -24,7 +24,7 @@
       <div class="subgroup manage-submission">
         <h1>Files</h1>
         <% if not @submission.submitted %>
-          <%= render "shared/file_uploader", :target => @submission %>
+          <%= render "shared/file_uploader", :target => @submission, :blank_file => @blank_file %>
         <% end %>
         <%= render partial: "file_list", :locals => { :submission => @submission, :deletable => @submission.submitted == false } %>
       </div>
