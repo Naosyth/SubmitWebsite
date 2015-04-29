@@ -12,7 +12,7 @@ class InputsController < ApplicationController
     input = run_method.inputs.new(input_params)
 
     if input.save
-      redirect_to edit_run_method_url(run_method)
+      redirect_to :back
     else
       redirect_to :back
     end

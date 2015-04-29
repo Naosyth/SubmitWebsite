@@ -10,7 +10,7 @@
   <tbody>
     <% test_case.upload_data.each do |upload_datum| %>
       <tr>
-        <td><%= link_to upload_datum.name, upload_datum_path(upload_datum), target: "_new" %></td>
+        <td><%= link_to upload_datum.name, upload_datum_path(upload_datum) %></td>
         <td><span data-time><%= upload_datum.updated_at.to_i %></span></td>
         <td><%= link_to (upload_datum.shared ? "Yes" : "No"), upload_datum_path(upload_datum, :upload_datum => { :shared => !upload_datum.shared }), method: :patch, remote: true, "data-type" => "json" %></td>
         <td><%= link_to 'Delete', upload_datum, method: :delete, data: { confirm: 'Are you sure?' } %></td>

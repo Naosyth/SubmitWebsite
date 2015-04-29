@@ -104,7 +104,7 @@ class Submission < ActiveRecord::Base
 
     # Compiles and runs the program
     gradeData = compile(directory)
-    gradeData[:correct] = run_test_cases(directory, false) if gradeData[:compile]
+    gradeData[:correct] = run_test_cases(false) if gradeData[:compile]
 
     FileUtils.rm_rf(directory)
     return gradeData

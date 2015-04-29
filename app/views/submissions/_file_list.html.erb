@@ -11,7 +11,7 @@
   <tbody>
     <% submission.upload_data.each do |upload_datum| %>
       <tr>
-        <td><%= link_to upload_datum.name, upload_datum_path(upload_datum), target: "_new" %></td>
+        <td><%= link_to upload_datum.name, upload_datum_path(upload_datum) %></td>
         <td><span data-time><%= upload_datum.updated_at.to_i %></span></td>
         <% if deletable %>
           <td><%= link_to 'Delete', upload_datum, method: :delete, data: { confirm: 'Are you sure?' } %></td>
@@ -20,7 +20,7 @@
     <% end %>
     <% submission.assignment.test_case.upload_data.select { |u| u.shared }.each do |upload_datum| %>
       <tr>
-        <td><%= link_to upload_datum.name, upload_datum_path(upload_datum), target: "_new" %></td>
+        <td><%= link_to upload_datum.name, upload_datum_path(upload_datum) %></td>
         <td><span data-time><%= upload_datum.updated_at.to_i %></span></td>
         <% if deletable %>
           <td></td>
