@@ -44,6 +44,11 @@ class UploadDatum < ActiveRecord::Base
   end
 
   def name_is_unique
-    errors.add(:name, "is already taken as a file name") unless source.upload_data.select { |u| u.name == name }.blank?
+    source.upload_data.each do |upload_datum|
+      if upload_datum.id != id and upload_datum.name == name
+        errors.add(:name, "is already taken as a file name")
+        return
+      end
+    end
   end
 end
