@@ -39,4 +39,20 @@ module AssignmentsHelper
       redirect_to dashboard_url
     end
   end
+
+  def require_grader
+    return if current_user.has_role? :admin
+
+    if params.has_key? :course_id
+      course = Course.find(params[:course_id])
+    else
+      assignment = Assignment.find(params[:id])
+      course = assignment.course
+    end
+    
+    if not current_user.has_role? :grader, course
+      flash[:notice] = "You must be a grader of the course to view that page"
+      redirect_to dashboard_url
+    end
+  end
 end

@@ -27,7 +27,7 @@
         <% end %>
       </tr>
       <% @course.users.each do |user| %>
-        <% if not user.has_local_role? :instructor, @course %>
+        <% if not user.has_local_role? :grader, @course %>
           <tr>
             <td><%= user.name %></td>
             <% @course.assignments.each do |assignment| %>

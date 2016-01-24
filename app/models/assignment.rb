@@ -19,6 +19,10 @@ class Assignment < ActiveRecord::Base
     end
   end
 
+  def remove_user_submissions(user)
+    submissions.select {|s| s.user == user}.first.destroy
+  end
+
   def create_test_case
     test_case = TestCase.create(:assignment_id => id)
   end

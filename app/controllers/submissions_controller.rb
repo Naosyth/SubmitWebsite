@@ -1,7 +1,7 @@
 class SubmissionsController < ApplicationController
   before_filter :require_user
-  before_filter :require_owner, :only => [:show, :run, :submit]
-  before_filter :require_instructor_owner, :only => [:index, :unsubmit]
+  before_filter :require_instructor_owner, :only => [:index]
+  before_filter :require_grader, :only => [:show, :run, :submit, :unsubmit]
 
   # Shows a submission
   def show
@@ -126,6 +126,17 @@ class SubmissionsController < ApplicationController
       submission = Submission.find(params[:id])
       course = submission.assignment.course
       if not current_user.has_role? :instructor, course
+        flash[:notice] = "That action is only available to the instructor of the course"
+        redirect_to dashboard_url
+      end
+    end
+
+    def require_grader
+      return if current_user.has_role? :admin
+
+      submission = Submission.find(params[:id])
+      course = submission.assignment.course
+      if not current_user.has_role? :grader, course
         flash[:notice] = "That action is only available to the instructor of the course"
         redirect_to dashboard_url
       end
